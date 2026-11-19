@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Render_Notes source data, links, anchors, terms and generated site bundle.
+"""Validate AI Knowledge-to-Learning Engine source data, links, anchors, terms and generated site bundle.
 
 Run after every `python tools/build_site.py`. Stdlib only.
 

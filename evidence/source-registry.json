@@ -127,7 +127,7 @@
     },
     {
       "id": "SRC-RN-AV-BASE",
-      "title": "Render_Notes 音视频基础理论（主知识文档）",
+      "title": "AI Knowledge-to-Learning Engine 音视频基础理论（主知识文档）",
       "url": "repo:01-基础理论/音视频基础理论.md",
       "type": "repo_doc",
       "accessed": "2026-11-18",
@@ -149,7 +149,7 @@
     },
     {
       "id": "SRC-RN-DECODE-PIPELINE",
-      "title": "Render_Notes 解码与播放链路（主知识文档）",
+      "title": "AI Knowledge-to-Learning Engine 解码与播放链路（主知识文档）",
       "url": "repo:02-解码与播放链路/解码与播放链路.md",
       "type": "repo_doc",
       "accessed": "2026-11-19",
@@ -159,7 +159,7 @@
     },
     {
       "id": "SRC-RN-VERIFICATION",
-      "title": "Render_Notes 验真队列与术语表",
+      "title": "AI Knowledge-to-Learning Engine 验真队列与术语表",
       "url": "repo:00-导航与索引/验真队列与术语表.md",
       "type": "repo_doc",
       "accessed": "2026-11-18",
@@ -181,7 +181,7 @@
     },
     {
       "id": "SRC-RN-CONCEPT-INTRO",
-      "title": "Render_Notes 概念引入说明",
+      "title": "AI Knowledge-to-Learning Engine 概念引入说明",
       "url": "repo:00-导航与索引/概念引入说明.md",
       "type": "repo_doc",
       "accessed": "2026-11-18",
@@ -204,7 +204,7 @@
     },
     {
       "id": "SRC-RN-3D-TRANSFORM",
-      "title": "Render_Notes 3D 变换与坐标空间（主知识文档）",
+      "title": "AI Knowledge-to-Learning Engine 3D 变换与坐标空间（主知识文档）",
       "url": "repo:07-3D渲染与算法实现/3D变换与坐标空间.md",
       "type": "repo_doc",
       "accessed": "2026-11-19",

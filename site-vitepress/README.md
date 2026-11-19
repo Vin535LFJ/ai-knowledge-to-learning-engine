@@ -1,6 +1,6 @@
 # site-vitepress（在线站 · 与离线主站并存）
 
-Render_Notes 的第二套站点：VitePress 在线站源码树。**离线主站（`web/`）仍是权威版本且不可退化**——本目录只用于在线发布与搜索引擎可索引的浏览体验。
+AI Knowledge-to-Learning Engine 的第二套站点：VitePress 在线站源码树。**离线主站（`web/`）仍是权威版本且不可退化**——本目录只用于在线发布与搜索引擎可索引的浏览体验。
 
 ## 目录结构（源码 vs 生成物）
 

@@ -68,6 +68,7 @@
 8. 环境事实：2026-11-19 网络已恢复（github.com:443 可达），`ls-remote` 实测远端 HEAD=`d4a9620` 与本地一致；早期 DNS 中断已解除。
 9. 结构变更（D14，2026-11-19）：智能体文档统一迁入 `.agent/`（技能文档 + zcode 计划）；`.workbuddy-ai/` 只留索引 stub + scripts + memory；三个构建工具排除 `.agent`；门禁命令路径不变（scripts 未迁移）。统一规则与索引：`.agent/README.md`。
 10. 文档治理基座（D15/ADR-0001，2026-11-19）：`.agent/` 新增 constitution/decisions/standards/templates/changes/indexes 分区 + 全客户端适配入口（CLAUDE.md/AGENTS.md/.cursor/.github/.gemini，只跳转不复制）+ `tools/build_document_registry.py`（frontmatter 事实源生成注册表，实测 104 篇）；三个构建工具排除适配入口；`.gitignore` 追加 `.agent/runs/`。**已提交**：D15 基座随收口第一笔 `5a4de84` 入库（D16/PD-Q1）。
+11. T1 命名迁移收尾完成（2026-11-20 实测）：两仓 origin 已 set-url 至新 URL——Engine `https://github.com/Vin535LFJ/ai-knowledge-to-learning-engine.git`、Skills `https://github.com/Vin535LFJ/matt-pocock-skills-zh-cn.git`（upstream-en/zh 未动）；GitHub 改名核实 = 两仓新 URL `git ls-remote origin HEAD` exit 0（远端 HEAD `e848d2801ec9940e154b9bf40bc26198a5d197ba` / `e1936f23e6e149c581124cc218e79860c07108ef`，留痕会话复核实测）；引用收尾完成（Engine 24 文件、Skills 5、Program 5、OmniWorld 5；OmniWorld lock 37 条全部指向新 slug，旧 slug 0 条）。详见 `CHANGELOG.md` 2026-11-20 T1 条目与 `AI-Knowledge\ai-knowledge-program\plans\2026-11-19-rename-audit-and-migration.md` 执行实测段。
 
 ## CHG-0001 执行记录（2026-11-19，四项目并进）
 

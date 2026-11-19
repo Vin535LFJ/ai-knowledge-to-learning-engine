@@ -572,9 +572,9 @@
   function renderCourse() {
     currentId = null;
     renderToken++;
-    document.title = "教材模式 · Render_Notes";
+    document.title = "教材模式 · AI Knowledge-to-Learning Engine";
     els.breadcrumb.innerHTML =
-      '<span>Render_Notes</span><span class="crumb-sep">/</span><span class="crumb-current">教材模式</span>';
+      '<span>AI Knowledge-to-Learning Engine</span><span class="crumb-sep">/</span><span class="crumb-current">教材模式</span>';
 
     const progress = courseProgress();
     const next = LESSONS.find((lesson) => !isLessonDone(lesson.id)) || LESSONS[0];
@@ -733,9 +733,9 @@
   function renderGlossary(activeTermName) {
     currentId = null;
     renderToken++;
-    document.title = "术语速查 · Render_Notes";
+    document.title = "术语速查 · AI Knowledge-to-Learning Engine";
     els.breadcrumb.innerHTML =
-      '<span>Render_Notes</span><span class="crumb-sep">/</span><span class="crumb-current">术语速查</span>';
+      '<span>AI Knowledge-to-Learning Engine</span><span class="crumb-sep">/</span><span class="crumb-current">术语速查</span>';
     els.tocNav.innerHTML = GLOSSARY.groups
       .map(
         (group) =>
@@ -949,9 +949,9 @@
     if (labDispose) { labDispose(); labDispose = null; }
     currentId = null;
     renderToken++;
-    document.title = "图形实验室 · Render_Notes";
+    document.title = "图形实验室 · AI Knowledge-to-Learning Engine";
     els.breadcrumb.innerHTML =
-      '<span>Render_Notes</span><span class="crumb-sep">/</span><span class="crumb-current">图形实验室</span>';
+      '<span>AI Knowledge-to-Learning Engine</span><span class="crumb-sep">/</span><span class="crumb-current">图形实验室</span>';
     els.tocNav.innerHTML = "";
     els.tocFooter.textContent = LABS.length + " 个实验 · 持续扩充中";
 
@@ -3284,9 +3284,9 @@
 
     const token = ++renderToken;
     currentId = id;
-    document.title = doc.title + " · Render_Notes";
+    document.title = doc.title + " · AI Knowledge-to-Learning Engine";
     els.breadcrumb.innerHTML =
-      "<span>Render_Notes</span><span class=\"crumb-sep\">/</span>" +
+      "<span>AI Knowledge-to-Learning Engine</span><span class=\"crumb-sep\">/</span>" +
       "<span>" + escapeHtml(doc.section) + "</span><span class=\"crumb-sep\">/</span>" +
       "<span class=\"crumb-current\">" + escapeHtml(shortTitle(doc.title)) + "</span>";
 
@@ -3335,7 +3335,7 @@
   function renderNotFound(id) {
     currentId = null;
     renderToken++;
-    document.title = "未找到文档 · Render_Notes";
+    document.title = "未找到文档 · AI Knowledge-to-Learning Engine";
     els.breadcrumb.innerHTML = '<span class="crumb-current">未找到文档</span>';
     els.tocNav.innerHTML = "";
     els.tocFooter.textContent = "";
@@ -3394,9 +3394,9 @@
   function renderGraph(viewId) {
     currentId = null;
     renderToken++;
-    document.title = "知识依赖图 · Render_Notes";
+    document.title = "知识依赖图 · AI Knowledge-to-Learning Engine";
     els.breadcrumb.innerHTML =
-      '<span>Render_Notes</span><span class="crumb-sep">/</span><span class="crumb-current">知识依赖图</span>';
+      '<span>AI Knowledge-to-Learning Engine</span><span class="crumb-sep">/</span><span class="crumb-current">知识依赖图</span>';
     const views = DATA.graph.views || [];
     const view = views.filter((v) => v.id === viewId)[0] || views[0];
     if (!view) {
@@ -3454,9 +3454,9 @@
   function renderTechIndex() {
     currentId = null;
     renderToken++;
-    document.title = "技术索引 · Render_Notes";
+    document.title = "技术索引 · AI Knowledge-to-Learning Engine";
     els.breadcrumb.innerHTML =
-      '<span>Render_Notes</span><span class="crumb-sep">/</span><span class="crumb-current">技术索引</span>';
+      '<span>AI Knowledge-to-Learning Engine</span><span class="crumb-sep">/</span><span class="crumb-current">技术索引</span>';
     const categories = (DATA.techIndex && DATA.techIndex.categories) || [];
     els.tocNav.innerHTML = categories.map((c) =>
       '<a class="toc-link level-2" href="#tech-' + escapeHtml(c.id) + '" data-target="tech-' + escapeHtml(c.id) + '">' +
@@ -3515,7 +3515,7 @@
   function renderHome() {
     currentId = null;
     renderToken++;
-    document.title = "Render_Notes · 知识库阅读版";
+    document.title = "AI Knowledge-to-Learning Engine · 知识库阅读版";
     els.breadcrumb.innerHTML = '<span class="crumb-current">首页</span>';
     els.tocNav.innerHTML = "";
     els.tocFooter.textContent = "";

@@ -1,4 +1,4 @@
-# PROJECT_CURRENT_STATE · Render_Notes 真实状态审计
+# PROJECT_CURRENT_STATE · AI Knowledge-to-Learning Engine 真实状态审计
 
 > 审计时间：2026-11-18。依据 Master Prompt V2.0 第一步要求产出。
 > **V3.0 更新（2026-11-19）**：本文件为 P6 审计基线快照；当前真值（build 干净基线 69 docs / 31 claims·16 sources / L01 239 行 / .zcode 污染说明）以 `reviews/CURRENT_AUDIT.md` 为准。claim/source 计数已就地更正为 31/16。
@@ -13,7 +13,7 @@
 
 | 项 | 实测值 |
 |---|---|
-| 远程 | `origin = https://github.com/Vin535LFJ/Render_Notes.git` |
+| 远程 | `origin = https://github.com/Vin535LFJ/ai-knowledge-to-learning-engine.git` |
 | 远程 master HEAD | `5359259abc735f01bef38c399854f2b3eeaa001e`（`git ls-remote` 实测） |
 | 本地 HEAD | `5359259`，与远程一致，分支 `master` 跟踪 `origin/master` |
 | 提交信息 | AI Knowledge-to-Learning Engine: P5 收尾与文档缺口增量补齐 |

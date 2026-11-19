@@ -9,7 +9,7 @@ updated: 2026-11-19
 
 # 视觉系统与页面布局配方
 
-> 本文给**面向 Render_Notes 具体页面原型的布局配方**，引用 `design-system.md` 的 token，不重列色板/字号表。
+> 本文给**面向 AI Knowledge-to-Learning Engine 具体页面原型的布局配方**，引用 `design-system.md` 的 token，不重列色板/字号表。
 
 ## 1. 版心与栅格
 - 正文阅读宽度沿用现有基线（正文 15px / 1.75 行高），不随意改动（这是 Reflex 硬规则）。

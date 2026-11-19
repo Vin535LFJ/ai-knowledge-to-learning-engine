@@ -1,6 +1,6 @@
 ---
 name: learning-experience-design
-description: 为 AI 原生知识学习产品设计专业、可读、可交互的学习体验。适用于升级技术教材/知识库网站的阅读体验、信息设计、教学可视化、页面原型、视觉质量审查、响应式与无障碍检查。Use when asked to "improve the reading/learning experience of the knowledge site", "design a lesson/lab page", "review the site's visual quality", "make technical content more learnable". 属于 Render_Notes Engine 内部专属 Skill，不另建站点项目。
+description: 为 AI 原生知识学习产品设计专业、可读、可交互的学习体验。适用于升级技术教材/知识库网站的阅读体验、信息设计、教学可视化、页面原型、视觉质量审查、响应式与无障碍检查。Use when asked to "improve the reading/learning experience of the knowledge site", "design a lesson/lab page", "review the site's visual quality", "make technical content more learnable". 属于 AI Knowledge-to-Learning Engine 内部专属 Skill，不另建站点项目。
 agent_created: true
 doc_id: SKILL-LEX
 type: skill
@@ -52,7 +52,7 @@ generated: false
 3. 整体视觉风格、信息架构、重要交互模式属于**人工裁决**，先给出有真实页面效果的多个方案 + 优缺点，不把审美偏好伪装成客观技术结论。
 4. Floor 硬阻塞必须清零；Reflex 记录理由可豁免；Finish 不阻塞发布。
 
-## 设计体系（根据 Render_Notes 真实内容建立）
+## 设计体系（根据 AI Knowledge-to-Learning Engine 真实内容建立）
 
 现有基线：`web/assets/styles.css`（明暗双主题 + CSS 变量，正文 15px / 1.75 行高，阅读宽度、侧栏 286px、TOC 238px）。升级必须沿用变量体系与明暗主题，不硬编码颜色。
 
@@ -106,7 +106,7 @@ A 知识文章 · B 系统教材 · C 技术原理推导 · D 交互实验 · E 
 | 原有·响应式基础 | `responsive-design.md` | 响应式概念 |
 | **新增·原理** | `learning-ux-principles.md` | 学习科学"为什么"（认知负荷/检索练习/渐进披露/理解闭环） |
 | **新增·旅程交互** | `learning-interaction-patterns.md` | 学习旅程级 12 项流程（与组件级微交互分工） |
-| **新增·布局配方** | `visual-system-and-layout.md` | 面向 Render_Notes 的页面布局配方（引用 token 不重列） |
+| **新增·布局配方** | `visual-system-and-layout.md` | 面向 AI Knowledge-to-Learning Engine 的页面布局配方（引用 token 不重列） |
 | **新增·联合回归** | `accessibility-and-responsive.md` | WCAG AA + 四档宽度 + 明暗 + 键盘 + 特殊内容 |
 | **新增·签发单** | `ux-review-checklist.md` | Floor/Reflex/Finish 逐项签发（定义→执行→签发链终点） |
 

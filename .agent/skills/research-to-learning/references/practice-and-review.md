@@ -1,4 +1,4 @@
-# Practice design and review gates (Render_Notes extension)
+# Practice design and review gates (AI Knowledge-to-Learning Engine extension)
 
 This reference defines the two contracts that complete the proposal's specialist roles without creating a parallel skill tree: **Practice Designer** and **Knowledge Publisher / Feedback Analyst**. Both are mapped onto the existing five-phase workflow in `workflow-details.md`.
 

@@ -57,7 +57,7 @@
 
 **Output**: revision list with severity blocker / major / minor, then final corrected docs.
 
-**Gate**: no blocker-level items remain; project validation passes (in Render_Notes: `python tools/validate_site.py`).
+**Gate**: no blocker-level items remain; project validation passes (in AI Knowledge-to-Learning Engine: `python tools/validate_site.py`).
 
 ## Worked example: from flat taxonomy to AI exploration journey
 
@@ -110,7 +110,7 @@ AI 探索之旅：从机器如何学习到智能体如何思考
 - **Boundary arc**: "Here is what the tool can do" → "here is where it breaks" → "what lies beyond". Good for closing a chapter or a whole journey.
 - **Bridge sentence template**: "上一章我们把 X 解决了；但一旦需要 Y，X 就不够了——这一章引入 Z。" This is precisely the kind of sentence missing when learners complain a term appeared "out of nowhere".
 
-## Mapped specialist roles (Render_Notes extension)
+## Mapped specialist roles (AI Knowledge-to-Learning Engine extension)
 
 The five-role workflow covers the whole pipeline. Three additional specialist roles from the full proposal are mapped onto existing phases rather than creating parallel skills:
 

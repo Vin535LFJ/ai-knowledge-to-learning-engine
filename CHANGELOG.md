@@ -4,6 +4,17 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-20 · T1 命名迁移收尾：remote 切换 + 引用更新 + 全量验证（六道门禁全绿）
+
+- **remote set-url ×2**：Engine origin → `https://github.com/Vin535LFJ/ai-knowledge-to-learning-engine.git`；Skills 库 origin → `https://github.com/Vin535LFJ/matt-pocock-skills-zh-cn.git`（upstream-en/zh 未动）。GitHub 改名核实（留痕会话 `git ls-remote origin HEAD` 复核实测，两仓均 exit 0）：远端 HEAD 分别为 `e848d2801ec9940e154b9bf40bc26198a5d197ba` / `e1936f23e6e149c581124cc218e79860c07108ef`，旧 URL 重定向兜底不再依赖。
+- **引用更新统计（锚定精确替换，Q2 含品牌文案）**：Engine 24 文件、Skills 库 5 文件、Program 5 文件、OmniWorld-Engine 5 文件。`window.RENDER_NOTES` 四文件契约、上游引用（vinvcn/mattpocock）、历史层文档均未动；引用更新改动 commit/push 待授权（交接文档 §6 范围）。
+- **content.js 重建（build_site 实测）**：Wrote `web\content.js`——69 documents / 17 sections / 11 glossary groups / 124 terms / 8 course units / 19 lessons / 7 interactive labs / 504 chapter term cards generated / 2426 KB。
+- **六道门禁（T1 实测，全部 exit 0）**：build_site（数字见上条）；validate_site **11 checks passed, 0 warnings, 0 failures**；check_chapter_arc **5 篇 · OK**；review_gate **37 claims**（verification.status：verified 18 / open 12 / conditional 7；claim_type：verified_fact 13 / engineering_fact 13 / conditional 7 / contested 4）conditional/contested 被标为 verified：无；test_publish_boundary exit 0；check-translation exit 0（翻译审计通过）。
+- **残留清点（Phase 5 验证项，T1 实测）**：本地回填注释 **4 个文件（预期 4，符合）**；活跃层残留 **26 条**；`claude plugin validate . --strict` **not-installed（待验）**——`command -v claude` 与 `where.exe claude` 均无结果（留痕会话复核同为 exit 1），本机无 claude CLI，无法执行，按要求不算失败。
+- **OmniWorld 跟进（Q4）验证（留痕会话复核实测）**：`OmniWorld-Engine/skills-lock.json` **37 条 `"source"` 全部 = `Vin535LFJ/matt-pocock-skills-zh-cn`，旧 slug 0 条**（grep -c 实测 37/0）；`AGENTS.md:74` 安装命令已指新 URL，pin `skills@1.7.1` 保留。
+- **笔①（Engine 本地提交，未 push）**：`cf917386e22af0cf0a4a9b665fc48d41c1ca9130`（2026-11-20 02:30 +08:00，"docs: decision-kit 七项裁决执行（D17–D19）+ 门禁复跑留痕（含重建 content.js）"；master ahead origin/master 1，push 另行授权）。
+- **遗留阻塞**：无（阻塞列表为空）；G1/G2 关卡待人工宣布通过（G2 评分表）、G3 未通过、在线发布（D02）未授权——均为主线既有状态，非 T1 新增阻塞。
+
 ## 2026-11-19 · D19：decision-kit 收尾（B10/B11/B12 全 A，七项全闭合）
 
 - **裁决**：B10=A（确认 V17–V20 登记 open，升级另裁）、B11=A（确认 L06↔P02 保留挂载）、B12=A（stash 继续保留，提交稳定后重议）。Resolution 回填三票；decision-kit 总表 **7/7 已决**；REVIEW_STATUS B10/B11/B12 标注。

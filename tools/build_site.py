@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the offline browsing site data from the Render_Notes Markdown files.
+"""Build the offline browsing site data from the AI Knowledge-to-Learning Engine Markdown files.
 
 Usage:
     python tools/build_site.py
@@ -60,7 +60,7 @@ CATEGORY_ORDER = [
     "archive",
 ]
 
-REPO_URL = "https://github.com/Vin535LFJ/Render_Notes"
+REPO_URL = "https://github.com/Vin535LFJ/ai-knowledge-to-learning-engine"
 
 SECTION_ENTRY = {
     "00-导航与索引": "00-导航与索引/知识架构总览.md",

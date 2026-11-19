@@ -1,9 +1,9 @@
-# Render_Notes — 音视频处理 · 图形渲染 · GPU 工程知识库
+# AI Knowledge-to-Learning Engine — 音视频处理 · 图形渲染 · GPU 工程知识库
 
 
 [Check out this chat](https://chatgpt.com/s/t_6afd6b163e808191b80262f0f6231571)
 
-> 个人系统化知识库：从"视频从文件/网络到屏幕"的完整链路，到"3D 画面如何正确、高效地画出来"，再到车载座舱落地与面试表达。
+> An AI-powered knowledge-to-learning production engine that transforms source materials into structured knowledge, courses, learning materials, practical exercises, and interactive learning experiences.
 >
 > 当前规模：**26 篇主知识文档（01–07）**；全库非归档 Markdown 57 篇（含导航/课程/证据/模型/治理），archive 12 篇只读。术语 124 条 / 11 组，教材 19 课 / 8 单元，交互实验 7 个，证据断言 31 条 / 来源 16 个（2026-11-19 实测）。
 

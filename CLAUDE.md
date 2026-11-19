@@ -9,7 +9,7 @@ related_adr: [ADR-0001]
 generated: false
 ---
 
-# Render_Notes — Claude Code 适配入口
+# AI Knowledge-to-Learning Engine — Claude Code 适配入口
 
 > 指针文件（D15 / ADR-0001）：只负责发现与跳转，**不复制智能体文档正文**。正文统一在 `.agent/`。
 

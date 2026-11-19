@@ -83,7 +83,7 @@ Audit: factual support and citations, terminology consistency, chapter continuit
 - `references/lesson-quality-standard.md` — semantic lesson-quality standard (ten dimensions, narrative/analogy/math/citation/claim discipline, knowledge-type structures) and the reusable diagnosis procedure; proposal pending human G2 confirmation. Gold Standard reference: `courses/video-rendering-journey/lessons/L01-为什么视频不是-RGB.md`.
 - `.workbuddy-ai/skills/research-to-learning/scripts/check_chapter_arc.py` — deterministic check that a chapter file contains a hook, prerequisite, concepts, bridge, and practice section.（脚本留在原技能目录不迁移，门禁命令路径不变）
 
-## Quality gates in Render_Notes
+## Quality gates in AI Knowledge-to-Learning Engine
 
 Two deterministic gates must both pass; neither substitutes for human review.
 

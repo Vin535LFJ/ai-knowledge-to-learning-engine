@@ -1,6 +1,6 @@
 # Evidence and claims
 
-Guidance for the Evidence Analyst role and the machine-readable evidence layer in Render_Notes. Read this when adding claims, sources, or verification statuses.
+Guidance for the Evidence Analyst role and the machine-readable evidence layer in AI Knowledge-to-Learning Engine. Read this when adding claims, sources, or verification statuses.
 
 ## Where evidence lives
 
@@ -38,6 +38,6 @@ Definitions stay in `tools/glossary.json` and full explanations stay in the main
 4. Update the source's reverse index.
 5. Run `python tools/build_site.py && python tools/validate_site.py` — must be 0 FAIL.
 
-## Seeding principle used for Render_Notes
+## Seeding principle used for AI Knowledge-to-Learning Engine
 
 The initial ledger was seeded only from assertions already recorded in `验真队列与术语表.md` (V01–V12, C01–C07, P01–P06) and `概念引入说明.md` (E01–E04). Statuses were inherited, not invented. New research must follow the same discipline.

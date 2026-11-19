@@ -11,7 +11,7 @@ generated: false
 
 # .agent — 统一智能体文档仓库
 
-> 建立：2026-11-19（D14 统一仓库；D15 / ADR-0001 治理基座）。本目录是 Render_Notes 的**公共智能体文档仓库**，随仓库入 git、同步到 GitHub。任何智能体（QwenWork/Workbuddy、zcode、Claude Code、Codex、Cursor、Copilot、Gemini 等）切换时，只读这里即可拿到全部智能体文档。
+> 建立：2026-11-19（D14 统一仓库；D15 / ADR-0001 治理基座）。本目录是 AI Knowledge-to-Learning Engine 的**公共智能体文档仓库**，随仓库入 git、同步到 GitHub。任何智能体（QwenWork/Workbuddy、zcode、Claude Code、Codex、Cursor、Copilot、Gemini 等）切换时，只读这里即可拿到全部智能体文档。
 
 ## 1. 为什么存在
 

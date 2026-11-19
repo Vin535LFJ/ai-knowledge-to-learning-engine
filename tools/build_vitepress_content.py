@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the VitePress content tree from the Render_Notes markdown sources.
+"""Generate the VitePress content tree from the AI Knowledge-to-Learning Engine markdown sources.
 
 Usage:
     python tools/build_vitepress_content.py
@@ -127,7 +127,7 @@ def write_home(files: list[Path]) -> None:
 layout: home
 
 hero:
-  name: Render_Notes
+  name: AI Knowledge-to-Learning Engine
   text: 音视频与 GPU 渲染知识库
   tagline: 在线镜像站。离线主站在仓库 web/ 目录，双击 index.html 即可打开。
   actions:

@@ -8,7 +8,7 @@ updated: 2026-11-19
 generated: false
 ---
 
-# Design System（Render_Notes 学习体验设计体系）
+# Design System（AI Knowledge-to-Learning Engine 学习体验设计体系）
 
 > 参考 `web/assets/styles.css` 现有基线。所有值以 CSS 变量为准；升级通过扩展变量，不硬编码颜色、不推翻明暗双主题。
 

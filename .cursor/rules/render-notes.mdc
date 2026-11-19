@@ -1,5 +1,5 @@
 ---
-description: Render_Notes 智能体文档治理入口（指针，不复制正文）
+description: AI Knowledge-to-Learning Engine 智能体文档治理入口（指针，不复制正文）
 doc_id: ADP-CURSOR
 type: adapter
 status: active
@@ -9,7 +9,7 @@ related_adr: [ADR-0001]
 generated: false
 ---
 
-# Render_Notes — Cursor 适配入口
+# AI Knowledge-to-Learning Engine — Cursor 适配入口
 
 > 指针文件（D15 / ADR-0001）：只负责发现与跳转，正文统一在 `.agent/`。
 
