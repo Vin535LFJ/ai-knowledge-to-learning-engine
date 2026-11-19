@@ -143,3 +143,29 @@
 - **门禁实测（收口复跑）**：build 69 docs / 17 sections / 124 terms / 19 lessons / 7 labs / 504 cards；validate 11 checks 0 FAIL 0 WARN；arc 5/5；review_gate 37 claims（16 verified / 14 open / 7 conditional）误标 0；publish boundary 11/11。
 - **待办**：Render_Notes 迁入 AI-Knowledge 仍被会话工作区占用阻塞（PD-002 收尾，需绑定其他目录的会话执行）；G1/G2/G3 待人工（reviews/decision-kit/）；stash@{0} 原样（B12）。
 - **git 同步**：收口四笔 `5a4de84`/`a45ffa9`/`7c05bc7`/`9bfa732` 已 push 到 origin/master（用户 PD-Q1 授权含 push；首次推送遇网络 RPC/SSL 抖动，重试成功，`ls-remote` 实测远端 HEAD=`9bfa732`，本地同步）。仅 push 源码，未做在线发布（D02 未授权）。
+
+## D17 · decision-kit 首轮裁决：B4=B / B15=A + 本地目录改名（2026-11-19）
+
+- **B4 = B（认可 + minor 修订）**：用户认可 L01 为 Gold Standard 样板课，P7 其余教材以 L01 + lesson-quality-standard 为基准。授权并已执行两处 minor 修订：① L01 §4.2 补 4:2:0 记号精确口径（J:a:b，水平垂直均 1/2 降采样，"0"=垂直共享，与主文档口径一致）；② V13 误导性因果并列修正——"杆状细胞远多于锥状细胞"是数量事实、不是亮度/色度敏感度差异的直接原因；三处同步：主文档 §2.1、L01 §3、ledger V13 claim 文本。**V13/V14 状态保持 open/low，升级另票裁决，AI 未自批。**
+- **B15 = A（全部立项）**：C1–C7 全部进入研究队列（用户未采纳 C2/C3/C6 部分立项推荐）。执行按 P8 节奏，不打断 P7.2 教材主线；研究只读、不自动改结论；claim 升级仍逐条人工裁决。
+- **本地目录改名（程序级，用户批准先于 GitHub）**：`GITCODE\AI-Knowledge\Render_Notes → ai-knowledge-to-learning-engine`、`mattpocock-skills-zh-CN-custom → matt-pocock-skills-zh-cn`（Move-Item 成功，git 完好）。**GitHub 仓库名与 remote 仍旧名**，待用户手动同步 GitHub 后由 Program 集中更新 remote 与引用（方案：`AI-Knowledge\ai-knowledge-program\plans\2026-11-19-rename-audit-and-migration.md`）。过渡态不改 remote、不批量改 URL 引用。
+- **剩余 OPEN（5 项）**：V13（升级）/ V14 / B10 / B11 / B12。G1/G2/G3 关卡仍未通过；B2 路线与 B5 README 已在 D12 裁决，不重复裁决。
+- **门禁**：修订后复跑结果见 CHANGELOG 本日条目。
+- **commit/push**：未授权，未执行（D09 延续）。
+
+## D18 · V13/V14 升级 verified（2026-11-19，decision-kit 第二轮裁决）
+
+- **裁决**：V13 = A（修正表述后升级 verified/high）；V14 = A（升级 verified/high 并保留两条平台差异 conditions）。用户会话结构化裁决，Resolution 已回填 V13.md / V14.md。
+- **依据**：V13——D12.7 权威核验（Wikipedia Chroma subsampling 引 Winkler 2001/Livingstone 2002；ACM 综述）+ D17 表述修正完成（误导性因果并列已消除）；V14——源文档 §2.2 公式/算例/故障表 ✅，对齐基数 ⚠️ 由 conditions 如实覆盖（对齐基数因芯片平台而异以 SoC 手册为准；行高也可能被对齐）。
+- **执行**：ledger V13/V14 verification.status=verified、confidence=high（V14 conditions 原样保留）；L01 §11 断言状态说明同步；REVIEW_STATUS B7/B8 标注已决；PROJECT_CURRENT_STATE 断言数更正为 37（18v/12o/7c，修正 P6 基线遗留的 31 口径）。历史审计快照（G1-evidence-review/教材质量诊断/G2 材料等）不改写。
+- **后续**：C3（stride 对齐基数平台差异）/C6（来源 locator 精度）已立项（D17/B15=A），实证后可细化 conditions，不影响本次升级。
+- **剩余 OPEN（3 项）**：B10（L13 断言 V17–V20 确认）/ B11（P02↔L06 挂载）/ B12（stash）。G1/G2/G3 关卡仍未通过（升级不等于关卡通过）。
+- **门禁**：升级后复跑结果见 CHANGELOG 本日条目。commit/push 未授权未执行。
+
+## D19 · decision-kit 收尾三项：B10/B11/B12 全 A（2026-11-19，七项全闭合）
+
+- **裁决**：B10 = A（确认 V17–V20 登记为 open/low，升级留待逐条权威核验后另裁，可并入 B15 研究队列）；B11 = A（确认 L06 已补 P02 声明并保留挂载，P02 仍 open/low，升级另由 G1 裁决）；B12 = A（stash@{0} 继续原样保留，本轮增量提交稳定后再验证 20 处链接修正是否仍需要，届时用户决定 pop/drop）。用户会话结构化裁决，Resolution 已回填三票。
+- **执行**：三项均为确认现状，无内容/数据改动；stash 未触碰；decision-kit 总表更新为 **7/7 已决**。
+- **里程碑意义**：decision-kit 七项人工裁决全部闭合（D17/D18/D19）。**续跑点推进为 P7.2 逐篇深化**（一次一篇，以 Gold Standard L01 + lesson-quality-standard 为基准；pilot 路线下一篇 = L02）。
+- **关卡口径**：G1/G2 的**裁决项**已全部解决，但 G1/G2/G3 关卡本身仍未由人工宣布通过（G2 评分表 review-report.md 仍待人工填写；AI 不自评）。P7.2 启动依据 = WORKFLOW_STATE 续跑点（裁决→P7.2），不等于关卡通过。
+- **门禁**：记录性改动后复跑 validate/review_gate 确认无漂移，数字见 CHANGELOG。commit/push 未授权未执行。

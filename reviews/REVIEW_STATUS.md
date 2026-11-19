@@ -36,15 +36,15 @@
 | B1 | L02 学习目标"seek 后禁止立刻丢帧" | A 删除 / B 补研究保留 | G2-01 |
 | B2 | 主课程路线矛盾（L12→L15 跳 L13/L14） | A 改 L12.next→L13 / B 调先修 / C 分支路径 | G2-02 |
 | B3 | 教材质量规范正式采用 | A 采用 / B 修订后采用 / C 暂不 | G2-03 |
-| B4 | Gold Standard L01 认可 | A 认可 / B 认可+minor修订 / C 不认可 | G2-04 |
+| B4 | Gold Standard L01 认可 | A 认可 / B 认可+minor修订 / C 不认可 | G2-04；**已裁决 = B**（D17，minor 修订已执行） |
 | B5 | README 过时数字授权更新 | A 授权更新 / B 调整措辞 / C 暂不（维持 D10.5） | G2-05 |
 | B6 | VitePress 构建授权 | A 授权重试 / B 暂不 / C 仅验证生成器 | G2-06 |
-| B7 | V13 升级 verified/high | 同意 / 不同意 / 暂缓 | G1 §4.1 |
-| B8 | V14 目标状态 | verified+保留条件 / conditional / 暂缓 | G1 §4.1 |
+| B7 | V13 升级 verified/high | 同意 / 不同意 / 暂缓 | G1 §4.1；**已裁决 = 同意升级**（D18，表述修正 D17 先行） |
+| B8 | V14 目标状态 | verified+保留条件 / conditional / 暂缓 | G1 §4.1；**已裁决 = verified+保留条件**（D18） |
 | B9 | Pass 深度口径统一 | ≥3 / >3 | G1 §4.2 |
-| B10 | L13 候选断言登记（坐标空间链/MVP顺序/投影w/NDC差异 4 条） | 同意登记 / 调整 / 暂缓 | G1 §4.4 |
-| B11 | P02 与 L06 挂载矛盾 | L06 补声明 P02 / ledger 去挂载 | G1 §5 G1-b |
-| B12 | stash@{0}（README/archive/学习路径指南 3 处用户改动） | pop / drop / 继续保留 | CURRENT_AUDIT §1.1 |
+| B10 | L13 候选断言登记（坐标空间链/MVP顺序/投影w/NDC差异 4 条） | 同意登记 / 调整 / 暂缓 | G1 §4.4；**已裁决 = 同意登记 open，升级另裁**（D19） |
+| B11 | P02 与 L06 挂载矛盾 | L06 补声明 P02 / ledger 去挂载 | G1 §5 G1-b；**已裁决 = 确认保留挂载**（D19） |
+| B12 | stash@{0}（README/archive/学习路径指南 3 处用户改动） | pop / drop / 继续保留 | CURRENT_AUDIT §1.1；**已裁决 = 继续保留**（D19，提交稳定后重议） |
 | B13 | reviews/ 是否纳入 git | 纳入 / 不纳入（本地审核工作区） | Loop 1 产出；**已裁决：纳入 git**，见 DECISIONS.md D11/D12 |
 | B14 | 外来未跟踪产物 .zcode/、old_content.js.tmp | 保留 / 由用户清理 / 加 .gitignore | CURRENT_AUDIT §1.1；**已裁决：归档并提交**，见 DECISIONS.md D12 |
 
@@ -77,7 +77,7 @@
 
 - 发布边界修复已落地：reviews/ 8 篇不再进学习站 bundle；`web/content.js` 85→77 文档；boundary 11 测试全绿。审核材料完整保留在 `reviews/` 与注册表（不删除、仅供人工）。
 - 新增人工裁决材料包 `reviews/decision-kit/`：B4/V13/V14/B10/B11/B12/B15 七项全部 OPEN、裁决栏空白；B12 仅只读 stash diff。
-- **G1 待裁决**：V13（表述修正后升级）、V14（verified+条件）、V17–V20（L13 四条 open）、B10 确认——均未由 AI 升级。
+- **G1 待裁决**：~~V13（表述修正后升级）、V14（verified+条件）~~ **已决（D18）**；剩余 V17–V20（L13 四条 open）、B10 确认——均未由 AI 升级。B4/B15 已决（D17）。
 - **G2 待裁决**：B4（L01 Gold Standard）、B11（P02↔L06 挂载）——未自批。
 - **G3 仍未通过**；`review_gate.py` 只读输出再次确认"评分待人工、3 关卡未勾选"，本轮不发布（D09）。
 - P2 试点方向（方案 A 增量增强 / B 重设计）待用户确认，见 `.agent/skills/learning-experience-design/preview/PILOT-L13-plan.md`。

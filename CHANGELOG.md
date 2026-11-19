@@ -4,6 +4,41 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-19 · D19：decision-kit 收尾（B10/B11/B12 全 A，七项全闭合）
+
+- **裁决**：B10=A（确认 V17–V20 登记 open，升级另裁）、B11=A（确认 L06↔P02 保留挂载）、B12=A（stash 继续保留，提交稳定后重议）。Resolution 回填三票；decision-kit 总表 **7/7 已决**；REVIEW_STATUS B10/B11/B12 标注。
+- **执行边界**：三项均确认现状，零内容/数据改动；stash 未触碰；V17–V20/P02 状态不变。
+- **续跑点推进**：P7.2 逐篇深化（一次一篇，Gold Standard L01 基准；pilot 下一篇 L02）→ P8 → P9 → P10。G1/G2 裁决项闭合 ≠ 关卡通过（G2 评分表仍待人工）。
+- **门禁（记录性改动后复跑）**：validate 11 checks / 0 FAIL / 0 WARN；review_gate 37 claims（18v/12o/7c）误标 0——与 D18 后一致，无漂移。bundle 无变化（reviews/状态文档不进学习站），未重建。
+- **边界**：未 commit/push（D09）；G3 未通过、D02 未授权。
+
+## 2026-11-19 · D18：V13/V14 升级 verified（decision-kit 第二轮）
+
+- **裁决**：V13=A（修正后升级 verified/high）、V14=A（升级 verified/high + 保留两条平台差异 conditions）。用户会话结构化裁决；Resolution 回填 V13.md/V14.md，decision-kit 总表与 REVIEW_STATUS B7/B8 同步。
+- **执行**：`evidence/claim-ledger.json` V13/V14 状态升级（conditions 保留，note 记录依据）；L01 §11 断言状态说明更新；PROJECT_CURRENT_STATE 断言数更正 31→**37**（P6 基线遗留口径，含 V15–V20）。历史审计快照不改写。
+- **门禁（升级后复跑，实测）**：build **69 docs** / 17 sections / 124 terms / 19 lessons / 7 labs / 504 cards / 2421 KB；validate **11 checks / 0 FAIL / 0 WARN**；arc **5/5 OK**；publish boundary **11/11 OK**；review_gate **37 claims（18 verified / 12 open / 7 conditional）误标 0**（升级前 16v/14o/7c，恰好 +2 verified / −2 open）。content.js 已重建。
+- **边界**：未 commit/push；G1/G2/G3 仍未通过；剩余裁决 B10/B11/B12。
+
+## 2026-11-19 · D17：B4=B / B15=A 裁决执行（decision-kit 首轮）
+
+- **裁决记录**：B4=B（L01 认可为 Gold Standard + minor 修订）、B15=A（C1–C7 全部立项入队，执行按 P8 节奏）。用户会话结构化裁决，Resolution 已回填 B4.md / B15.md，总表 README 同步；DECISIONS D17 记录。
+- **B4 minor 修订（已执行）**：
+  - L01 §4.2：补 4:2:0 记号精确口径（J:a:b 采样比例记号；水平垂直均 1/2 降采样；"0"=垂直共享同一组色度采样），与主文档"水平和垂直方向均 1/2 降采样"口径对齐（G2-curriculum-review §minor 建议）。
+  - V13 误导性因果并列修正（三处同步）：主文档 `01-基础理论/音视频基础理论.md` §2.1（删除"因此"因果链，改为两种感光细胞分工 + 色度通路特性 + 显式非因果注记）；L01 §3（同口径重写）；`evidence/claim-ledger.json` V13 claim 文本 + note。**V13/V14 状态保持 open/low，未升级（升级待 V13/V14 票人工裁决）。**
+- **B15 执行边界**：仅登记立项（队列范围 C1–C7），本轮不启动研究、不改断言；P8 启动时排期。
+- **本地目录改名（程序级，用户批准）**：仓库目录现名 `ai-knowledge-to-learning-engine`（原 Render_Notes）；git 完好 HEAD=`e848d28` 起步；GitHub 仓库名/remote 仍旧名待用户同步，过渡态不改 remote。
+- **门禁（修订后复跑，实测）**：build **69 docs** / 17 sections / 124 terms / 19 lessons / 7 labs / 504 cards / 2416 KB；validate **11 checks / 0 FAIL / 0 WARN**；arc **5/5 OK**（L01/L02/L06/L11/L13）；publish boundary **11/11 OK**；review_gate **37 claims（16 verified / 14 open / 7 conditional）误标 0**（V13 仍 open，未升级）。content.js 已随修订重建。
+- **边界**：未 commit/push（D09）；G1/G2/G3 仍未通过；剩余裁决 V13/V14/B10/B11/B12。
+
+## 2026-11-19 · 迁移收尾 + 残留副本清理 + 状态修正（Program 会话，低风险状态更新）
+
+- **PD-002 收尾完成**：Render_Notes 自 `GITCODE\Render_Notes` 整体迁入 `GITCODE\AI-Knowledge\Render_Notes`（绑定 AI-Knowledge 的会话执行 Move-Item，一次成功）；git 完好 HEAD=`e848d28`，工作树干净，远程不变。
+- **迁移后门禁复跑（只读）**：validate **11 checks / 0 FAIL / 0 WARN**；review_gate **37 claims（16 verified / 14 open / 7 conditional）误标 0**。工具链全相对路径解析，迁移零破坏。
+- **残留副本清理（用户批准，Q3）**：`site-vitepress/docs/program-office-delivery/` 10 份统筹办公室旧副本（gitignored、内容过时、处于 build_vitepress_content.py rmtree 范围）→ 系统回收站（recoverable=true）；Test-Path 复核 False。PD-Q8 同类清理的漏网位置，权威原件在办公室。
+- **状态修正**：WORKFLOW_STATE 程序级收口段"迁移待办"过期行更新为完成事实。
+- **边界**：未改任何知识内容/claim 状态/课程数据；未 commit/push（D09）；G1/G2/G3 仍待人工裁决（decision-kit 七项），续跑点不变。
+- **程序级记录**：`AI-Knowledge\ai-knowledge-program\`（NOW.md / plans/2026-11-19-rename-audit-and-migration.md §6 裁决记录：改名暂不执行、范围含品牌文案、OmniWorld-Engine 跟进已授权待执行）。
+
 ## 2026-11-19 · 程序级收口：裁剪生效 + 三批提交（D16 / PD-Q1/Q2/Q7/Q8）
 
 - **裁决**：用户批准 PD-Q7（PD-003 裁剪：Engine 单活跃线；P2 Skill/P03/P04 冻结在现有成果，冻结≠删除；不新建收录类项目）+ PD-Q1/Q2/Q8 按推荐执行。程序级权威记录在 `AI-Knowledge\ai-knowledge-program\decisions\`。

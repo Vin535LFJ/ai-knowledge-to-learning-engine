@@ -9,21 +9,21 @@ updated: 2026-11-19
 
 # 人工裁决材料包（decision-kit）
 
-> **全部 OPEN，无一项已批准。** 本目录只准备证据、选项与分析，**不代为裁决**。
-> 每项文件的 §4 Resolution 栏均为空白，需由人填写；未答复不视为同意。
+> **七项全部已裁决（2026-11-19，D17/D18/D19）。** 本目录只准备证据、选项与分析，**不代为裁决**。
+> 每项文件的 §4 Resolution 栏：已决项由 AI 按用户明确裁决回填记录；未答复不视为同意。
 > 本目录位于 `reviews/` 内，依 2026-11-19 发布边界修复，不进入学习站知识 bundle。
 
-## 状态总表（2026-11-19 实测）
+## 状态总表（2026-11-19 更新，7/7 已决）
 
 | 编号 | 事项 | 状态 | 材料 |
 |---|---|---|---|
-| B4 | L01 Gold Standard 阅读认可 | ⬜ OPEN | [B4.md](B4.md) |
-| V13（B7） | 杆状/锥状细胞表述修正 + 状态升级 | ⬜ OPEN（claim 仍 open/low） | [V13.md](V13.md) |
-| V14（B8） | Stride claim 升级 verified + 保留条件 | ⬜ OPEN（claim 仍 open/low） | [V14.md](V14.md) |
-| B10 | L13 四条断言登记确认 / 升级 | ⬜ OPEN（已登记为 open，待确认） | [B10.md](B10.md) |
-| B11 | P02 ↔ L06 挂载矛盾处理 | ⬜ OPEN（L06 已补声明，待确认） | [B11.md](B11.md) |
-| B12 | stash@{0} 三处用户改动处置 | ⬜ OPEN（stash 原样保留） | [B12.md](B12.md) |
-| B15 | C1–C7 研究任务立项 | ⬜ OPEN | [B15.md](B15.md) |
+| B4 | L01 Gold Standard 阅读认可 | ✅ 已决 = B 认可+minor 修订（已执行，D17） | [B4.md](B4.md) |
+| V13（B7） | 杆状/锥状细胞表述修正 + 状态升级 | ✅ 已决 = A 修正后升级 verified/high（表述修正 D17，升级 D18） | [V13.md](V13.md) |
+| V14（B8） | Stride claim 升级 verified + 保留条件 | ✅ 已决 = A 升级 verified/high + 保留两条 conditions（D18） | [V14.md](V14.md) |
+| B10 | L13 四条断言登记确认 / 升级 | ✅ 已决 = A 确认登记 open，升级另裁（D19；V17–V20 状态不变） | [B10.md](B10.md) |
+| B11 | P02 ↔ L06 挂载矛盾处理 | ✅ 已决 = A 确认保留挂载（D19；P02 仍 open，升级另裁） | [B11.md](B11.md) |
+| B12 | stash@{0} 三处用户改动处置 | ✅ 已决 = A 继续保留（D19；本轮提交稳定后重议） | [B12.md](B12.md) |
+| B15 | C1–C7 研究任务立项 | ✅ 已决 = A 全部立项（入队，执行按 P8 节奏，D17） | [B15.md](B15.md) |
 
 **已裁决、不在本包内**（避免重复裁决）：B1/B2/B3/B5/B6/B9（见 `DECISIONS.md` D01–D11）、B13（reviews 纳入 git）、B14（.zcode 归档提交，见 `DECISIONS.md` D12 / `.agent/decisions/`）。
 

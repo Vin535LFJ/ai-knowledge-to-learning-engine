@@ -53,7 +53,7 @@ Render_Notes：从知识库到 AI 原生教学系统的工作流设计.md（旧�
 - 主知识文档分布在 01–07 目录；`archive/` 只读未动。
 - `tools/glossary.json`：124 术语 / 11 组，术语定义唯一来源。
 - `knowledge-model/concepts.json` + `taxonomy.json`：概念带 layer（L0–L7）、glossary_term、relations（prerequisite_of / contrast_with / used_by / part_of），validate §9 全过。
-- `evidence/claim-ledger.json`：31 条断言（V01–V14、C01–C07、P01–P06、E01–E04；V13/V14 为 P6 新增，open 待 G1）；`source-registry.json`：16 个来源（含 SRC-RN-AV-BASE），双向索引完整。
+- `evidence/claim-ledger.json`：**37 条断言**（V01–V20、C01–C07、P01–P06、E01–E04；D18 升级后 18 verified / 12 open / 7 conditional；V13/V14 于 2026-11-19 经人工裁决升级 verified/high，V14 保留平台差异条件）；`source-registry.json`：16 个来源（含 SRC-RN-AV-BASE），双向索引完整。
 - 推导深度不均：`3D变换与坐标空间.md` 推导最完整；`音视频基础理论.md` §1/§2 有完整公式与数值实例、§4 同步部分仅结论级；`解码与播放链路.md` 工程流程详尽但无数学推导，且个别 API 名不严谨（见诊断 D-L06-5）。
 
 ### 4.2 课程层（两套数据，存在映射缺口）

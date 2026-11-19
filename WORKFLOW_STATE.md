@@ -4,7 +4,7 @@
 >
 > 计划：会话级批准产物，原件位于用户目录 `~/.workbuddy-ai/plans/quantum-nebula-newton-ffFN4E3P.md`（不入仓库） · 裁决：`DECISIONS.md`（D01–D14）
 
-**最后更新**：2026-11-19（程序级收口 D16 / PD-Q1/Q2/Q7/Q8） · **当前阶段**：P0–P6 + B1–B5 + V3-Loop1/Loop2 完成；P7.1 四篇 blocker 全部修复（L02/L06/L13/L11）；P8 预研起步（kcr_impact 只读影响分析 + 发布边界 allowlist 生效）；三批未提交改动已拆分收口（`5a4de84`/`a45ffa9`/`7c05bc7`+留痕笔） · **续跑点**：**G1/G2 人工裁决（`reviews/decision-kit/` 七项材料）→ P7.2 逐篇深化**；**仍待人工**：B4/B7/B8/B10/B11/B12/B15（未回复不视为同意）；G3 仍未通过 · **程序级裁剪生效（D16/PD-003）**：Engine 为唯一活跃线，P2 Skill/P03/P04 冻结在现有成果（解冻条件见办公室 PD-003），不新建收录类项目。
+**最后更新**：2026-11-19（D19：decision-kit 七项全闭合） · **当前阶段**：P0–P6 + B1–B5 + V3-Loop1/Loop2 完成；P7.1 四篇 blocker 全部修复；**decision-kit 7/7 已决（B4=B 认可+小修订已执行 / B15=A 全立项 / V13/V14 升级 verified / B10/B11/B12 确认现状，D17–D19）**；P8 预研起步 · **续跑点**：**P7.2 逐篇深化（一次一篇，Gold Standard L01 为基准；pilot 路线下一篇 = L02）→ P8 KCR 闭环 → P9 最小状态机 → P10 一批新资料端到端验收**；G1/G2 裁决项已闭合但**关卡本身仍待人工宣布通过**（G2 评分表待填）；G3 仍未通过 · **程序级裁剪生效（D16/PD-003）**：Engine 为唯一活跃线，P2 Skill/P03/P04 冻结在现有成果，不新建收录类项目 · **本地目录已改名 `ai-knowledge-to-learning-engine`（D17，GitHub 名待用户同步，remote 未动）**。
 
 ---
 
@@ -59,7 +59,7 @@
 ## 续跑指引
 
 1. 读 `DECISIONS.md`（D01–D11）与 `reviews/REVIEW_STATUS.md` 确认审核分类。
-2. **当前阻塞点 = 等待 `reviews/decision-kit/` 人工裁决（仍 OPEN：B1–B12 中未决项 + B15）**。核心：B4 Gold Standard 认可、B7/B8 V13/V14 升级、B10 L13 断言登记、B11 P02 挂载、B12 stash、B15 研究任务。**B1/B2/B3/B5/B6/B9 已决、B13/B14 已归档裁决**（见 `DECISIONS.md` D01–D12、`.agent/decisions/`）；权威逐项状态以 `reviews/decision-kit/README.md` 总表为准。**未回复项保持待审核，不视为同意。**
+2. **decision-kit 七项已全部裁决闭合（D17/D18/D19）**：B4=B（Gold Standard 认可+minor 修订已执行）、B15=A（C1–C7 全立项）、V13/V14=A（升级 verified/high）、B10/B11/B12=A（确认现状）。权威逐项状态以 `reviews/decision-kit/README.md` 总表为准。**续跑点 = P7.2 逐篇深化**；G1/G2 关卡本身仍待人工宣布通过（G2 评分表待填），G3 未通过。
 3. 收到裁决后按 `reviews/EXECUTION_PLAN_V3.md` Loop 2：记录裁决入 DECISIONS.md → 执行 Category A（A1 数字更正/A3 build 排除 .zcode/A4 学习路径指南补 U7/A5 K-STRIDE 改挂/A6 Pass 勘误）→ P7.1 blocker（L02→L06→L13→L11）→ P7.2 逐篇深化（一次一篇）。
 4. 每阶段/每篇跑门禁（本机 `py -3`，`python` 解析到 cygwin stub 不可用）：`py -3 tools/build_site.py` → `py -3 tools/validate_site.py`（0 FAIL/0 WARN）→ `py -3 .workbuddy-ai/skills/research-to-learning/scripts/check_chapter_arc.py courses/video-rendering-journey/lessons/*.md` → `py -3 tools/review_gate.py`（只读）。
 5. 改前端后额外做离线站浏览器 QA（file:// 与 http://localhost:8765 两路）；VitePress 构建需 B6 授权。
@@ -96,4 +96,4 @@
 - **副本清理（PD-Q8）**：`program-office-delivery/` 10 份→回收站（可恢复）；`.qoder-input-images/` gitignore。
 - **门禁实测**：build 69 docs/17 sections/124 terms/19 lessons/7 labs/504 cards · validate 11/0/0 · arc 5/5 · review_gate 37 claims（16v/14o/7c）误标 0。
 - **续跑点**：G1/G2 人工裁决（decision-kit 七项）→ P7.2 逐篇（一次一篇）→ P8 KCR 闭环 → P9 最小状态机 → P10 一批新资料端到端验收。
-- **待办**：Render_Notes 迁入 `AI-Knowledge\`（PD-002 收尾）仍被本会话工作区占用阻塞——需绑定其他目录的会话或关闭本会话后手动 move；stash@{0} 原样（B12）；G3 未通过、在线发布（D02）未授权。
+- **收尾更新（2026-11-19，Program 会话实测）**：Render_Notes 已迁入 `AI-Knowledge\Render_Notes`（PD-002 收尾完成；Move-Item 成功，git 完好 HEAD=`e848d28` 工作树干净；迁移后只读门禁复跑 validate 11/0/0、review_gate 37 claims 误标 0）。`site-vitepress/docs/program-office-delivery/` 残留旧副本 10 份已按用户批准清理至回收站（可恢复）。stash@{0} 原样（B12）；G3 未通过、在线发布（D02）未授权。

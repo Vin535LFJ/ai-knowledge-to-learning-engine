@@ -304,7 +304,7 @@
     },
     {
       "id": "V13",
-      "claim": "人眼对亮度细节的敏感度远高于色度（杆状细胞远多于锥状细胞），是 YUV 色度下采样的生理依据",
+      "claim": "人眼对亮度细节的敏感度远高于色度细节（视觉系统色度通路的特性；杆状细胞主管暗视觉不辨色，锥状细胞主管明视觉与色觉），是 YUV 色度下采样的生理依据",
       "claim_type": "verified_fact",
       "evidence": [
         {
@@ -314,11 +314,11 @@
         }
       ],
       "verification": {
-        "status": "open",
-        "confidence": "low"
+        "status": "verified",
+        "confidence": "high"
       },
       "conditions": [],
-      "note": "P6 由 AI 从主文档 ✅ 标记段落提取登记，按规则默认 open，待 G1 人工确认后升级。",
+      "note": "P6 由 AI 从主文档 ✅ 标记段落提取登记，按规则默认 open。2026-11-19 B4=B 裁决（D17）：修正'杆状细胞远多于锥状细胞'误导性因果并列（主文档 §2.1 与 L01 §3 已同步）。2026-11-19 用户裁决 V13=A（D18）：升级 verified/high，依据 D12.7 权威核验（Wikipedia Chroma subsampling 引 Winkler 2001/Livingstone 2002；ACM 综述）+ 表述修正完成。",
       "source_documents": [
         "01-基础理论/音视频基础理论.md"
       ],
@@ -338,14 +338,14 @@
         }
       ],
       "verification": {
-        "status": "open",
-        "confidence": "low"
+        "status": "verified",
+        "confidence": "high"
       },
       "conditions": [
         "对齐基数因芯片平台而异（典型 64/128 字节），具体参数以 SoC 手册为准",
         "行高也可能被对齐（16/32 行）"
       ],
-      "note": "P6 由 AI 从主文档提取登记，按规则默认 open，待 G1 人工确认后升级。",
+      "note": "P6 由 AI 从主文档提取登记，按规则默认 open。2026-11-19 用户裁决 V14=A（D18）：升级 verified/high 并保留两条平台差异 conditions；依据源文档 §2.2 公式/算例/故障表 ✅（对齐基数 ⚠️ 由 conditions 覆盖）；具体数值实证由已立项 C3 后补（B15=A）。",
       "source_documents": [
         "01-基础理论/音视频基础理论.md"
       ],
