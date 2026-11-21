@@ -1,20 +1,20 @@
 {
  "meta": {
-  "generated_at": "2026-11-21T14:23:33+00:00",
+  "generated_at": "2026-11-21T14:26:51+00:00",
   "generator": "tools/build_document_registry.py",
   "total": 182,
   "counts_by_status": {
    "unregistered": 78,
-   "draft": 58,
-   "active": 39,
+   "draft": 57,
+   "active": 40,
    "approved": 5,
    "proposed": 1,
    "archived": 1
   },
   "counts_by_level": {
-   "L2": 67,
+   "L2": 66,
    "unclassified": 58,
-   "L1": 44,
+   "L1": 45,
    "L3": 13
   },
   "counts_by_type": {
@@ -555,7 +555,7 @@
    "id": "SKILL-LEX",
    "type": "skill",
    "type_source": "frontmatter",
-   "status": "draft",
+   "status": "active",
    "owner": "qwenwork",
    "created": "2026-11-19",
    "updated": "2026-11-19",
@@ -566,7 +566,7 @@
    "related_task": "",
    "generated": false,
    "frontmatter_present": true,
-   "level": "L2"
+   "level": "L1"
   },
   {
    "path": ".agent/skills/research-to-learning/assets/chapter-template.md",

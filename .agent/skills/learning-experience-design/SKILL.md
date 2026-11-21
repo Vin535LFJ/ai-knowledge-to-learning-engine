@@ -4,7 +4,7 @@ description: 为 AI 原生知识学习产品设计专业、可读、可交互的
 agent_created: true
 doc_id: SKILL-LEX
 type: skill
-status: draft
+status: active
 owner: qwenwork
 created: 2026-11-19
 updated: 2026-11-19
@@ -119,5 +119,13 @@ A 知识文章 · B 系统教材 · C 技术原理推导 · D 交互实验 · E 
 - 本目录在 `build_site.py` / `validate_site.py` / `build_vitepress_content.py` 的排除列表内，不进知识 bundle。
 
 ## 试点记录
+
+### 试点 01 · L13《坐标变换与 MVP》教材页（2026-11-21，方案 A 增量增强）
+
+- 用户裁决：方案 A（PILOT-L13-plan 推荐项采纳）。
+- 落地：学习目标条（frontmatter objectives 上墙）、§4.1 空间链 ASCII 标注 V17、§4.2 P·V·M 分行推导表（教学算例 v_model=(1,1,1) 四步到 NDC 0.244）、MVP 术语绑定两层 course.json + glossary 卡。
+- Floor：静态检查 PASS（基线与本轮均 PASS）；站点零依赖约束下以 ASCII 代码块替代 Mermaid（PILOT 原建议的如实偏差记录）。
+- 验证：validate 12/0/0 · arc 11 篇 OK · build 624 cards/3135 KB。
+- 第二应用点：L19 页同法审读（Floor PASS），证明方法可跨课程——记录见 PILOT-L13-plan §验收。
 
 > 试点页面规格与原型：`preview/`（独立预览目录，不改线上站点）。用户确认设计方向后才分阶段推广。
