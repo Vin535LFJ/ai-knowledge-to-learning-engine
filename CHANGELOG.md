@@ -553,7 +553,11 @@
 
 **P7 · P8/P9 只读基础**：新增只读 `tools/kcr_impact.py`（Source→Claim→Concept→Lesson→Quiz→Course→Website 影响链，实测 SRC-RN-AV-BASE 得 3 claims/2 lessons/2 quizzes）+ `reviews/kcr/KCR-IMPACT-TOOL.md` + `reviews/P9-orchestrator-design.md`（状态机 + run-state schema 内联，均 draft）。不写源 JSON、不升级 claim、不建运行态文件、不批量生成课文。
 
-**门禁/边界**：validate 11/0/0、arc 5/5、boundary 11 tests、review_gate 只读（G1/G2/G3 未通过）、governance 25 + radar 38 tests 全绿；registry 重生成 143 docs；HEAD 仍 `474c667`、stash@{0} 仍在、零 commit/push/建仓/联网。## 2026-11-21 · P10 done——Engine 主目标达成（RUN-2026-11-20-p10-hdr 全闭环）
+**门禁/边界**：validate 11/0/0、arc 5/5、boundary 11 tests、review_gate 只读（G1/G2/G3 未通过）、governance 25 + radar 38 tests 全绿；registry 重生成 143 docs；HEAD 仍 `474c667`、stash@{0} 仍在、零 commit/push/建仓/联网。
+## 2026-11-21 · 记录更正（用户核实三处）
+① arc 真值=19 篇 0 FAIL（全量更正，此前 11 篇为传入子集口径）；② L02 遗留 major「DTS ≤ PTS 恒成立」确认 2026-11-20 已修复、app.js/labs.json 0 残留，遗留清单划除；③ U4/U5 已随 D20 闭合，遗留改 U1–U3。KCR substate 补 APPLIED→VERIFIED（19 项已应用并核验）。push 授权 6 笔（Engine 5+Skills 1）。
+
+## 2026-11-21 · P10 done——Engine 主目标达成（RUN-2026-11-20-p10-hdr 全闭环）
 
 - **四件人工门全过**：G1 六项升级 verified（采纳 AI 推荐授权）+ V23 I19=A 先补边界再升；KCR-2026-11-001 APPROVED；G2 L19=91/100 通过（用户本人填分确认）；G3 gate --pass（approver: user，22:22:05）。
 - **收尾序列**：resume → PUBLISH（发布记录 reviews/p10/publish-record-hdr.md：本地 bundle 口径，在线发布 D02 未授权）→ FEEDBACK（reviews/p10/feedback-record-hdr.md）→ **done**（write_paths 释放，artifacts 18）。
