@@ -4,6 +4,194 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-21 · P10 端到端验收：HDR 批次真实 run 走通 INTAKE→REVIEW（L19 新教材，人工门暂停待裁）
+
+- **范围**：用户批准"开工 P10 端到端验收：用 run_state 建真实 run，选一批新资料走 INTAKE→FEEDBACK 全链，人工门留给我裁决"。批次主题 **HDR 视频渲染**（查重 151 处命中确认概览层覆盖、无专课深潜、无外部 HDR 来源 → 差异化定位渲染侧管线）。真实 run `RUN-2026-11-20-p10-hdr`（.agent/runs/，本地 only）：**INTAKE→RESEARCH→EVIDENCE→ARCHITECT→WRITE→DESIGN→PRACTICE→REVIEW 八阶段全走通，16 个 artifact 全程 path+sha256 留痕**；REVIEW 暂停（pause --operator user），**PUBLISH/FEEDBACK 被 G3 人工门硬阻塞——设计行为，等用户裁决**。
+- **新资料（7 外部权威源，全部真实抓取/检索核实）**：AOSP HDR video（google.cn 镜像全文）/ AOSP Mixed SDR-HDR / ITU BT.2100-3（官方 docx 提取）/ ITU BT.2408-3（§3.1 发灰权威描述）/ UHD Forum Blue Book 3.2.0 / colour-science eotf_ST2084 文档 / UPM 论文（BT.2100 Table 4/5 逐字转载）。直接抓取失败通道（itu.int rec 页/en.wikipedia）如实记录于研究报告 §3。
+- **新教材 L19《HDR 视频渲染》**（0 → 约 200 行，U4，prerequisites [L03,L12,L14]，无绑定 lab 照 L10/L12 先例，不入 pilot 照 L18 先例）：发灰钩子（10000/1000/100 nit 张力）→ 亮度货币类比（边界声明）→ §4.1 PQ/HLG 双系统（HLG 兼容仅限 BT.2020 WCG 精确口径）→ §4.2 PQ EOTF $$ 公式三件套（五常数 + 锚点双精度 + code 509 算例 + Barten JND）→ §4.3 HDR10 元数据三件套（三条权威边界）→ §4.4 Android 链 ASCII 图（tunneled 定义 + 两个官方坑 + libtonemap/SDR dimming）→ §4.5 tone mapping（BT.2408 发灰原话口径 + 等比÷4 反例 + 线性光 + 8bit 截断已晚）→ §5 丢失后果速查表 → §6 四步排查现场 + 5 误区 → §7 四项练习 → §8–11 回忆/自检/桥/术语。
+- **新断言 V63–V67（open/low）+ 来源 8 条**（7 外部 + SRC-RN-STREAMING 补登记；SRC-RN-IMGALGO 反向索引 +V67）；V23 复用挂接 +L19（文本未动，边界修订走 KCR I19）。review_gate **84 claims（18v/59o/7c）误标 0**。概念 K-HDR/K-TONEMAP（无环）+ 术语 5 条（BT.2020/tone mapping/MaxCLL/MaxFALL/DataSpace）+ taxonomy 重建。
+- **KCR 全链实证**：Stage 1 两份真实影响报告（impact-v23-baseline 既有链 / impact-bt2100-new 新链）；Stage 2 **KCR-2026-11-001**（19 项，validate_kcr --stage2 OK，human_decision=null）；run kcr_substate PROPOSED→REVIEWING，**APPROVED 留人工**。
+- **联动**：course.json L18.next null→L19 + L19 条目（20 lessons）；L18 头部路线位置 + §10 桥句改写（知识正文零改动）；publish 断言 82→**83**；研究报告 F3/F4 转述扩展（审读 m2/m3 修复，UHD Forum Table 1 全表 + P3-in-2020 示例）。
+- **独立审读（只读换人）**：首轮 **2 blocker + 2 major + 6 minor**——B1 range 行错挂 V22→V21；B2 色域错配症状方向反（2020 当 709 应去饱和）→修正 + 挂 V24；M1 Bloom 链归属错位（L14 无 Bloom，出处面试库 04）→改 L14 真实链 + 另注出处；M2 tunneled 首现无解释→加一句话定义；6 minor（引号字形/101nit 转述/背景数字出处/SEI-SPS-EDID 括注/$$ 公式/HLG 元数据措辞）**全部修复**。审读亮点：数学全部独立复算通过、V23 边界处理"堪称范本"、结构全对齐、范围零越界。openQuestions U4/U5 登记 G1 队列。
+- **门禁实测（修复后末次）**：build **83 docs / 17 sections / 129 terms / 20 lessons / 7 labs / 624 cards / 3129 KB**；validate **12/0/0**；arc **19 篇 0 FAIL**；publish **11/11**；review_gate **84 claims 误标 0**；kcr selftest **16/16**；runstate selftest **25/25**；registry **180 条**一致。
+- **人工门材料（AI 不自评/不代批）**：`reviews/p10/G1-hdr-verification-queue.md`（V63–V67 逐条证据定位 + V23 I19 选项 + 裁决栏空白 + U1–U5）；`reviews/G2-L19-deepening.md`（十维度判定表待填）；`reviews/p10/human-gates-guide.md`（四件裁决按依赖顺序 + P10 验收标准八项对照全 ✅ + 恢复命令）。
+- **边界**：未 commit/push；未升级任何断言；未擅改 V23/L03/glossary HLG 既有文本（U4 登记联动待办）；stash 原样；在线发布仍受 D02 约束（G3 通过 ≠ 在线发布授权）；run 暂停中，write_paths 持有至 done。
+- **续跑点**：**等用户四件裁决（G1 核验 → KCR APPROVED → G2 评分 → G3 gate --pass）→ resume → PUBLISH（发布记录）→ FEEDBACK → done = P10 主目标达成**。遗留：commit/push 授权、两处源笔误、U1–U5。
+
+## 2026-11-20 · P9 轻量工作流状态机实现（run_state.py + run-state 第四契约，25 tests，G-W1 闭合）
+
+- **范围**：用户批准"开工 P9 轻量状态机，按设计稿扩展现有 tools 实现"。按 `reviews/P9-orchestrator-design.md`（十阶段 INTAKE→…→FEEDBACK + KCR 子状态 PROPOSED→…→VERIFIED + 五条不变量）与 NEXT_PHASE_PLAN P9.2 实现，stdlib-only（D05），不引 DB/队列/分布式组件。
+- **新增**：① `tools/run_state.py`（CLI + API：new/start/pause/resume/fail/retry/artifact/advance/skip/gate/kcr/claim-path/release-path/show/list）；② `tools/kcr/schema/run-state.schema.json`（第四契约，设计 §3 schema 扩展 phase_records/transitions/write_paths/retry_count）；③ `tools/kcr/selftest_runstate.py`（**25 tests OK**：schema 正反用例/五条不变量/断点恢复/失败重试/防重复写入/人工跳过暂停/KCR 顺序/kcr_impact 真实回放 SRC-RN-COLORMGMT/CLI 退出码，全部写临时目录）；④ `reviews/kcr/RUN-STATE-TOOL.md`（工具说明，type: kcr / active）。
+- **扩展**：`tools/kcr/validate_kcr.py` 三契约→**四契约**；run-state 硬规则入 semantic_errors（gate passed 必须人工 approver+approved_at；进入 PUBLISH/FEEDBACK 必须 gate passed；KCR APPROVED 及以后必须有 kcr_approved 人工过渡记录；done 仅在 FEEDBACK）。selftest_impact 回归 **16/16 OK**。
+- **不变量（程序强制）**：人工门不可绕过（gate --pass 必须 --approver 非空，无自动批准路径）/ AI 不预填裁决 / 未批准不应用（PUBLISH 前置 gate + KCR APPROVED 人工）/ 单写者（write_path 声明即持有，done 自动释放）/ 可追溯（artifact path+sha256 幂等登记，transitions 追加时间/操作者/理由）。
+- **对接**：impact-report 类 artifact 登记前自动过 impact-report 契约校验，失败不登记（kcr_impact 输出直接入追溯链）。运行态落 `.agent/runs/`（D15 本地 only，gitignore 既有）；保存前全量校验失败不写盘，固定名 tmp + os.replace 原子替换，全程无删除操作。
+- **联动**：设计稿 status draft→**active** + §6 实现记录；CURRENT_GAPS **G-W1 闭合**（G-W3 工具盘点仍待）；IMPLEMENTATION_PLAN P9 行标注状态机已交付。
+- **门禁实测（末次）**：build **82 docs / 608 cards / 3072 KB**；validate **12 checks / 0 FAIL / 0 WARN**；arc **18 篇 OK**；publish **11/11**；review_gate **79 claims（18v/54o/7c）误标 0**；kcr selftest **16/16**；runstate selftest **25/25**；registry 重建 **173 条**一致（+RUN-STATE-TOOL）。
+- **边界**：未 commit/push（Engine 累计 60 文件未提交）；未改任何断言状态/教材正文；stash 原样（B12）；未创建真实 run 实例（P10 端到端验收时启用）；工具不写权威 JSON、不自动执行阶段任务、不做多进程并发锁（边界见工具说明）。
+- **续跑点**：**P10 一批新资料端到端验收（= Engine 主目标达成）**——用 run_state 建真实 run 走 INTAKE→FEEDBACK，G1/G2/G3 人工门实测；P9.4 工具盘点（G-W3）可穿插。待用户：commit/push 授权、G2 评分（17 篇材料）、两处源笔误裁决。
+
+## 2026-11-20 · 教材批量收官：L14/L15/L16/L17/L18 五篇新写（独立审读全修复，全部课时教材完成）
+
+- **范围**：用户批准"继续所有教程进度完成"。新写五篇（各约 170–200 行）：**L14《光照、材质与图像算法》**（归层地图：PBR 约束/三种锯齿辨析/后处理与批处理管线位置）、**L15《性能评测与项目复盘》**（三原则/P99 vs 平均/画质指标/证据链表达规范）、**L16《面试表达与查漏补缺》**（四段式/七步项目故事/车载差异化/缺口表）、**L17《程序化几何 · 从轮廓到网格》**（参数方程→M×N 顶点→索引推导→成本账，绑定 procedural-lathe 实验）、**L18《PBR 光照与材质参数》**（Cook-Torrance D/G/F 深潜 + GGX 推导 + 多次散射，绑定 pbr-lighting 实验，next 链收官）。至此 **18 份课时教材全部完成**（L00 为地图课无独立教材；19 课元数据齐全）。
+- **新断言登记（默认 open/low，共 17 条）**：V46–V50（L14）/V51–V53（L15）/V54–V56（L16）/V57–V59（L17）/V60–V62（L18）；复用挂接 V07/V38/V32/V17/V46。新来源 9 条：SRC-RN-LIGHTING/IMGALGO/BATCHING/PRACTICE/ADAS/INTERVIEW-LIST/JOURNEY/GAPS/PROCEDURAL；COLORMGMT/GPU-BASE/LIGHTING/PRACTICE 反向索引扩展。review_gate 实测 **79 claims（18 verified / 54 open / 7 conditional）误标 0**。
+- **独立审读（每篇只读换人子代理）**：L14 首轮 2 major+7 minor、L15 首轮 **1 blocker**+4 minor、L16/L17/L18 首轮 acceptable=true（各 4/4/5 minor）——**全部修复**。L14/L18 分工边界（定位 vs 公式深潜）审读确认守住；L17/L18 实验双向绑定核实。
+- **⚠️ 源文档笔误两处（仅登记，未擅改源，待 G1/源所有者裁决）**：① 项目实战指南.md 行 372 "PSNR 每提高 6dB，MSE 约减半"——数学上 +3dB≈减半、+6dB≈1/4（L15 教材与 V53 台账已按正确数学表述并显式登记勘误）；② 程序化几何与旋转曲面.md 行 68 "花冠"应为"花瓶"（教材/实验/台账均用花瓶）。详见 G2-L15/G2-L17 材料。
+- **联动**：publish boundary 断言 77→**82**；tools/course.json L14.reading 补色彩管理条目（审读建议）；kcr selftest COLORMGMT 回放断言改子集校验（来源合法扩展支撑 V47/V48，非放宽门禁）。
+- **门禁实测（修复后末次）**：build **82 docs / 17 sections / 124 terms / 19 lessons / 7 labs / 608 cards / 3064 KB**；validate **12 checks / 0 FAIL / 0 WARN**；arc **18 篇 0 FAIL**；publish boundary **11/11 OK**；review_gate **79 claims 误标 0**；kcr selftest **16/16 OK**；registry 重建 **172 条**一致。
+- **G2 材料**：reviews/G2-L14/L15/L16/L17/L18-deepening.md 五份（评分待人工，AI 不自评）。
+- **边界**：未 commit/push（Engine 累计 55 文件未提交）；未改任何既有断言状态；stash 原样（B12）；五篇均不在 pilot course.json（quiz 待纳入后补建，先例一致）；bundle 内嵌快照本条目留痕后重建同步。
+- **续跑点**：教材生产全部完成 → **P9 轻量状态机**（设计稿 reviews/P9-orchestrator-design.md）→ **P10 一批新资料端到端验收（= Engine 主目标达成）**；研究队列 C1–C7 按 P8 节奏执行；待用户：commit/push 授权、G2 评分（17 篇材料）、两处源笔误裁决。
+
+## 2026-11-20 · 教材第二篇：L12《系统合成与显示》新写（独立审读 1 major+6 minor 全修复）
+
+- **范围**：新写 `courses/video-rendering-journey/lessons/L12-系统合成与显示.md`（0 → 约 180 行，无绑定实验，工程机制型）。双场景钩子 → 快递分拣类比（三层边界）→ §4.1 合成器/HWC 职责 + ASCII 端到端链路 + 三阶段瓶颈表（objective ①）→ §4.2 撕裂相位推导（标注教学展开）+ 双/三缓冲交易 + Jank≠pacing（objective ②）→ §4.3 overlay 路由判据 + SurfaceView/TextureView 表（取舍注明）+ 数字纪律（objective ③）→ §4.4 智驾入画与兜底 → §5 BufferQueue 三态 + 延迟分段账 → §6 排查现场 + 5 误区 → §7 四项练习 → 桥 L13。
+- **新断言（open/low）**：**V43**（合成器选路与平面回退）/ **V44**（缓冲取舍与 pacing）/ **V45**（图层路由与组件对应）——SRC-RN-GPU-BASE（§3.1–3.4）+ SRC-RN-DECODE-PIPELINE（§6.2/§6.3）反向索引同步；复用 V34（open）/C01（conditional）挂接 L12。review_gate **62 claims（18v/37o/7c）误标 0**。
+- **联动**：publish boundary 断言 76→**77**。
+- **独立审读**：首轮 acceptable=true（**0 blocker / 1 major / 6 minor**）——major：钩子撕裂方向与推导矛盾；minor：表取舍注明/推导标注/判据口径/C01 条件转述/Swapchain 释义/V35 挂接精度。**全部修复**。审读亮点：数字纪律"全书示范级"、类比边界三层声明。材料 `reviews/G2-L12-deepening.md`。
+- **门禁实测（修复后）**：build **77 docs / 568 cards / 2901 KB**；validate **12/0/0**；arc **13 篇 0 FAIL**；publish **11/11**；review_gate **62 claims 误标 0**；registry 162 条一致。
+- **边界**：未 commit/push；未改既有断言状态；stash 原样；bundle 内嵌快照批量收官时统一重建。
+
+## 2026-11-20 · 教材生产恢复第一篇：L10《显式 API 与同步》新写（独立审读 2 major+9 minor 全修复）
+
+- **范围**：新写 `courses/video-rendering-journey/lessons/L10-显式API与同步.md`（0 → 约 210 行，无绑定实验，工程机制型+对比边界型）。三故障钩子（源 §5.5）→ 出租车/自驾类比（边界声明）→ §4.1 五维责任转移表（objective ①）→ §4.2 同步三件套+帧环（objective ②/checkpoint ①）→ §4.3 三类 barrier+可见性推导+六行故障表（objective ③）→ §4.4 RenderPass load/store+subpass 限制（接 L09 带宽账）→ §4.5 PSO 构成与治理（checkpoint ②）→ §5 PSO 组合账（教学算例显式标注）+帧环资源形态 → §6 排查现场+6 误区 → §7 验证层+RenderDoc 五项走查 → 桥 L11。
+- **新断言登记（默认 open/low）**：**V39**（显式模型责任转移与收益边界）/ **V40**（三件套语义与帧环）/ **V41**（三类 barrier 与缺失/过度后果）/ **V42**（PSO 构成与创建成本治理）——evidence 双挂 **SRC-RN-EXPLICIT-API + SRC-RN-INTERVIEW-VK**（source-registry 新增两条 repo_doc，反向索引同步）；复用 V07/E02（verified/medium）、V35/V36（open/low）挂接 L10。review_gate 实测 **59 claims（18v/34o/7c）误标 0**。
+- **联动**：L09 §10 桥句"教材页待建"→ 直链 L10；publish boundary 断言 75→**76**。
+- **独立审读（只读换人子代理）**：首轮 acceptable=false（**0 blocker / 2 major / 9 minor**）——major：input attachment 限制缺失、RenderPass/Subpass 首现无解释；minor：术语计数/车载 2 帧 caveat/PSO 归因分开/治理五项取舍+缓存失效条件/UBO 与 specialization constants 释义/V39-V41 挂接精度/binary semaphore 限定/桥句 DAG-aliasing 短释。**全部修复**。专项确认：四表与源逐字一致、锚点全有效、objectives/checkpoint 逐字一致、L11 前置假设覆盖、无借挂。材料 `reviews/G2-L10-deepening.md`（G2 评分待人工）。
+- **门禁实测（修复后）**：build **76 docs / 17 sections / 124 terms / 19 lessons / 7 labs / 560 cards / 2863 KB**；validate **12 checks / 0 FAIL / 0 WARN**；arc **12 篇 0 FAIL**；publish boundary **11/11 OK**；review_gate **59 claims 误标 0**；registry 重建 160 条一致。
+- **边界**：未 commit/push；未改既有断言状态；stash 原样；L10 不在 pilot course.json（quiz 待纳入后补建，与 L03–L09 先例一致）。bundle 内嵌状态快照在批量收官时统一重建同步。
+
+## 2026-11-20 · P8 片三完成：document-registry 一致性门禁接入 validate（用户批准）
+
+- **validate_site.py 新增第 12 节 [registry]**：用生成器同一套 `collect_entries()` 重算磁盘 frontmatter 真值，与 `.agent/indexes/document-registry.json` 逐条比对（磁盘缺失/注册表残留/逐字段漂移/meta.total），**只读不写文件**；FAIL 消息自带修复命令（`py -3 tools/build_document_registry.py`）；meta.generated_at 为构建时间戳不参与比对。检查数 **11→12**。
+- **build_document_registry.py 最小重构**：条目收集抽为纯函数 `collect_entries()`，main() 与 validate 第 12 节共用——生成与校验单一口径，不复制第二套解析逻辑。
+- **首跑即抓到 16 处真实漂移**（门禁价值实证）：registry 停在 142 条（2026-11-19T21:21Z 构建），磁盘已有 158 份文档——6 篇新教材（L03/L04/L05/L07/L08/L09）+ 9 份 G2 材料 + P8-KCR-kickoff 未入册。按规定动作重建 registry → **12 checks / 0 FAIL / 0 WARN**。
+- **验收演练（弄脏→FAIL→重建恢复，kickoff §2 片三验收标准）**：临时改 `reviews/P8-KCR-kickoff.md` frontmatter `updated: 2026-11-20→2026-11-21` → validate 精确 FAIL（exit=1，字段级定位 registry/disk 双值）→ 重建 registry 后 12/0/0 → 还原 frontmatter 再重建 → 12/0/0。**kickoff SHA256 与演练前完全一致**（A952DC56655A5F14905226D672C0899608F4A45061971B0C6A8F21941AFF691F），现场零残留；registry 对 HEAD 的差异仅为合法同步（+16 条目 + meta）。
+- **门禁实测（本窗口末次，留痕后重建同步内嵌快照）**：build **75 docs / 552 cards / 2818 KB**；validate **12 checks / 0 FAIL / 0 WARN**；arc **11/11 OK**；publish boundary **11/11 OK**；review_gate **55 claims（18v/30o/7c）误标 0**；kcr selftest **16/16 OK**。
+- **边界**：未 commit/push；未改任何断言状态/教材正文/课程数据；stash@{0} 原样（B12）；registry 属生成物，重建是规定修复动作非手改。
+- **续跑点**：**P8-MVP 三片全部完成**（kickoff §3c/§3d/§3e）→ 按 kickoff §4 恢复 **L10《显式 API 与同步》**教材生产 → P9 最小状态机 → P10 端到端验收；研究队列 C1–C7（B15=A 全立项）按 P8 节奏执行，不阻塞教材主线。待用户：commit/push 授权、G2 十篇评分。
+
+## 2026-11-20 · P8 片二完成：KCR 程序化校验器 + L02 实验文案修复（M1，用户采纳推荐）
+
+- **片二核心——`tools/kcr/validate_kcr.py`（stdlib-only，D05）**：覆盖三契约（impact-report / change-proposal / review-decision）实际用到的全部 JSON Schema 关键字子集（type 含类型数组 / required / properties / items / enum / pattern / minItems）；**遇未支持关键字直接抛错**（schema 演进强制校验器同步升级，不静默漏检）。另实现 schema description 文档化硬规则 `semantic_errors`：action ∈ {modify, deprecate, reverify} 必须 target.id；`--stage2` 时 human_decision 必须 null（AI 不预填）。CLI 支持多文件、按文件名推断契约、退出码 0/1/2。
+- **接入 kcr_impact 输出**：`tools/kcr_impact.py` 写盘前强制过 impact-report 契约校验，失败不写文件、退出码 3（错误 seed 路径不受影响）。
+- **自测扩展**：`tools/kcr/selftest_impact.py` 5→**16 tests**——assert_shape 升级为全量 schema 校验；新增 ValidatorTests 11 例（三契约最小合法文档 / 缺必填 / 错枚举 / 错 pattern×2 / minItems×2 / human_decision 类型联合 null / modify 缺 id / stage2 预填拦截 / 未支持关键字守卫 / 三真实样本回放 / CLI 正反退出码）。**16/16 OK**；CLI 实测三份真实样本（impact-l09-p07 / impact-v14-replay / impact-colormgmt-replay）全 OK。注：reviews/kcr/ 下 impact-v14.json / impact-draft.json / impact-demo.json 为片一对齐前的历史冒烟工件，保留不改写，不作契约样本。
+- **L02 遗留 major M1 修复（用户 2026-11-20 采纳推荐）**：`tools/labs.json` pts-dts-timeline「同步约束」desc 与 `web/assets/app.js` stage 值两处「DTS ≤ PTS 恒成立」改为与课文任务 3 口径一致（I/P 帧 PTS ≥ DTS 提前解出等显示，B 帧 PTS < DTS 等参考帧）；连带修复 tlDelta 硬编码 "+" 前缀致 B 帧显示 "+-1" 的符号 bug。**Edge headless 双路浏览器 QA**（http://localhost:8765 与 file://，--dump-dom 实测渲染 DOM）：stage5/stage6 新文案正确、tlDelta=-1（默认指针 B1）、旧句清零。G2-L02 材料追加 M1 执行补记（审读原文不改写；其余 6 minor + openQuestions 仍待人工）。
+- **门禁实测（本窗口末次，留痕后重建同步内嵌快照）**：build **75 docs / 17 sections / 124 terms / 19 lessons / 7 labs / 552 cards / 2812 KB**；validate **11 checks / 0 FAIL / 0 WARN**；arc **11/11 OK**；publish boundary **11/11 OK**；review_gate **55 claims（18v/30o/7c）误标 0**；kcr selftest **16/16 OK**。
+- **边界**：未 commit/push；未改任何断言状态/教材正文/课程数据（labs.json 与 app.js 属实验文案层）；stash@{0} 原样（B12）；保护路径未触碰；片三（registry 门禁接入 validate）**仍未动手，需报批**。
+- **续跑点**：P8 片三（报批后执行）→ L10《显式 API 与同步》恢复 → P9 最小状态机 → P10 端到端验收。
+
+## 2026-11-20 · 独立复核（另一会话）+ P8 片一完成：kcr_impact 输出↔schema 对齐
+
+- **复核范围**：前一窗口 T1 + P7.2 十篇 + P8 启动的全部声明，只读核验 + 门禁复跑。结论：**实质工作全部属实**——三仓 git 状态/四笔提交/行数（L02 217/L06 200/L11 193/L13 235/L03 168/L04 199/L05 175/L07 150/L08 149/L09 153，逐篇实测一致）/55 claims（18v/30o/7c，V21–V38 均 open/low，无误升）/stash 原样/保护路径未触碰/未 push（远端 HEAD 仍 e848d28、e1936f2）。
+- **复核更正（记录笔误，非数据问题）**：① card 数真值 **552**（原记录 553；工作区 content.js 与新鲜重建均为 552，JSON 级对比仅时间戳与内嵌状态文档快照差异）；② build 体积真值 **2800 KB**（原记录 2790）；③ source-registry 真值 **24 个来源**（本窗口新增 5 个：COLORMGMT/GPU-BASE/GRAPHICS/INTERVIEW-GL/RASDEPTH；原摘要"四个新 SRC"不准确）；④ Program 办公室有 1 个未提交文件（NOW.md，原报告称 0）。
+- **content.js 重建**：原工件构建于 07:23，其后状态文档更新未同步入 bundle——本窗口重建同步（75 docs / 552 cards / 2800 KB），validate 复跑 11/0/0。
+- **P8 片一完成（对齐 + 自测）**：`tools/kcr_impact.py` 输出对齐 `tools/kcr/schema/impact-report.schema.json`——补契约 trigger（四模式映射：source_update/claim_status_request/new_research_report）+ new_sources（恒 []，来源登记属 Stage 2）；affected 各数组改为对象（id+relation/via_claim）；website 移出 affected 改非契约字段 website_artifacts；结构完整性检查移入 integrity_findings（不冒充契约 conflicts，语义冲突属 Stage 2）；uncovered 改为字符串数组。修复既有 bug：`--out` 指向仓库外路径时 relative_to 崩溃。
+- **自测**：新增 `tools/kcr/selftest_impact.py`（stdlib-only，5 tests）——真实回放 SRC-RN-COLORMGMT→V21–V24→L03、V14→K-STRIDE/L01/L01#L01-Q2/两层 course、V21 open→integrity_findings、草稿 CLI 契约形状、未知 seed 报错。**5/5 OK**。三份真实样本按新契约重生成：reviews/kcr/impact-l09-p07.json / impact-v14-replay.json / impact-colormgmt-replay.json。
+- **门禁实测（本窗口末次）**：build **75 docs / 17 sections / 124 terms / 19 lessons / 7 labs / 552 cards / 2800 KB**；validate **11 checks / 0 FAIL / 0 WARN**；arc **11/11 OK**；publish boundary **11/11 OK**；review_gate **55 claims（18v/30o/7c）误标 0**；kcr selftest **5/5 OK**。
+- **边界**：只读复核 + 工具层改动，未改任何教材正文/断言状态/课程数据；未 commit/push；L02 遗留 major（app.js:2350「DTS≤PTS 恒成立」静态句与 lab 模型及 L02 五帧表矛盾）仍待用户裁决，未擅自改。
+- **续跑点**：P8 片二（程序化校验器 stdlib-only）→ 片三（registry 门禁接入 validate，**动手前报批**）→ L10 恢复 → P9 → P10。复核全文：`AI-Knowledge\ai-knowledge-program\plans\2026-11-20-progress-review.md`。
+
+## 2026-11-20 · P8 启动：阶段切换 + 三 schema 固化 + 冒烟测试（片二部分完成）
+
+- **阶段切换**：P7.2 十篇收官（见下方十个条目）→ **P8 KCR 最小闭环启动**（用户 2026-11-20 "继续推进下一个阶段"，接受"先 P8"建议）。启动检查点 `reviews/P8-KCR-kickoff.md`：已有资产清单（KCR 设计/kcr_impact.py 四模式/validate §8）、P8-MVP 三片切片范围与验收、明确不做清单、续跑指引。
+- **片二部分完成——三 schema 落盘**：`tools/kcr/schema/impact-report.schema.json` / `change-proposal.schema.json` / `review-decision.schema.json`（按 D13 设计文档 §Stage1/2/3 字段结构固化；D05 原则下为静态契约文件，程序化校验器待下窗口）。三文件 JSON 有效性实测通过。
+- **冒烟测试（Stage 1 实跑）**：`kcr_impact.py --claim-draft`（flush 断言草稿，对应验真队列 P07）产出 `reviews/kcr/impact-l09-p07.json`——claims/concepts/courses 等结构与设计一致，**但发现工具输出与设计 schema 漂移**：缺顶层 trigger/new_sources、affected 多 website 键。已如实登记于 kickoff §3b 作为片一对齐目标，不掩盖不伪造。
+- **边界**：未 commit（累计未提交 32→33 文件：+3 schema+1 impact 样本+1 kickoff+本条目）；validate/publish 复跑 11/0/0 与 11 tests OK（schema 与 kickoff 在 reviews/tools 下，bundle 无变化——reviews 不进学习站、tools/kcr 为纯 JSON 非 .md）。
+- **续跑点**：片一对齐（工具输出↔schema）→ 片二收尾（程序化校验器）→ 片三 registry 门禁接入 validate（动手前报批）。
+
+## 2026-11-20 · P7.2 第十篇：L09《移动端瓶颈与 TBDR》新写教材（审读 blocker 修复后通过——「其余篇目」第六篇）
+
+- **范围**：新写 `courses/video-rendering-journey/lessons/L09-移动端瓶颈与TBDR.md`（**0 → 153 行**，无绑定实验，对比边界型）。结构：桌面经验三连变形钩子（MSAA/discard/依赖上一帧，方向反了）+ 720p 带宽账（3.69/7.37 MB、442 MB/s、10 Pass 4.4 GB/s）→ 瓷砖类比（边界：binning 在几何阶段/厂商差异）→ §4.1 IMR vs TBDR 流程与七行关键差异表（`V36`，厂商 ⚠️+"不要断言所有移动 GPU 都是 TBDR"原文）→ §4.2 Overdraw 本质（RMW）与 Early-Z 三失效条件 + Hi-Z/深度预 Pass/半透明纪律（`V37`）→ §4.3 MSAA 原理/成本归属/"不是 SSAA"（`V38`，checkpoint ②）→ §4.4 API 层也不能照搬（`C05` conditional/`V09`）→ §5 带宽账三件套 + 优化顺序六条 + 判断瓶颈表五行 + 移动端红线五条 → §6 排查现场（Overdraw 视图+A/B）+ 5 误区 → §7 Overdraw 视图走查清单（五项含预期）→ 桥句→L10。
+- **新断言登记（默认 open/low）**：**V36**（TBDR 家族 binning/tile memory/一次性写回，附条件：不断言所有移动 GPU 都是 TBDR ⚠️）/ **V37**（Early-Z 三失效条件与补救）/ **V38**（MSAA 原理/成本归属/非 SSAA）——evidence=**SRC-RN-RASDEPTH**（source-registry 新增 repo_doc 条目 repo:03-图形与GPU工程/光栅化深度与移动GPU架构.md，used_by_claims=[V36,V37,V38]）；used_by_lessons=[L09]。既有 E02/C05/V09 挂载（条件如实转述）。review_gate 实测 **55 claims**（verified 18 / open 30 / conditional 7）误标 0。
+- **审读（独立子代理，只读换人 + 四项数值独立重算）**：首轮 **1 blocker + 7 minor**——**blocker** = §4.2"每次半透明混合……三倍带宽"挂源无据且算术不成立（RMW 是两次传输对一次；源文档只给机制不给倍数）——**已修复**（改为"以单次写为基准 RMW 是读+写两次传输；源文档只给机制不给倍数，×N 按 §3.2 实测"）；minor 7 条（面试引文截断补"与优化建议"、类比边界无出处推断删除、loadOp/storeOp/alphaToCoverage 首现补释义、"Overdown"错字、L10 课时名对齐 course.json《显式 API 与同步》、L08 桥句"待建"联动更新为直链、720p 口径补十进制声明）——**全部修复**。修复后全门禁复跑通过。
+- **publish boundary 断言同步（先例 D16/L03/L04/L05/L07/L08）**：bundle 74→**75 docs**，数量断言 74→75。
+- **门禁（执行会话实测，全 exit 0）**：build_site **75 documents / 17 sections / 124 terms / 19 lessons / 7 labs / 553 cards / 2790 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**；check_chapter_arc **11 篇 · OK**（L09 加入检查集）；review_gate **55 claims 误标 0**；test_publish_boundary **11 tests OK**。
+- **边界**：一律未 commit/push（本条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L09-deepening.md`。
+
+## 2026-11-20 · P7.2 第九篇：L08《一帧怎么画出来》新写教材（审读通过——「其余篇目」第五篇）
+
+- **范围**：新写 `courses/video-rendering-journey/lessons/L08-一帧怎么画出来.md`（**0 → 149 行**，无绑定实验）。结构：SwapBuffers 提交≠显示的反直觉钩子 → 装配线+仓库+物流类比（边界：领先 1–3 帧/V-Sync 背压）→ §4.1 管线七阶段流转与"片元→淘汰赛→像素"推导（`V33`，checkpoint ①）→ §4.2 RenderTarget/FBO 与多 Pass 衔接 + PSO/Shader 变体纪律 → §4.3 CPU/GPU 异步与 Frame in flight 上限（`V35`）→ §4.4 Swap→View 树混合→SurfaceFlinger 链路 + vsync 背压口径（`V34`）→ §5 从应用到屏幕完整链图（源 §2.1 ✅ 转载）+ 工程红线四项 → §6 P99 尖刺分层排查现场 + 5 误区 → §7 帧循环对照走查 → 桥句→L09。
+- **新断言登记（默认 open/low）**：**V33**（管线七阶段流转与片元淘汰赛）/ **V34**（SwapBuffers 提交≠显示 + vsync 背压口径）/ **V35**（Frame in flight 1–3 帧上限与三同步原语）——V34 为复合断言，evidence 双挂 **SRC-RN-GPU-BASE + 新增 SRC-RN-INTERVIEW-GL**（repo:06-面试知识库/车载渲染引擎/01-OpenGL管线-FBO与离屏渲染.md，审读 major"追溯面偏窄"的修复；used_by_claims=[V34]），source_documents 三向（GPU 基础/解码链路/面试库）；used_by_lessons=[L08]。既有 `V07`（verified）预挂转正。review_gate 实测 **52 claims**（verified 18 / open 27 / conditional 7）误标 0。
+- **审读（独立子代理，只读换人，行号实地核对）**：**acceptable=true，修订 0 轮**；**22 处技术表述全部溯源**（§4.4"提交≠显示"把三份文档的链路证据串成因果链且逐句挂源被点名；两层 course.json 四处联动一致；无编造数字）；**1 major + 8 minor 全部修复**（major：V34 evidence 面偏窄→补 SRC-RN-INTERVIEW-GL 与三向 source_documents；minor：面试库小节号错标、两处 doc 级链接补锚点/改口径、PSO/V-Sync 首现无释义、§10 L09 主题表述与 course.json 对齐、L07 桥句"待建"过时联动更新、§4.3 占用率引用收窄为主文档 §4.2 验证表）。修复后全门禁复跑通过。
+- **publish boundary 断言同步（先例 D16/L03/L04/L05/L07）**：bundle 73→**74 docs**，数量断言 73→74。
+- **门禁（执行会话实测，全 exit 0）**：build_site **74 documents / 17 sections / 124 terms / 19 lessons / 7 labs / 544 cards / 2752 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**；check_chapter_arc **10 篇 · OK**（L08 加入检查集）；review_gate **52 claims 误标 0**；test_publish_boundary **11 tests OK**。
+- **边界**：一律未 commit/push（本条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L08-deepening.md`。
+
+## 2026-11-20 · P7.2 第八篇：L07《GPU 为什么快》新写教材（审读 1 blocker + 2 major 修复后通过——「其余篇目」第四篇）
+
+- **范围**：新写 `courses/video-rendering-journey/lessons/L07-GPU为什么快.md`（**0 → 150 行**，无绑定实验）。结构：TOPS 宣传页 vs 帧率张力钩子 + 带宽账数字 → 车道类比（SIMT 同步执行，边界声明豁免访存与调度）→ §4.1 并行模型表与"分支发散整组串行化"（`V29`，32/64 lane 常见值 ⚠️ 条件）→ §4.2 存储层次 + 带宽估算模板 + 算术强度判瓶颈侧（`V30`）→ §4.3 延迟隐藏与占用率"是手段不是目标"（`V31`）→ §4.4 别只看 TOPS、车机看 P99/热稳定（`V32`）→ §5 带宽账算例 + 主文档 §4.2 验证实验表转载 → §6 降分辨率排查现场 + 5 误区 → §7 带宽账手算清单（四项含预期）→ 桥句→L08。
+- **新断言登记（默认 open/low）**：**V29**（warp 分支发散串行化，附条件：32/64 lane 常见值 ⚠️）/ **V30**（带宽账口径与估算模板，附条件：算术强度定瓶颈侧）/ **V31**（occupancy 是手段非目标）/ **V32**（TOPS 峰值≠帧率，车机看 P99/热稳定）——evidence=**SRC-RN-GPU-BASE**（source-registry 新增 repo_doc 条目 repo:03-图形与GPU工程/GPU与渲染引擎基础与链路.md，used_by_claims=[V29,V30,V31,V32]）；used_by_lessons=[L07]。review_gate 实测 **49 claims**（verified 18 / open 24 / conditional 7）误标 0。
+- **审读（独立子代理，只读换人 + 逐行验证）**：首轮 **1 blocker + 2 major + 6 minor**——**blocker** = §5/§1 把源文档"≈7.9 MB"的**二进制口径**展开为十进制乘法（1920×1080×4B 实为 8.29 MB），与 L01/L06 的 8.29 MB 口径直接冲突、checkpoint 答案两口径打架——**已修复**（§1/§4.2/§5/§9 四处统一双口径标注：8.29 MB 十进制 / 7.91 MiB，498 MB/s 十进制 / 475 MB/s 源口径，沿用 L01 MB/MiB 纪律；ledger V30 claim 文本同步）；**major ×2** = ①"L06 的 aliasing/RenderGraph 在带宽账上直接兑现"双重错位（aliasing/RenderGraph 属 L11 且 aliasing 省 VRAM 峰值非带宽）→ 已改为分科目归属（L06 零拷贝省 CPU 搬移、L11 loadOp/storeOp 优化带宽 + aliasing 省 VRAM 峰值）；②小节号错位 3 处（§4.4 验证表/§4.2 模板/§4.4 少不确定性）→ 已改为"主文档 §x.x"无歧义标注；minor 6 条（"按 Pass 累加"归因 L06 超前改本章 V30 引入、P99 首现无解释、§10 链接落点改"待建"模式、L06↔L07 双路线断层记录为跨路线观察、uniform 空格、延伸缺 #3-overdraw-与带宽 锚点）——**全部修复**。修复后全门禁复跑通过。
+- **publish boundary 断言同步（先例 D16/L03/L04/L05）**：bundle 72→**73 docs**，数量断言 72→73。
+- **门禁（执行会话实测，全 exit 0）**：build_site **73 documents / 17 sections / 124 terms / 19 lessons / 7 labs / 536 cards / 2717 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**；check_chapter_arc **9 篇 · OK**（L07 加入检查集）；review_gate **49 claims 误标 0**；test_publish_boundary **11 tests OK**。
+- **边界**：一律未 commit/push（本条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L07-deepening.md`。
+
+## 2026-11-20 · P7.2 第七篇：L05《硬解与 ownership》新写教材（审读 blocker 修复后通过——「其余篇目」第三篇）
+
+- **范围**：新写 `courses/video-rendering-journey/lessons/L05-硬解与ownership.md`（**0 → 175 行**，无绑定实验）。结构：双俗语挖坑钩子（"硬解一定更快更省电"/"不要就 flush"）→ 周转箱类比（L06 仓库+钥匙扩展，三条例边界）→ §4.1 buffer 流转循环（dequeue/queue 成对、release(true) 移交/release(false) 丢帧归还，`V27`）→ §4.2 省电的物理基础与四条件限定（`C03` conditional + §2.3 功耗行"不能泛化为固定 10%"⚠️ 原文）→ §4.3 回退触发条件与八步状态机（`V28`，§8.4 ✅）→ §4.4 RenderThread 不直接 flush codec 的推导（**明确标注推导 + 候选登记验真队列 P07**）→ §5 buffer 生命周期 ASCII + 软硬解搬运账（口径修正）→ §6 多路播放器排查现场 + 5 误区 → §7 回退状态机走查清单 → 桥句→L06（带 C02 条件）。
+- **新断言登记（默认 open/low）**：**V27**（buffer 有限池与借还/移交语义，附条件：render=true 移交以绑 Surface 为前提）/ **V28**（八步回退状态机与触发条件，附条件：顺序不可换）——evidence=**SRC-RN-VERIFICATION**（used_by_claims 同步 +V27/+V28，原 C01–C07/P01–P06 保留）；used_by_lessons=[L05]。既有 `C03`（conditional）预挂转正。review_gate 实测 **45 claims**（verified 18 / open 20 / conditional 7）误标 0。
+- **审读（独立子代理，只读换人 + 独立重算）**：首轮 **1 blocker + 1 major + 8 minor**——**blocker** = §4.4 声称"openQuestions 已登记"而全库查无实据（诚实标注方向正确但"登记"未落实）——**已做实**：flush 候选正式登记于[验真队列 ❗ 表 P07](00-导航与索引/验真队列与术语表.md)（缺官方文档核验与实测复现，未登记断言），正文/§11 改为指向 P07；**major** = §5 搬运账"每帧多两次主存↔显存总线搬移"与源失实（"两次"属 ByteBuffer 弯路口径）——**已修正**（普通软解每帧一次总线拷贝；弯路两次口径分离标注）；minor 8 条（V28/正文漏"分辨率突变/驱动崩溃"、「§2.4 设备差异」引用错位、L06 task 4 引文不逐字、ASCII render=false 行残缺、DPB 术语错挂、C01/V01 used_by 反向索引漂移双向修正、桥句丢 C02 条件、两处引文不逐字）——**全部修复**。修复后全门禁复跑通过。
+- **台账反向索引双向修正（先例 V06/E01）**：C01.used_by_lessons 移除 "L05"（正文未引用 C01）；V01.used_by_lessons 增补 "L05"（正文 §2 引用 V01）。
+- **publish boundary 断言同步（先例 D16/L03/L04）**：bundle 71→**72 docs**，数量断言 71→72。
+- **门禁（执行会话实测，全 exit 0）**：build_site **72 documents / 17 sections / 124 terms / 19 lessons / 7 labs / 528 cards / 2681 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**；check_chapter_arc **8 篇 · OK**（L05 加入检查集）；review_gate **45 claims 误标 0**；test_publish_boundary **11 tests OK**。
+- **边界**：一律未 commit/push（本条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L05-deepening.md`。
+
+## 2026-11-20 · P7.2 第六篇：L04《从文件到码流》新写教材（审读通过——「其余篇目」第二篇）
+
+- **范围**：新写 `courses/video-rendering-journey/lessons/L04-从文件到码流.md`（**0 → 199 行**，无绑定实验）。结构：开篇直灌崩溃钩子（封装流→熵解码第一步非法指令异常，`V26`）→ 拆包流水线类比（附边界：不覆盖时间索引与容错重同步）→ §4.1 三段管线职责表（物理职责/技术边界/工业组件，Demux/Decode/Render，`V26`）→ §4.2 容器表五格式 + 码流表四编码、组合正交（objective ①）→ §4.3 MediaExtractor vs MediaCodec（`V01` ✅、FFmpeg 四子库表、工业组合三步）→ §4.4 NALU/SPS/PPS/SEI + 缺 SPS 的 DPB/黑屏后果（`V11` ✅）→ §4.5 Annex B vs AVCC 双表（起始码 vs 长度前缀、容错/随机访问相反、不可混用）+ MediaCodec CSD-0/CSD-1 直喂 AVCC ⚠️有条件成立（`V25`）→ §5 MP4 Box 树 ASCII 图 + 采样表五行 + 帧寻址流程（L02 精准 seek 的文件侧落点）→ §6 排查现场（黑屏三步倒推）+ 5 误区 → §7 容器字段走读核查（五项含预期）→ 桥句→L05。
+- **新断言登记（默认 open/low）**：**V25**（Annex B vs AVCC 分界机制，附条件：CSD 配置后可直喂 AVCC ⚠️）/ **V26**（容器/码流职责分离与直灌异常）——evidence=**SRC-RN-AV-BASE**（used_by_claims 同步 +V25/+V26，原 V13/V14/V16 保留）；used_by_lessons=[L04]。review_gate 实测 **43 claims**（verified 18 / open 18 / conditional 7）误标 0。
+- **审读（独立子代理，只读换人，逐条对源）**：**acceptable=true，修订 0 轮**；**40 处技术表述全部可溯源**（两张表/采样表/帧寻址逐字忠实、⚠️条件边界原样保留、V01/V11=verified 与 V25/V26=open/low 分层如实、锚点 slugify 核实）；**9 条 minor 全部修复**（繁体"偏愛"、"正交"挂接超范围改标教材推导、MediaExtractor 能力边界无出处表述删除、"解封装链路 ✅"标签与三模块表不符改"三段管线职责表"、"§1.3 原话"标签过强收窄、avcC 未释义改 CSD 口径、核查清单补"预期看到什么"三段式、MediaCodec/熵解码首现补释义、L03 桥句"L04 待建"已过时联动更新）。修复后全门禁复跑通过。
+- **publish boundary 断言同步（先例 D16/L03）**：bundle 70→**71 docs**，数量断言 70→71。
+- **门禁（执行会话实测，全 exit 0）**：build_site **71 documents / 17 sections / 124 terms / 19 lessons / 7 labs / 520 cards / 2642 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**；check_chapter_arc **7 篇 · OK**；review_gate **43 claims 误标 0**；test_publish_boundary **11 tests OK**。
+- **边界**：一律未 commit/push（本条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L04-deepening.md`。
+
+## 2026-11-20 · P7.2 第五篇：L03《色彩与显示范围》新写教材（审读 blocker 修复后通过——「其余篇目」首篇）
+
+- **范围**：按 handoff T2「其余篇目」顺序新写主课程教材 `courses/video-rendering-journey/lessons/L03-色彩与显示范围.md`（**0 → 168 行**，无绑定实验——labs.json 无 L03；frontmatter 无 lab 字段，validate REQUIRED_FRONTMATTER 不含 lab）。结构对照 Gold Standard：开篇发灰算术（Y16 显示成约 6% 灰阶电平、白 92%、可用级数 ≈220/256≈86%）→ 三件套类比（色板/调色曲线/翻译字典，附边界：range 是第四件事）→ §4.1 primaries/transfer/matrix 三字段独立（`V24`）→ §4.2 range 机制与错用后果（`V21`）→ §4.3 sRGB 分段函数（0.5 编码→0.214 线性算例）+ 线性工作流五条工程做法 + 双重 gamma 病因分叉（`V22`）→ §4.4 PQ/HLG 适用场景 + banding/抖动/全链路 10-bit（`V23`）→ §6 车载播放器发灰两步排查现场 + 5 误区 → §7 八项色彩管理检查清单（源 §3.3 全文）+ 零成本观察实验 → 桥句→L04《从文件到码流》。
+- **新断言登记（evidence-and-claims 程序，默认 open/low）**：**V21**（limited/full 约定与错用后果）/ **V22**（sRGB 分段函数与 Alpha 例外）/ **V23**（PQ 与 HLG 适用场景）/ **V24**（primaries/transfer/matrix 三字段独立）——均为 engineering_fact，evidence=**SRC-RN-COLORMGMT**（source-registry 新增 repo_doc 条目，used_by_claims=[V21,V22,V23,V24] 双向索引一致）；used_by_lessons=[L03]。review_gate 实测 **41 claims**（verified 18 / open 16 / conditional 7）误标 0。
+- **审读（独立子代理，只读换人 + 独立重算）**：首轮 **1 blocker + 8 minor**——**blocker** = "有效灰阶账"三处口径互斥（§5 的 219/239≈91.6% 分母无物理意义、§1 的 256→219≈86%、§8 的"压掉一成"）——**已统一修复**（黑 6%、白 92%、可用 220/256≈86%、损失约 14%，§1/§5/§8 同一口径）；minor 8 条（"亮度"措辞应为灰阶电平、工程做法漏帧缓冲一条、ST2084 未释义、"上表"方向词、§10 链接落点、两条延伸缺锚点、源 ✅ 与断言 open 的双层标注、banding 解法漏"加噪声"）——**全部修复**。修复后全门禁复跑通过。
+- **quiz 边界（validate §10 规则实测）**：非 pilot 课不得有 quiz 文件（validate 把 quizzes/ 下每个 quiz 绑定到 pilot course.json）——为 L03 新建的 quizzes/L03.json 已按规则移除，正文 §9 来源行改述该规则；pilot 化后按规则补建。
+- **publish boundary 断言同步（先例 D16）**：新增 1 篇知识文档使 bundle 69→**70**，`tools/test_publish_boundary.py` 数量断言 69→70（注释注明 78 总数−8 reviews 来源；reviews 零泄露的核心断言不变且通过）。
+- **门禁（执行会话实测，全 exit 0）**：build_site **69→70 documents**（69+L03）/ 17 sections / 124 terms / 19 lessons / 7 labs / **512 chapter term cards** / **2599 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**（新增锚点 #14/#12/#15/#3/#22-yuvrgb-gpu转换/#5-10bithdr-与-av1 全部解析通过）；check_chapter_arc **6 篇 · OK**（L03 加入 arc 检查集）；review_gate **41 claims 误标 0**；test_publish_boundary **11 tests OK**。
+- **边界**：一律未 commit/push（本条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L03-deepening.md`。
+
+## 2026-11-20 · P7.2 第四篇：L13《坐标变换与 MVP》深化（审读通过，pilot 路线收官）
+
+- **深化范围**：`courses/video-rendering-journey/lessons/L13-坐标变换与MVP.md` **89 → 235 行**（留痕会话 wc -l 实测），按 Gold Standard L01 + 十维度规范以**数学推导型**结构重写（问题→空间链→推导→数值验证→跨 API 差异→实验）：开篇双钩子（GL→Vulkan 深度全错事故 + T·R·S 顺序症状）→ 六空间表新增「缺了它会怎样」列（`V17`）→ MVP 组合顺序推导（列向量右侧作用/主序陷阱表/`M=T·R·S`，`V18`）→ 投影矩阵关键推导步骤重组（f=1/tan(fovY/2)、w_clip=-z_eye、端点验证表 -N→-1/-F→+1、数值算例 fovY=60° aspect16:9 同顶点 z=-2/-10 的 x_ndc≈0.49/0.10 近大远小、FOV 100° 对比；透视除法不能手动做的插值面原因，`V19`）→ 五 API NDC 表 + 「负视口高度只翻 Y 不改 z 范围」+ 视口公式 + UV 原点表 + FBO Y-flip 四事故（回收 L06 getTransformMatrix 伏笔）→ 视锥剔除一瞥（`r3±r0` 六平面/保守剔除/贴脸消失）→ 正交投影 w=1 → §6 排查现场（GL→Vulkan 移植，由 §4.2/§4.4 重组）+ 五行参数错误表 + 5 误区 → 桥句宣告 pilot 五课收官。
+- **断言纪律**：未新增断言；**V17–V20 如实保持 open/low（engineering_fact，B10=D19 确认登记，升级待 G1）**；`V18` 附条件（GLSL/GLM 列主序；HLSL `mul(v,M)`）与 `V20` 附条件（默认约定可配置）在正文如实呈现；§11 登记原 V06 已移除。**ledger 反向索引同步**：V06.used_by_lessons 移除 "L13"（L13 已改挂 V17–V20，V06 仅留 L08）。
+- **审读（独立子代理，只读换人，逐条对源 + 独立重算）**：首轮 **1 major + 7 minor**；重算全部 5 处数值（1.73205/0.97428/0.487/0.0974/0.83910）无误、两端点代数验证成立（含 Vulkan 版 -N→0/-F→1）、两张矩阵与四张表逐字对齐；**major** = 开篇把 T·R·S 顺序错误症状（绕世界原点旋转）错挂到 M·V·P 上且"看似能跑"不成立（与 §4.2 正确叙述自相矛盾）——**已修复**（症状各归其位：T·R·S→绕世界原点；M·V·P→投影套在局部坐标上整体畸变）；minor 7 条（"上表"方向词、ledger V06 used_by 未同步、transpose 修辞冒充跨设备随机性、"与近平面求交"内部引用失准、贴脸消失归因并列失准、#2-深度缓冲锚点缺失×2、"投影空间"与正文"裁剪空间"命名映射）——**全部修复**。修复后全门禁复跑通过。
+- **四处联动（checkpoint）**：两层 course.json L13 checkpoint 均补第 3 题「MVP 对列向量的正确相乘顺序是？」（quiz Q3，挂 V18）；正文 §9 同步三题（Q1 加"投影空间=裁剪空间"括注）。
+- **门禁（执行会话实测，全 exit 0）**：build_site **69 documents / 17 sections / 124 terms / 19 lessons / 7 labs / 504 cards / 2561 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**；check_chapter_arc **5 篇 · OK**；review_gate **37 claims 误标 0**；test_publish_boundary **11 tests OK**。
+- **里程碑**：**pilot 路线（L01→L02→L06→L11→L13）五篇全部达到深化质量——L01 为 P6 Gold Standard，L02/L06/L11/L13 本窗口四篇深化并全部审读通过。** P7.2 下一阶段 = handoff T2「其余篇目」（主课程 L03 起的新篇目生产）或按序转 P8，见 NOW.md 决策点。
+- **边界**：一律未 commit/push（本条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L13-deepening.md`。
+
+## 2026-11-20 · P7.2 第三篇：L11《RenderGraph 与资源生命周期》深化（审读通过）
+
+- **深化范围**：`courses/video-rendering-journey/lessons/L11-RenderGraph与资源生命周期.md` **85 → 193 行**（留痕会话 wc -l 实测），按 Gold Standard L01 + 十维度规范以**工程机制型**结构重写：开篇失控账（5 Pass 最坏 10 条顺序依赖、8 Pass 28 条；4 Pass×8MB=32MB 显存失控）→ 仓库排班表类比（附边界：不管画质、一次编译多帧复用）→ 概念层次表（L3 FBO/特效链 → Pass → RenderPass/Subpass → RenderGraph，`E03` 出处）→ §4.1 Pass 正式名与「Pass≈RenderPass 阶段 / RenderPass≠RenderGraph」三层辨析 + loadOp/storeOp TBDR tile 优化（显式API §6 ✅）→ §4.2 两大机制（aliasing：首写/末读定生命周期、峰值=max 而非 sum、主文档 40%+ **[测试数据-仅供参考]**；自动 barrier：Write-Before-Read/避免过度同步/insertDebugMarker 非同步原语警示）→ §4.3 边界（不宜/必须场景 + 四维量化表 + 评测三原则，`C06` conditional）→ §5 DAG 形式化 + aliasing 峰值公式三件套（24→16 MB 教学算例与主文档实测口径分离标注）→ §6 排查现场（RenderDoc 快照对比，由 §2.2/§2.3 重组）+ 5 误区 → §7 实验（rendergraph-dag 四任务）→ 桥句→L13。
+- **数据层一致性**：frontmatter **objectives 对齐两层 course.json**（消除三层措辞漂移）并补齐 source_documents（显式API §6 / 概念引入说明）；两层 course.json L11 checkpoint 均补第 3 题「RenderGraph 主要解决什么问题？」（quiz Q3，挂 E04），正文 §9 同步三题——四处联动补齐。
+- **断言纪律**：未新增断言；**P06 三处齐挂补全**（claim-ledger P06.used_by_lessons 原已含 L11 → frontmatter claims +P06、§11 断言状态说明补条「open，contested——40% 待逐案核验」；正文引用该数字一律带 [测试数据-仅供参考]）；`C06` **conditional**（条件：深度≥3 且有分支；单 Pass 不宜）与 `E04` 附条件在正文三处复现且口径一致；quiz claim_ids {C06,E04} ⊆ claims。
+- **审读（独立子代理，只读换人，逐条对源）**：**acceptable=true，修订 0 轮**；**52 处技术表述全部可溯源**（含五锚点 slugify 复算命中、labs.json 数字逐字吻合、"40%+ 实测参考 vs 33% 教学算例"来源与口径分离被点名为引用纪律示范）；**8 条 minor 全部修复**：①"特定机型复现"无出处改引显式API §5.5 典型表现；②L08 链接补 #23-管线与状态 锚点、L06 行补课内链接；③工具全名 Nsight Graphics Timeline；④层次表 RenderPass 行补"与同步"对齐源文档；⑤写→读/写→写细分标注 lab 出处；⑥主文档 Frame 口径→lab Pass 区间的适配如实注明；⑦公式升级 $$…$$（lab formula 原文入正文）；⑧P06 跨层挂载补齐 + §11 状态说明。修复后全门禁复跑通过。
+- **门禁（执行会话实测，全 exit 0）**：build_site **69 documents / 17 sections / 124 terms / 19 lessons / 7 labs / 504 cards / 2530 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**；check_chapter_arc **5 篇 · OK**；review_gate **37 claims 误标 0**；test_publish_boundary **11 tests OK**。
+- **边界**：一律未 commit/push（本条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L11-deepening.md`。
+
+## 2026-11-20 · P7.2 第二篇：L06《纹理桥与零拷贝》深化（审读通过）
+
+- **深化范围**：`courses/video-rendering-journey/lessons/L06-纹理桥与零拷贝.md` **85 → 200 行**（留痕会话 wc -l 实测），按 Gold Standard L01 + 十维度规范重写：开篇数字张力（解码 YUV420 3.11 MB → 特效链消费 RGBA 8.29 MB 两段账 + 实验 note 弯路账 16.6 MB/帧 ≈ 498 MB/s @30fps）、仓库+钥匙类比附边界声明（钥匙交接有排队成本、显存内格式转换躲不掉）、§4.1 updateTexImage/getTransformMatrix 逐段对应主文档 §3.2（含六阶段所有权视角）、§4.2 OES 三条限制 + 第一道转换 Shader（含 GLSL 教学骨架，标注示意）+ FBO 管线图对应主文档 §7.4、§4.3 PC 独显 vs 移动 SoC 通路对照表（E01/E02）、§5 软硬解两条搬运账 + 公式三件套（符号/算例/后果）、§6 排查现场（ByteBuffer 回读 vs 绑定 Surface，由主文档 §2.2/§2.3 重组）+ 5 条误区、§7 实验四任务逐条对应机制、§8 因果链复述、桥句指向 L11（与 pilot 层 course.json next=L11 一致）。
+- **断言纪律**：未新增断言（newClaims=[]，重要结论由既有 V04/V05/C02/E02/P02 或主文档 ✅/⚠️ 锚点覆盖）；**E01 三处齐挂扩展**（正文 4 处引用 → frontmatter claims +E01、claim-ledger E01.used_by_lessons +L06、document-registry 重建；先例 = L01 frontmatter+正文+ledger 三处齐挂）；**P02 如实保持 open/low（contested）**（B11 确认保留挂载）、C02 conditional 如实、E02 附"先说平台"条件且正文表格先说平台。
+- **审读（独立子代理，只读换人，逐条对源）**：**acceptable=true，修订 0 轮**；40 处技术表述 39 处逐条溯源（五断言状态/条件/used_by 与 claim-ledger 逐字核对、三个锚点经 slugify 解析命中、labs.json 六阶段/四任务/selfTest/note 数字逐字吻合、算术 8.29/3.11/16.6/498 全对）；**11 条 minor 全部修复**：①§7.2 ✅ 徽标错标（主文档 §7.2 无验证标记，改由 V04 背书表述）；②"实验代码 note 原文"实为 selfTest（2 处改标）；③"裁剪"超源删除（主文档只写旋转）；④§1/§6 RGBA-YUV 口径借用改为两段账（YUV 3.11 读回 + RGBA 8.29 上传 ≈ 340 MB/s @30fps）；⑤E01 簿记三处齐挂；⑥实验任务 2 机制映射改指 §3/§5；⑦实验显示名改用 labs.json 标题《解码帧到纹理的所有权迁移实验》；⑧BufferQueue/FBO/Effect Pass 首现补一句话解释；⑨quiz Q3 四处联动补齐（两层 course.json checkpoint + 正文 §9 + 来源行声明）；⑩§2.2/§3/§3.2/§7.3/§8.3 小节引用升级为锚点链接（validate 锚点解析全通过）；⑪Premultiplied Alpha 移出本章术语降为延伸。修复后全门禁复跑通过。
+- **四处联动（checkpoint）**：`tools/course.json` 与 `courses/video-rendering-journey/course.json` 的 L06 checkpoint 均补第 3 题「手机 SoC 的 CPU→GPU 数据通路走 PCIe 吗？」（对应 quiz Q3，挂 E02）；正文 §9 同步三题；validate §11 覆盖检查通过。
+- **门禁（执行会话实测，全 exit 0）**：build_site **Wrote web\content.js——69 documents / 17 sections / 11 glossary groups / 124 terms / 8 course units / 19 lessons / 7 interactive labs / 504 chapter term cards generated / 2497 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**；check_chapter_arc **5 篇 · OK**；review_gate **37 claims（18 verified / 12 open / 7 conditional）conditional/contested 被标为 verified：无**；test_publish_boundary **Ran 11 tests — OK**。
+- **边界**：一律未 commit/push（本条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L06-deepening.md`；L02 审读遗留的 1 条 major（labs.json/app.js「DTS ≤ PTS 恒成立」静态句与五帧表冲突，涉 `web/assets/app.js:2350`）不在本篇范围，仍待人工裁决（见 `reviews/G2-L02-deepening.md`）。
+
+## 2026-11-20 · P7.2 第一篇：L02《时间戳与同步》深化（审读通过）
+
+- **深化范围（改动文件 ×2，frontmatter 一字未动）**：`courses/video-rendering-journey/lessons/L02-时间戳与同步.md` **125 → 217 行**（本留痕会话 `wc -l` 复核实测 217），正文按 Gold Standard L01 样板「直观→原理→数学→架构→实践」递进；`courses/video-rendering-journey/quizzes/L02.json` 保持 Q1/Q2/Q4 prompt 与两层 course.json checkpoint 逐字一致、四题参考答案补依据与锚点，新增 Q5（-bf 0 边界，挂 V03）与 Q6（外部主时钟场景，挂 V10），claim_ids 全部 ⊆ frontmatter claims。
+- **正文要点（11 项）**：①开篇钩子补数字张力（PTS=2 的帧排在解码第 3 位、30fps 帧位 33.3ms、2 小时视频 216,000 帧）与三问题预告；②前置节补 I/P/B 帧与 GOP 一句话解释（诊断「新概念不突现」），DTS/PTS 定义改用主文档 §4.1 ✅段原文口径；③直观认识保留流水线/队列类比并新增电影院类比，均附边界声明；④§4.1 依赖链推导+双时间线 ASCII 图+五帧表逐行注解（每帧为什么这样排）+重排序缓冲机制（lab selfTest 口径）+-bf 0 边界；⑤§4.2 新增三种主时钟对照表（修复诊断 D-L02-5：视频/外部时钟策略缺漏），V10 论证「人耳对音频中断最敏感」并如实注明市场占比无公开统计；⑥§4.3 Δt 公式三件套（符号含义→数值算例 +10ms/-50ms→工程后果），丢帧阈值为工程参数不代拟数字，多路晶振漂移数字保留[测试数据-仅供参考]标记、PLL ±0.1% 保留⚠️有条件成立；⑦§4.4 精准 seek 三步+seek 区间示意图+关键辨析（追赶期在丢陈旧帧 vs 目标首帧不被误丢、recover 非官方状态名）+代价边界（V15 conditions），全部挂 V15；⑧§5 新增「解码名次−显示名次」启动缓冲下界推导及 30fps≈33ms 算例（纯由 ✅五帧表算术推出，标注保守下界与硬解边界）；⑨§6 两个可复述排查现场（多路越播越歪→晶振漂移/PLL；seek 差半口→默认 seek 止步定位）+两处机制复用案例（倒放 Jitter Buffer/全 I 帧预转码=解码与播放链路 §8.2 挑战 2、硬解回退复用静默追赶=§8.4）+6 条误区（新增「B 帧画质救星/杀手」不下超源结论）；⑩§7 实验按 labs.json 四个 tasks 给「做什么→预期看到→对应机制」并声明实验边界；⑪桥句保留 L06（与 pilot course.json next 一致）。
+- **新增断言：无（newClaims=[]）**：claim-ledger.json 与 source-registry.json 均未改动。原因——validate_site.py §8 要求每条断言的每个 evidence source_id 同步登记 source-registry.json 的 used_by_claims 反向索引，而本轮任务仅允许追加 claim-ledger.json、禁止改 source-registry.json，新增任何断言（如重排序缓冲深度、倒放方案、回退状态机复用，可按 V21 起顺延登记）都会导致门禁 FAIL；本次正文所有重要结论均由既有断言 V03/V10/V15/V16 或主文档 ✅/⚠️ 锚点覆盖。若后续要登记需按 evidence-and-claims.md 程序同时编辑两个 evidence 文件。
+- **审读结论（审读员，非 G2 人工评分）**：**acceptable=true，修订 0 轮**；遗留问题 7 条（major 1 + minor 6）：**major** = tools/labs.json pts-dts-timeline stages「同步约束」desc + `web/assets/app.js:2350` 静态句「DTS ≤ PTS 恒成立」与逐帧计数「PTS−DTS = −1」（lab 模型 B0 dts=2>pts=1，app.js:2146 frames）及 L02:72-78 五帧表（B: PTS 2/DTS 3）三处冲突——L02 §7 任务 3 让学习者查看 PTS−DTS 时必然撞见矛盾，修法方向为改 stage 文案为「解码完成时刻先于显示时刻（启动缓冲补偿序位差）」或删句并同步 labs.json 与 app.js 两处；**minor ×6** = L02:130「MediaCodec BUFFER_FLAG_DECODE_ONLY」无版本限定（平台公开标记自 API 35（Android 15）才有，Media3 早期为内部常量 C.BUFFER_FLAG_DECODE_ONLY，已在线核验）、L02:215 称 8 个本章术语「权威定义在 tools/glossary.json」实仅 PTS/DTS/主时钟/AV Sync 4 词在内（124 词逐一名单核对，drift/重排序缓冲/GOP/精准 Seek 不在）、L02 frontmatter:6-9 objectives 与两层 course.json 措辞漂移（语义兼容不误导，Gold L01 三层逐字一致对照；本轮任务禁令「不碰任何 frontmatter 字段值」未对齐，需人工一行改写）、L02:117/129（另 92 单调时钟）V-Sync/ppm/解封装器首次出现无一句话解释或术语链接（V-Sync 有 VSync 术语卡可链，D4 边缘缺口）、L02:96 主文档标注 [AI-生成] 的「ExoPlayer、IjkPlayer、VLC 默认采用音频主时钟」以陈述句呈现仅靠句尾括注披露（标准 §5 要求该类内容不得写成确定事实，修法为「主文档（[AI-生成] 标注）指出……」句式前置）、evidence/claim-ledger.json V15.evidence[0].locator 写「Why is seeking slow」而 Media3 troubleshooting 实际标题为「Why is seeking in my video slow?」（内容已在线核验存在）。逐条修法方向见 `reviews/G2-L02-deepening.md`。
+- **门禁（执行会话实测，全 exit 0）**：build_site **Wrote web\content.js——69 documents / 17 sections / 11 glossary groups / 124 terms / 8 course units / 19 lessons / 7 interactive labs / 504 chapter term cards generated / 2459 KB**；validate_site **11 checks passed, 0 warnings, 0 failures**（含全部链接/锚点解析与 quiz/checkpoint/claim 覆盖检查）；check_chapter_arc **5 篇 · OK**；review_gate **conditional/contested 被标为 verified 的 claim：无；未挂载任何课程的 claim（open/conditional 可预期）：['P03']**；test_publish_boundary exit 0。
+- **边界**：一律未 commit/push（本留痕条目在内）；G2 评分表留空待人工（AI 不自评），材料新建于 `reviews/G2-L02-deepening.md`。另登记两处待人工状态漂移：glossary.json AV Sync 词条仍写「seek 后还要进入 recover 状态」与 V15 conditions「recover 非 ExoPlayer 官方状态名」口径不一致（glossary.json 不在允许改动范围，建议人工软化措辞）；quiz 新增 Q5/Q6 若 G2 认为题量超纲可删（删除后三个 checkpoint 覆盖仍由 Q1/Q2/Q4 满足，validate 已验证）。openQuestions 5 条全量见 G2 材料。
+
 ## 2026-11-20 · T1 命名迁移收尾：remote 切换 + 引用更新 + 全量验证（六道门禁全绿）
 
 - **remote set-url ×2**：Engine origin → `https://github.com/Vin535LFJ/ai-knowledge-to-learning-engine.git`；Skills 库 origin → `https://github.com/Vin535LFJ/matt-pocock-skills-zh-cn.git`（upstream-en/zh 未动）。GitHub 改名核实（留痕会话 `git ls-remote origin HEAD` 复核实测，两仓均 exit 0）：远端 HEAD 分别为 `e848d2801ec9940e154b9bf40bc26198a5d197ba` / `e1936f23e6e149c581124cc218e79860c07108ef`，旧 URL 重定向兜底不再依赖。

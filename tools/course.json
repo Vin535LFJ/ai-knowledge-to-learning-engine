@@ -301,7 +301,8 @@
       ],
       "checkpoint": [
         "零拷贝到底省掉了哪一段 CPU 搬移？",
-        "OES 纹理进入 Effect Pass 前必须经过什么转换？"
+        "OES 纹理进入 Effect Pass 前必须经过什么转换？",
+        "手机 SoC 的 CPU→GPU 数据通路走 PCIe 吗？"
       ],
       "next": "L07"
     },
@@ -483,7 +484,8 @@
       ],
       "checkpoint": [
         "单 Pass 场景适合上 RenderGraph 吗？为什么？",
-        "barrier 由谁插入？人工还是图编译？"
+        "barrier 由谁插入？人工还是图编译？",
+        "RenderGraph 主要解决什么问题？"
       ],
       "next": "L12"
     },
@@ -564,7 +566,8 @@
       ],
       "checkpoint": [
         "没有投影空间会发生什么？",
-        "OpenGL 与 Vulkan 的 NDC 差异在哪里？"
+        "OpenGL 与 Vulkan 的 NDC 差异在哪里？",
+        "MVP 对列向量的正确相乘顺序是？"
       ],
       "next": "L14"
     },
@@ -595,6 +598,11 @@
         {
           "doc": "07-3D渲染与算法实现/批处理与GPU驱动管线.md",
           "label": "批处理与 GPU 驱动管线"
+        },
+        {
+          "doc": "03-图形与GPU工程/色彩管理与采样滤波.md",
+          "anchor": "22-放大与缩小",
+          "label": "色彩管理 §2.2 mipmap"
         }
       ],
       "terms": [
@@ -760,6 +768,56 @@
         "metalness=1 时漫反射为什么消失？",
         "roughness 增大，GGX 高光 lobe 如何变化？",
         "Fresnel 在掠射角为什么让反射增强？"
+      ],
+      "next": "L19"
+    },
+    {
+      "id": "L19",
+      "unit": "U4",
+      "title": "HDR 视频渲染",
+      "short": "PQ/HLG 怎么编码亮度，元数据怎么帮屏幕决策，发灰是哪一环丢了信息。",
+      "question": "为什么同一部 HDR 电影，有的屏幕鲜艳通透，有的屏幕灰蒙蒙？",
+      "minutes": 45,
+      "objectives": [
+        "区分 PQ 与 HLG 的编码逻辑与适用场景，读懂 PQ EOTF 的关键锚点",
+        "解释 HDR10 静态元数据（MaxCLL/MaxFALL/母带显示）如何参与 tone mapping 决策",
+        "沿 Android HDR 播放链定位“画面发灰”的丢失环节"
+      ],
+      "prerequisites": [
+        "L03",
+        "L12",
+        "L14"
+      ],
+      "reading": [
+        {
+          "doc": "02-解码与播放链路/流媒体与实时采集.md",
+          "anchor": "5-10bithdr-与-av1",
+          "label": "流媒体 §5 10bit/HDR/AV1"
+        },
+        {
+          "doc": "02-解码与播放链路/流媒体与实时采集.md",
+          "anchor": "53-android-上的-hdr-链路",
+          "label": "流媒体 §5.3 Android HDR 链路"
+        },
+        {
+          "doc": "03-图形与GPU工程/色彩管理与采样滤波.md",
+          "anchor": "15-hdr",
+          "label": "色彩管理 §1.5 HDR"
+        }
+      ],
+      "terms": [
+        "HDR",
+        "PQ",
+        "HLG",
+        "BT.2020",
+        "tone mapping",
+        "MaxCLL",
+        "DataSpace"
+      ],
+      "checkpoint": [
+        "PQ 与 HLG 为什么不能混用？各自的亮度参照是什么？",
+        "HDR10 的 MaxCLL/MaxFALL/母带显示元数据各告诉显示端什么？",
+        "Android HDR 播放链上哪些环节可能丢失 HDR 信息导致发灰？"
       ],
       "next": null
     }

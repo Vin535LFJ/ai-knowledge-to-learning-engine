@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated": "2026-11-19",
+  "updated": "2026-11-21",
   "note": "种子断言从 00-导航与索引/验真队列与术语表.md 与 概念引入说明.md 派生，状态继承原 ✅/⚠️/❗ 标记。AI 生成内容不得自动标为 verified。",
   "claims": [
     {
@@ -25,7 +25,8 @@
       ],
       "used_by_lessons": [
         "L01",
-        "L04"
+        "L04",
+        "L05"
       ]
     },
     {
@@ -148,8 +149,7 @@
         "03-图形与GPU工程/图形与GPU工程.md"
       ],
       "used_by_lessons": [
-        "L08",
-        "L13"
+        "L08"
       ]
     },
     {
@@ -174,7 +174,9 @@
         "03-图形与GPU工程/图形与GPU工程.md"
       ],
       "used_by_lessons": [
-        "L08"
+        "L08",
+        "L10",
+        "L14"
       ]
     },
     {
@@ -438,7 +440,8 @@
         "07-3D渲染与算法实现/3D变换与坐标空间.md"
       ],
       "used_by_lessons": [
-        "L13"
+        "L13",
+        "L17"
       ]
     },
     {
@@ -539,7 +542,7 @@
         "02-解码与播放链路/解码与播放链路.md"
       ],
       "used_by_lessons": [
-        "L05"
+        "L12"
       ]
     },
     {
@@ -861,7 +864,8 @@
       ],
       "used_by_lessons": [
         "L01",
-        "L00"
+        "L00",
+        "L06"
       ]
     },
     {
@@ -887,7 +891,8 @@
       ],
       "used_by_lessons": [
         "L06",
-        "L09"
+        "L09",
+        "L10"
       ]
     },
     {
@@ -939,6 +944,1310 @@
       ],
       "used_by_lessons": [
         "L11"
+      ]
+    },
+    {
+      "id": "V21",
+      "claim": "limited range 与 full range 数值约定不同：limited 的 Y 为 16–235、U/V 为 16–240（转换前先减偏移 (16,128,128)），full 为 0–255；limited 当 full 用会发灰、对比度低，full 当 limited 用会发白、暗部被压死，必须按容器/码流元数据选择",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-COLORMGMT",
+          "locator": "V21",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "BT.601/709/2020 矩阵不同，必须由元数据选择"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/色彩管理与采样滤波.md"
+      ],
+      "used_by_lessons": [
+        "L03"
+      ]
+    },
+    {
+      "id": "V22",
+      "claim": "sRGB 传输函数是分段函数（C_srgb ≤ 0.04045 为线性段 C/12.92，否则 ((C+0.055)/1.055)^2.4）；近似 gamma 2.2 在多数场景够用但精确匹配须用分段公式；Alpha 通道永远不参与传输函数变换",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-COLORMGMT",
+          "locator": "V22",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "03-图形与GPU工程/色彩管理与采样滤波.md"
+      ],
+      "used_by_lessons": [
+        "L03"
+      ]
+    },
+    {
+      "id": "V23",
+      "claim": "PQ（ST2084）为绝对亮度映射（0–10000 nit），是 HDR10 / Dolby Vision 的基础；HLG 为相对亮度、向后兼容仅限 SDR/BT.2020 WCG 显示（BT.709 屏去饱和+色相偏移），用于广播；SDR 为 sRGB / gamma 2.2",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-COLORMGMT",
+          "locator": "V23",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-ITU-BT2100",
+          "locator": "V23",
+          "evidence_type": "spec"
+        },
+        {
+          "source_id": "SRC-UHDF-BLUEBOOK",
+          "locator": "V23",
+          "evidence_type": "official_doc"
+        }
+      ],
+      "verification": {
+        "status": "verified",
+        "confidence": "high"
+      },
+      "conditions": [
+        "输出到 PQ 屏需按 ST2084 编码并考虑面板峰值亮度与 surroundings",
+        "HLG 兼容仅限 SDR/BT.2020 WCG（UHD Forum §7.1.3；BT.2408 §3.2.1 同口径）——I19=A 修订边界后升级"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/色彩管理与采样滤波.md",
+        "02-解码与播放链路/流媒体与实时采集.md"
+      ],
+      "used_by_lessons": [
+        "L03",
+        "L19"
+      ]
+    },
+    {
+      "id": "V24",
+      "claim": "视频元数据中 colour_primaries、transfer_characteristics、matrix_coeffs 是三个独立字段：primaries 定义基色位置、transfer 定义编码值↔线性光强、matrix 定义 YUV↔RGB 换算；只改矩阵不改 primaries，颜色仍会偏",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-COLORMGMT",
+          "locator": "V24",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "03-图形与GPU工程/色彩管理与采样滤波.md"
+      ],
+      "used_by_lessons": [
+        "L03"
+      ]
+    },
+    {
+      "id": "V25",
+      "claim": "H.264/H.265 NALU 分界有两种格式：Annex B 用起始码 0x00000001/0x000001（容错强、随机访问需全局扫描，适用 TS/RTP/裸流）；AVCC 用 4 字节大端长度前缀（随机访问高效，适用 MP4/MKV）；两者不可混用",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-AV-BASE",
+          "locator": "V25",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "Android MediaCodec 配置 CSD-0/CSD-1 后可直接喂 AVCC，是否需转 Annex B 取决于解码器实现与 CSD 配置方式（源文档 ⚠️有条件成立）"
+      ],
+      "source_documents": [
+        "01-基础理论/音视频基础理论.md"
+      ],
+      "used_by_lessons": [
+        "L04"
+      ]
+    },
+    {
+      "id": "V26",
+      "claim": "容器负责组织轨道与时间索引（不执行压缩），码流负责执行压缩语法（熵编码/帧间预测/变换量化）；Demux→Decode→Render 职责严格分离，封装流直接灌入解码器会在第一步熵解码阶段产生非法指令异常",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-AV-BASE",
+          "locator": "V26",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "01-基础理论/音视频基础理论.md"
+      ],
+      "used_by_lessons": [
+        "L04"
+      ]
+    },
+    {
+      "id": "V27",
+      "claim": "MediaCodec 的输入/输出 buffer 是有限池：输入侧 dequeueInputBuffer 借出、queueInputBuffer 归还成对出现；输出侧 releaseOutputBuffer(index, render=true) 把帧连同所有权移交渲染队列（BufferQueue→Surface），render=false 则直接归还（静默丢帧语义）；任何一方借出未还都会让解码器等待",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-VERIFICATION",
+          "locator": "V27",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "render=true 的移交语义以绑定 Surface/BufferQueue 为前提（L06 纹理化路径）"
+      ],
+      "source_documents": [
+        "02-解码与播放链路/解码与播放链路.md"
+      ],
+      "used_by_lessons": [
+        "L05"
+      ]
+    },
+    {
+      "id": "V28",
+      "claim": "硬解回退软解走八步无感状态机：拦截 CodecException → 锁存 PTS_fail 并冻结最后一帧 → 音频渐隐 → 销毁硬解上下文 → 初始化 libavcodec → Seek 至安全点 → 静默追赶 → 恢复渲染与音频渐入；触发条件含视频流分辨率突变、CodecException、底层 SoC 硬解实例耗尽、驱动崩溃、GOP 不完整、非标 Profile",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-VERIFICATION",
+          "locator": "V28",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "步骤顺序不可换：先冻结/渐隐再销毁，先 seek 再追赶"
+      ],
+      "source_documents": [
+        "02-解码与播放链路/解码与播放链路.md"
+      ],
+      "used_by_lessons": [
+        "L05"
+      ]
+    },
+    {
+      "id": "V29",
+      "claim": "GPU 以 warp/wavefront 为最小执行组同步执行（NVIDIA 32 lane、AMD 64 lane 常见⚠️）：SIMT 下组内 lane 走不同分支会串行化，分支发散的代价是整组车道时间被陪跑；GPU 擅长很多像素做同一件事，不擅长每个像素走不同分支",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "V29",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "32/64 lane 为常见值非规范硬数；移动端/车机 shader 谨慎使用动态分支、discard 与大循环"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md"
+      ],
+      "used_by_lessons": [
+        "L07"
+      ]
+    },
+    {
+      "id": "V30",
+      "claim": "带宽账口径：1080P RGBA8 一次全屏写 ≈ 7.9 MB（二进制口径；十进制为 8.29 MB），60 FPS 下单次写 ≈ 475 MB/s（二进制口径；十进制 ≈ 498 MB/s），一个 5 Pass 后处理链很容易到 GB/s 量级；外部带宽 ≈ Σ(每 Pass load+store)+纹理采样读+顶点读+MSAA resolve；先算带宽再谈算力",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "V30",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "算术强度（运算量/访存量）决定瓶颈侧：简单混合通常带宽受限，复杂 PBR/光照更可能算力受限"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md"
+      ],
+      "used_by_lessons": [
+        "L07"
+      ]
+    },
+    {
+      "id": "V31",
+      "claim": "occupancy（实际活跃 warp 数/理论最大 warp 数）是隐藏延迟的手段而非目标：提高手段为减少寄存器、减少 shared memory、控制线程块大小；若瓶颈是带宽，增加线程只会更快把带宽打满",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "V31",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md"
+      ],
+      "used_by_lessons": [
+        "L07"
+      ]
+    },
+    {
+      "id": "V32",
+      "claim": "TOPS 是峰值算力，不代表实际帧率；真实瓶颈常是带宽、同步等待、DrawCall 提交、Shader 分支发散、Overdraw、显示合成；车机更应看 P99 帧时间、最坏帧延迟、热稳定性、启动时间",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "V32",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md"
+      ],
+      "used_by_lessons": [
+        "L07",
+        "L15"
+      ]
+    },
+    {
+      "id": "V33",
+      "claim": "GPU 渲染管线阶段流转：顶点输入 → 顶点着色器（坐标变换）→ 图元装配（连点成面、裁剪）→ 光栅化（矢量→片元、插值）→ 片元着色器（上色、纹理采样）→ 测试与混合（淘汰赛、Alpha 混合）→ 输出；光栅化生成片元（候选像素），测试与混合淘汰部分片元",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GRAPHICS",
+          "locator": "V33",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "03-图形与GPU工程/图形与GPU工程.md"
+      ],
+      "used_by_lessons": [
+        "L08"
+      ]
+    },
+    {
+      "id": "V34",
+      "claim": "eglSwapBuffers 是提交后台缓冲（双缓冲调换避免撕裂），不等于已显示：画面还需经 App View 树混合、打包提交 SurfaceFlinger 系统合成器按 V-Sync 节奏合成后才上屏；其阻塞行为取决于 swap interval 与队列深度，属 vsync 背压而非 GPU 计算时间",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "V34",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-INTERVIEW-GL",
+          "locator": "V34",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md",
+        "02-解码与播放链路/解码与播放链路.md",
+        "06-面试知识库/车载渲染引擎/01-OpenGL管线-FBO与离屏渲染.md"
+      ],
+      "used_by_lessons": [
+        "L08",
+        "L12"
+      ]
+    },
+    {
+      "id": "V35",
+      "claim": "CPU 与 GPU 异步执行：CPU 可领先 GPU 1–3 帧（Frame in flight），但必须有上限，否则输入延迟变大；同步靠 Fence（CPU 等 GPU）、Semaphore（队列间/swapchain）、Barrier（资源状态转换与内存可见性）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "V35",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md"
+      ],
+      "used_by_lessons": [
+        "L08",
+        "L10"
+      ]
+    },
+    {
+      "id": "V36",
+      "claim": "移动 GPU 主流采用 TBDR 家族（Mali/Adreno/PowerVR 等，实现细节不同⚠️）：几何先 binning 分块，tile 内在片上 tile memory 完成着色与混合、一次性写回系统内存，外部带宽低于 IMR；PowerVR 有 HSR 在着色前剔除被遮挡片元；关键差异含 loadOp=LOAD 代价高/DONT_CARE 省写回/依赖上一帧颜色需 load 代价高",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-RASDEPTH",
+          "locator": "V36",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "不要断言所有移动 GPU 都是 TBDR——说主流采用 TBDR 家族，具体实现与优化建议以厂商文档为准（源 ⚠️）"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/光栅化深度与移动GPU架构.md"
+      ],
+      "used_by_lessons": [
+        "L09",
+        "L10"
+      ]
+    },
+    {
+      "id": "V37",
+      "claim": "Early-Z 在片元着色前做深度测试剔除被遮挡片元，是减少 Overdraw（同一像素多次着色/混合，每次半透明混合都是 Read-Modify-Write）的第一道闸；discard、写入 gl_FragDepth、Alpha Test 会使其失效；补救：alphaToCoverage/预排序；半透明应关闭深度写入但保留深度测试",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-RASDEPTH",
+          "locator": "V37",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "移动端 discard 另可能打断 TBDR 的 HSR/合并流程（双重代价）"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/光栅化深度与移动GPU架构.md"
+      ],
+      "used_by_lessons": [
+        "L09"
+      ]
+    },
+    {
+      "id": "V38",
+      "claim": "MSAA 每像素 N 个几何覆盖采样点（2×/4×/8×），片元着色通常每像素一次，resolve 把 N 个采样平均为一个像素；成本在缓冲占用 ×N 与带宽增加，TBDR 上 resolve 在片上完成成本较低；MSAA 只对几何边缘锯齿有效，对着色锯齿无效（那是 SSAA/TAA 的领域）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-RASDEPTH",
+          "locator": "V38",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "03-图形与GPU工程/光栅化深度与移动GPU架构.md"
+      ],
+      "used_by_lessons": [
+        "L09",
+        "L14"
+      ]
+    },
+    {
+      "id": "V39",
+      "claim": "显式 API（Vulkan/Metal/D3D12）相对 OpenGL 全局状态机的责任转移：状态（显式 PSO/编码器）、多线程（command buffer 可多线程录制，每线程一个 CommandPool）、内存（应用决定类型/布局/别名）、同步（应用显式声明依赖）、错误检查（可选验证层）；代价是代码量与同步正确性责任转移到应用；收益是可预测性与多线程而非自动提速",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-EXPLICIT-API",
+          "locator": "§1 为什么需要显式 API / §3.2 多线程录制",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-INTERVIEW-VK",
+          "locator": "§0 一句话回答 / Q1 / Q2",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "Vulkan 不一定比 OpenGL 快：DrawCall 少/状态切换少/瓶颈在填充率时不会自动变快，甚至因同步写错更慢（源 Q2 ⚠️）"
+      ],
+      "source_documents": [
+        "04-跨平台与高性能架构/显式API与同步原语.md",
+        "06-面试知识库/车载渲染引擎/02-Vulkan与显式API对照.md"
+      ],
+      "used_by_lessons": [
+        "L10"
+      ]
+    },
+    {
+      "id": "V40",
+      "claim": "同步三件套语义：Fence=CPU 等 GPU（vkWaitForFences，有已信号状态可查询，每帧 in-flight fence 控制 CPU 超前上限）；Semaphore=GPU 队列之间/交换链（binary 用于 acquire/present 与队列间依赖，timeline 带计数值可跨队列跨帧），CPU 不可等待；Event=队列内细粒度 split barrier；fence/semaphore 混用会死锁或读到未完成数据；标准帧环 wait fence→acquire(imageAvailable)→录制→submit(等 imageAvailable/信号 renderFinished)→present(等 renderFinished)，每帧一套，frames in flight 通常 2–3",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-EXPLICIT-API",
+          "locator": "§4 同步三件套（4.1–4.4）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-INTERVIEW-VK",
+          "locator": "§2.1 三种同步原语 / §2.3 帧循环的标准同步结构 / Q3",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "车载 frames in flight 取 2 帧更常见（降延迟）属平台取舍（源 ⚠️）；vkDeviceWaitIdle 每帧调用会摧毁 CPU/GPU 并行，不是帧级等待的替代品"
+      ],
+      "source_documents": [
+        "04-跨平台与高性能架构/显式API与同步原语.md",
+        "06-面试知识库/车载渲染引擎/02-Vulkan与显式API对照.md"
+      ],
+      "used_by_lessons": [
+        "L10"
+      ]
+    },
+    {
+      "id": "V41",
+      "claim": "Barrier 三类职责：执行依赖（srcStageMask→dstStageMask 管顺序）、内存依赖（srcAccessMask/dstAccessMask 管可见性，cache flush/invalidate）、图像布局转换（oldLayout→newLayout）；只写 stage mask 不写 access mask 是最常见错误，表现为偶尔读到旧数据；缺 barrier/范围过窄→竞态花屏偶发崩溃，范围过宽/每 draw 一个 barrier→GPU 气泡性能下降；布局转换非免费（TBDR 可能触发 tile load/store）；tiling（LINEAR/OPTIMAL）是创建时属性不能经 barrier 改变，需新建图像拷贝",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-EXPLICIT-API",
+          "locator": "§5 三类 Barrier（5.1–5.5）/ §8.3 Tiling",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-INTERVIEW-VK",
+          "locator": "§2.2 屏障（Barrier）三类 / Q4",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "布局转换在 TBDR 上的具体代价因实现而异（源 ⚠️：能合并的转换要合并）"
+      ],
+      "source_documents": [
+        "04-跨平台与高性能架构/显式API与同步原语.md",
+        "06-面试知识库/车载渲染引擎/02-Vulkan与显式API对照.md"
+      ],
+      "used_by_lessons": [
+        "L10"
+      ]
+    },
+    {
+      "id": "V42",
+      "claim": "PSO 是不可变的完整管线状态对象：顶点输入布局/图元装配/光栅化/多重采样/深度模板测试/颜色混合/着色器阶段与 specialization constants/RenderPass 兼容性，任何一项不同即新 PSO；首次创建含 shader 编译与状态验证可能几十到几百毫秒，缓存后毫秒级；治理=管线缓存（VkPipelineCache 磁盘序列化）+状态分组+变体裁剪+预热；缓存数据与驱动/GPU 型号绑定不能跨设备复用",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-EXPLICIT-API",
+          "locator": "§7 PSO 与描述符（7.1/7.2）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-INTERVIEW-VK",
+          "locator": "§1.1 关键认知（管线不可变）/ §4 管线状态对象（4.1–4.3）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "创建耗时为源给区间（几十到几百毫秒 ⚠️），具体值随 shader 复杂度/驱动/GPU 而异；缓存跨版本/跨驱动可能失效需版本号校验"
+      ],
+      "source_documents": [
+        "04-跨平台与高性能架构/显式API与同步原语.md",
+        "06-面试知识库/车载渲染引擎/02-Vulkan与显式API对照.md"
+      ],
+      "used_by_lessons": [
+        "L10"
+      ]
+    },
+    {
+      "id": "V43",
+      "claim": "应用 present 后 buffer 进入系统合成器（SurfaceFlinger/QNX Screen/Weston）：合成器在 HWC/DPU 硬件平面（overlay）与 GPU 合成之间选路，再经显示控制器扫描输出；overlay 平面有限，不足或格式/尺寸不符时回退 GPU 合成；提交/呈现瓶颈=fence 等待与队列拥塞（优化=控制 in-flight 帧数），系统合成瓶颈=平面不足与 GPU 回退（优化=对齐 HWC 格式/尺寸），扫描输出瓶颈=vsync 相位与面板响应（优化=frame pacing/低延迟模式）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "§3.1 通用链路图 / §3.2 各阶段职责与瓶颈（后三行）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "合成器实现因平台而异（Android SurfaceFlinger / QNX Screen / Weston 等）"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md"
+      ],
+      "used_by_lessons": [
+        "L12"
+      ]
+    },
+    {
+      "id": "V44",
+      "claim": "双缓冲+VSync 解决画面撕裂；三缓冲吸收 CPU/GPU 偶发超时让帧节奏更稳，代价是多一帧排队延迟⚠️；frame pacing=按显示节奏准时提交而非尽快提交（车载仪表尤其重要，关联指针/警示灯可信度）；Jank≠pacing 抖动：长帧是某帧算太慢，pacing 抖动是帧完成时间不均匀，三缓冲治后者不治前者",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "§3.3 双缓冲、三缓冲与 frame pacing",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "三缓冲的延迟代价与收益权衡依场景（低延迟仪表场景双缓冲更合适）；源 ⚠️ 标注"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md"
+      ],
+      "used_by_lessons": [
+        "L12"
+      ]
+    },
+    {
+      "id": "V45",
+      "claim": "图层路由判据：需要特效才走 GPU，纯显示优先 HWC Overlay（最低延迟、无特效、无需 GPU 重画像素故功耗佳）；Video/Camera/HUD 属纯显示图层优先硬件平面；Android 组件对应：SurfaceView=独立 Hardware Overlay 硬件合成+独立渲染线程（延迟极低/交互极差），TextureView=View 树 GPU 合成+RenderThread（通常 1~3 帧二次合成延迟⚠️/交互极强）；选择原则：纯播放低延迟低功耗→SurfaceView，需变换动画滚动嵌入→TextureView",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "§3.4 视频/相机参与时的分支",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-DECODE-PIPELINE",
+          "locator": "§6.2 SurfaceView vs TextureView 底层对比 / §6.3 严谨表述",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "延迟数值受设备合成策略/缓冲区数量/系统版本影响，任何固定延迟区间必须带条件；'TextureView 一定慢很多'属绝对化错误（源 §6.3 ⚠️）"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md",
+        "02-解码与播放链路/解码与播放链路.md"
+      ],
+      "used_by_lessons": [
+        "L12"
+      ]
+    },
+    {
+      "id": "V46",
+      "claim": "光照模型演进 Lambert（N·L 漫反射，无高光不守恒）→ Phong（R·V 高光）→ Blinn-Phong（N·H 半角更便宜平滑，仍非物理）→ PBR（微表面 BRDF，能量守恒、参数可测量、计算更贵）；BRDF 是描述表面点'入射方向→出射方向反射多少'的函数，Cook-Torrance 分解为漫反射+镜面 D·G·F/4(N·L)(N·V)（D 法线分布/G 几何遮蔽/F 菲涅尔）；PBR 是一组模型约束（能量守恒/参数物理可测量/线性空间计算）而非特定 shader 集合；metallic=1 时 diffuse 必须为 0（金属自由电子吸收透射光）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-LIGHTING",
+          "locator": "§1 光照模型的演进 / §3.1 Cook-Torrance 分解 / §3.3 常见错误 / §10 Q1/Q2",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "Cook-Torrance 是 PBR 的主流实现之一而非定义本身；D/G/F 具体公式与参数实验属 L18 范围"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/光照材质与阴影.md"
+      ],
+      "used_by_lessons": [
+        "L14",
+        "L18"
+      ]
+    },
+    {
+      "id": "V47",
+      "claim": "线性空间三条铁律：光照计算必须在线性光强空间；albedo 是 sRGB 而法线/粗糙度/金属度/AO 是线性数据不能设 sRGB；光照结果经 tone mapping 再编码到显示空间，HDR 值不能直接写 8bit sRGB 附件。画面问题归层：整体发灰=色彩管线（双重/缺失 gamma）；阴影漏光=shadow map bias 不当（常数偏移斜面远处漏光/悬浮，bias 大消自阴影但彼得潘现象，按场景调⚠️）；远处纹理闪烁=mipmap 缺失；几何边缘锯齿=MSAA 覆盖问题——不同层不同修法",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-LIGHTING",
+          "locator": "§2.1 三条铁律 / §5.2 偏差（Bias）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-COLORMGMT",
+          "locator": "Q1 为什么画面整体发灰 / Q3 为什么远处纹理闪烁",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "阴影 bias 没有一劳永逸参数，随场景尺度/光照角度/shadow map 分辨率变化（源 ⚠️）"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/光照材质与阴影.md",
+        "03-图形与GPU工程/色彩管理与采样滤波.md"
+      ],
+      "used_by_lessons": [
+        "L14"
+      ]
+    },
+    {
+      "id": "V48",
+      "claim": "缩小采样（minification）必须用 mipmap 否则摩尔纹/闪烁；LOD 由屏幕空间导数自动计算 lod=log2(max(|dFdx(uv)|,|dFdy(uv)|)*texSize)；mipmap 解决采样稳定性而非几何边缘锯齿（后者属 MSAA）；坑：图集串色（mip 混合相邻图块，padding/手动 mip/关 UI mipmap）、文字发糊（UI 关 mipmap 或提分辨率）、接缝（CLAMP_TO_EDGE+半像素内缩）、闪烁（完整 mip 链+LOD bias）；斜视地面需各向异性过滤（沿长轴多次采样，移动端常用 2×/4×）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-COLORMGMT",
+          "locator": "§2.2 放大与缩小 / §2.3 Mipmap 的坑 / §2.4 各向异性过滤 / Q3",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "各向异性成本随采样数增长，受 GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT 限制"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/色彩管理与采样滤波.md"
+      ],
+      "used_by_lessons": [
+        "L14"
+      ]
+    },
+    {
+      "id": "V49",
+      "claim": "后处理是着色完成后、显示之前的屏幕空间/帧序列操作：3D LUT 调色、锐化（CAS）、降噪（空间域高斯/双边/NLM/BM3D 质量-成本递增；时域 TAA/TNR 历史帧重用+有效性判断，运动矢量须含相机与物体运动，遮挡/新暴露区拒绝历史帧否则鬼影，时域累积放大 banding 需 dither）、debanding/dither（幅度约 1 量化步长，sRGB 编码后写 8bit 前加）、超分（空间插值/CNN/GAN 需 NPU，通常增加 1–2 帧延迟，生成式可能改变语义内容，功能安全场景禁用❗）；处理域：亮度降噪锐化在 Y 域、色调映射在线性 RGB、字幕 UI 在 RGB",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-IMGALGO",
+          "locator": "§4 3D LUT / §6 降噪 / §7 Debanding 与 Dithering / §9 超分与 NPU 加速 / §10 YUV 域 vs RGB 域处理",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "超分延迟与伪细节风险依方法而异（源 §9.3 ❗）；倒车影像等延迟敏感场景禁用插帧/生成式超分"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/GPU图像处理算法.md"
+      ],
+      "used_by_lessons": [
+        "L14"
+      ]
+    },
+    {
+      "id": "V50",
+      "claim": "批处理是 GPU 执行之前的 CPU 侧提交优化：DrawCall 成本=应用层遍历排序组装+驱动校验+提交（CPU）+GPU 前端状态切换+GPU 执行；100 vs 10000 DrawCall 差别主要在前三行；合批不是目的，降低每帧提交与状态切换次数才是；四代方案：静态合批（显存膨胀/失单体剔除）→动态合批（小网格 CPU 变换）→Instancing（同网格同材质，顶点着色器仍执行 N 次只省提交）→间接/GPU 驱动（需显式 API）；移动端 GLES 驱动偏单线程合批收益更明显⚠️；PSO 变体 2^n×平台×档位×布局×开关，治理核心是知道哪些组合真会出现（预热/缓存/裁剪）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-BATCHING",
+          "locator": "§1 DrawCall 成本到底花在哪 / §2 合批的四代方案 / §9 PSO 预热与变体治理",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "桌面驱动多线程命令录制摊薄 CPU 成本，合批收益移动端更明显（源 ⚠️）"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/批处理与GPU驱动管线.md"
+      ],
+      "used_by_lessons": [
+        "L14"
+      ]
+    },
+    {
+      "id": "V51",
+      "claim": "严谨实验三原则：①硬件基准绝对统一（标明 SoC+GPU 驱动版本，同一 SoC 不同驱动可差 20–30%，严禁跨设备混合取平均）②输入测试用例标准化（同组用例，标分辨率/帧数/编码规格，严禁不同编码参数横比，推荐码流 SHA-256 保证可复现）③内核节点物理监控（严禁应用层日志评测——自身 I/O 延迟+时间戳精度不足；用 Systrace/ADB top -H/dumpsys meminfo/perfetto）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-PRACTICE",
+          "locator": "§5.1 严谨实验三原则",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "20–30% 驱动差异为源给区间，具体随 SoC/驱动而异"
+      ],
+      "source_documents": [
+        "05-项目实战/项目实战指南.md"
+      ],
+      "used_by_lessons": [
+        "L15"
+      ]
+    },
+    {
+      "id": "V52",
+      "claim": "量化口径与结果表达规范：CPU 占用测目标线程活跃周期（主线程单帧 running 时长 ms/帧，Systrace sched）而非全局负载；显存区分已分配与实际映射物理页；结果报均值±标准差或 95% CI，最少连续 1000 帧，严禁单次/最佳值；有条件结论标注约束（OS/驱动/硬件特性/运行时状态）；严禁模糊口径（'显著提升'→量化表述）；无设备型号/样本量/测试条件的'提升 X%'只能写趋势不能写保证；平均帧率掩盖尖刺，车机看 P99/最坏帧（用平均帧率代替 P99 是智驾选型红旗）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-PRACTICE",
+          "locator": "§5.2 量化指标体系 / §5.4 结果表达规范",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-GPU-BASE",
+          "locator": "§1.5 别只看 TOPS",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-ADAS",
+          "locator": "§5.1 预算表模板 / §7 方案选型 Checklist 红旗信号",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "功耗瞬时电流与 gpu_memory 物理页测量在源中标 ⚠️ 待验证口径；趋势红线引自学习路径指南工程红线"
+      ],
+      "source_documents": [
+        "05-项目实战/项目实战指南.md",
+        "03-图形与GPU工程/GPU与渲染引擎基础与链路.md",
+        "04-跨平台与高性能架构/智驾渲染方案.md"
+      ],
+      "used_by_lessons": [
+        "L15"
+      ]
+    },
+    {
+      "id": "V53",
+      "claim": "画质指标体系：全参考 PSNR（10log10(MAX²/MSE)，8bit MAX=255，+3dB≈MSE 减半（+6dB≈降至 1/4；源 §5.3 原句 +6dB 减半为数学笔误，已登记待 G1 更正），计算快但感知相关性弱、对模糊/锐化不敏感）/SSIM（亮度对比度结构，更接近感知，对位移敏感）/MS-SSIM（多尺度）/VMAF（ML 融合，与主观相关性高，需参考视频、模型有版本差异）；无参考 NIQE/BRISQUE/块效应振铃检测/主观 MOS 最终仲裁；码率-质量曲线固定编码器 preset GOP 分辨率比面积或同码率质量报 BD-rate；陷阱：参考图未对齐/色彩范围不一致/tone mapping 前算指标/只测单帧/锐化后只比 PSNR；性能数据与画质数据必须成对出现（防降质换速度）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-PRACTICE",
+          "locator": "§5.3 画质指标",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "VMAF 模型版本差异影响可比性；PSNR 高不等于好看（源原文）",
+        "源 §5.3 PSNR/dB 换算句为笔误，教材按正确数学表述，源更正待 G1/源所有者裁决"
+      ],
+      "source_documents": [
+        "05-项目实战/项目实战指南.md"
+      ],
+      "used_by_lessons": [
+        "L15"
+      ]
+    },
+    {
+      "id": "V54",
+      "claim": "技术表达四段式：结论（一句话是什么/解决什么）→原理（机制因果链非名词列表）→约束（成立条件与平台边界）→反例（最常见错误理解）；60 秒=四段各压缩 1–2 句；3 分钟项目口述七步模板：目标→旧方案瓶颈(量化 CPU ms/帧/带宽/包体)→机理定位(哪个阶段)→方案(管线定制+提交链路+回退策略)→验证口径(设备矩阵/样本量/置信区间)→成果(数字+边界条件)→遗留问题；被问不会的题：承认边界+相邻可答部分+说出怎么查；testKTX 视频纹理流重构是覆盖解码/零拷贝/FBO/DrawCall/评测的标准故事素材",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-INTERVIEW-LIST",
+          "locator": "§L 表达与临场（L1/L2）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-JOURNEY",
+          "locator": "第六篇章 怎么把这一切讲成一个项目",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-PRACTICE",
+          "locator": "§1.1 带宽灾难 / §2.3 方案E核心优势（故事素材与数字标注）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "故事数字口径按源标注：包体 15.4 倍 ✅；CPU 98% 为 [测试数据-仅供参考]，不得讲成保证值"
+      ],
+      "source_documents": [
+        "06-面试知识库/车载渲染引擎/00-面试速问速答清单.md",
+        "00-导航与索引/一帧画面的探索之旅.md",
+        "05-项目实战/项目实战指南.md"
+      ],
+      "used_by_lessons": [
+        "L16"
+      ]
+    },
+    {
+      "id": "V55",
+      "claim": "车载座舱差异化知识框架：显示链路 SoC→Hypervisor(可选)→OS(QNX/Linux/AA 多系统并存)→合成器→显示接口→屏/HUD，渲染引擎输出只是合成器的一层✅；overlay 省电省带宽变换弱 vs GPU 合成灵活付带宽功耗，多屏出图时合成能力与显示管道分配是瓶颈⚠️；功能安全：仪表/安全显示常落 QNX/RTOS+安全岛(R-CPU/MCU)，GPU/HMI 侧多 QM 或低 ASIL，靠独立显示完整性监控(黑屏/冻结/花屏检测/watchdog/E2E)兜底⚠️；时间类硬约束数值为项目/法规约定，用'经验值+项目实际口径'表达[经验值]❗；车机性能工程=共享 DDR 多主设备带宽竞争/热预算/多屏多帧率/可观测性差/做确定性而非峰值",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-INTERVIEW-LIST",
+          "locator": "§J 车载座舱专题（J1/J2/J4/J5/J7）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "虚拟化 GPU 共享路径（virtio-GPU/venus/直通）具体名称与可用性需按平台文档核实（源 J3 ❗）；时间数值不背死数字"
+      ],
+      "source_documents": [
+        "06-面试知识库/车载渲染引擎/00-面试速问速答清单.md"
+      ],
+      "used_by_lessons": [
+        "L16"
+      ]
+    },
+    {
+      "id": "V56",
+      "claim": "知识缺口登记表是带验收标准的补强计划：每条缺口五要素（编号/与现有内容衔接/落点建议/优先级高主线强相关中扩展低兴趣/验收标准）；维护规则四条：新增文档登记已补齐并同步 README 与学习路径；P2 开写改进行中完成移入已补齐；不把断言直接写进验真队列（先登记缺口落文档再标验证状态）；性能/画质数字必须带设备样本量测试条件否则标 [测试数据-仅供参考]",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-GAPS",
+          "locator": "§二 待补缺口 / §四 维护规则",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "缺口优先级与落点随主线演进更新，以登记表当前版本为准"
+      ],
+      "source_documents": [
+        "00-导航与索引/知识缺口登记表.md"
+      ],
+      "used_by_lessons": [
+        "L16"
+      ]
+    },
+    {
+      "id": "V57",
+      "claim": "旋转曲面由二维轮廓(r,y)绕轴旋转生成：P(θ,t)=(r(t)cosθ, y(t), r(t)sinθ)，θ∈[0,2π)，t 沿母线（可弧长归一化），θⱼ=2πj/N；r(t)决定环半径、y(t)决定高度；圆柱 r=R/y=t·H，花瓶 r 先增后减；同一生成函数换轮廓产不同形状；参数可实时调整，代价是改公式需重新生成缓冲；适用回转体/管道/地形/参数化构件/LOD 场景，角色与复杂有机形体仍以美术资产为主——程序化与传统模型是互补的两种数据表示",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-PROCEDURAL",
+          "locator": "§3 问题引入 / §4 基础概念 / §5 参数方程 / §10 性能与应用",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "复杂有机形体不适合程序化（源 §10）"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/程序化几何与旋转曲面.md"
+      ],
+      "used_by_lessons": [
+        "L17"
+      ]
+    },
+    {
+      "id": "V58",
+      "claim": "旋转曲面网格推导：M 轮廓点×N 径向分段=M×N 顶点，一维映射 k=i·N+j；相邻环四边形四角 a=iN+j, b=iN+(j+1)mod N, c=(i+1)N+j, d=(i+1)N+(j+1)mod N，拆三角形 (a,c,b) 与 (b,c,d)，mod N 使圆环闭合；绕序决定法线朝向（不同 API 正向定义不同⚠️）；成本：顶点 M×N、四边形 (M−1)×N、三角形 2(M−1)N、索引 6(M−1)N；N 8→48 三角形线性增 6 倍",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-PROCEDURAL",
+          "locator": "§7.1 顶点缓冲 / §7.2 索引缓冲 / §7.3 成本",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "绕序/法线朝向取决于 API 约定（源 ⚠️）"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/程序化几何与旋转曲面.md"
+      ],
+      "used_by_lessons": [
+        "L17"
+      ]
+    },
+    {
+      "id": "V59",
+      "claim": "程序化几何工程定位：几何在 CPU 生成一次，之后与模型文件走完全相同渲染管线（程序化改变数据来源不是渲染方式）；细分不是越多越好（N 足够屏幕平滑即可，过度细分低端 GPU 浪费）；参与光照必须有法线（解析法线=偏导叉积或 GPU 几何阶段计算）；几何生成以顶点为单位一次性完成，逐片元重算是另一类技术（SDF ray marching）；优化=合并网格减 draw call/按距离调 N/M 做 LOD/轮廓数据驱动运行时改参",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-PROCEDURAL",
+          "locator": "§8 GPU 执行过程 / §9 常见误区 / §10 性能与应用",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "Saltline 类小规模程序化项目是案例研究起点，不代表行业标准答案（源 §10）"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/程序化几何与旋转曲面.md"
+      ],
+      "used_by_lessons": [
+        "L17"
+      ]
+    },
+    {
+      "id": "V60",
+      "claim": "Cook-Torrance 分解：fr=(1-metallic)/π·albedo（漫反射）+ D(h)G(l,v)F(v,h)/4(N·L)(N·V)（镜面）；D=微表面法线分布（多少微面朝向半角，GGX/Trowbridge-Reitz）、G=几何遮蔽（微面互相遮挡，Smith+Schlick-GGX）、F=菲涅尔（入射角越大反射越强，Schlick 近似）；分母 4(N·L)(N·V) 是立体角与投影归一化",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-LIGHTING",
+          "locator": "§3.1 Cook-Torrance 分解",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "各项具体实现可替换（GGX/Smith/Schlick 为常用组合）"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/光照材质与阴影.md"
+      ],
+      "used_by_lessons": [
+        "L18"
+      ]
+    },
+    {
+      "id": "V61",
+      "claim": "GGX D=α²/(π((N·H)²(α²-1)+1)²)，α=roughness²（Epic 约定✅，低粗糙度感知更细腻）；roughness 增大→D 变宽变矮、总能量大致守恒→高光宽而暗；N·H→0 时 D 小避免背面漏出；Smith-Schlick G1 k=(α+1)²/8（直接光）或 α²/2（IBL）；Schlick F=F0+(1-F0)(1-V·H)^5，掠射角 F 趋 1；F0 电介质≈0.04、金属=albedo(0.5–1.0)、混合 F0=mix(0.04,albedo,metallic)；metallic=1 漫反射必须为 0（自由电子吸收透射光），否则金属像发亮塑料；非金属固有色来自漫反射、金属来自 F0",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-LIGHTING",
+          "locator": "§3.2 GGX 法线分布 / §3.3 几何项与菲涅尔 / §3.4 metallic-roughness 工作流 / §10 Q2/Q3",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "α=roughness² 为 Epic 工程约定（源 ✅）；实验 selfTest 用宏观 N·V 形式演示掠射角效应"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/光照材质与阴影.md"
+      ],
+      "used_by_lessons": [
+        "L18"
+      ]
+    },
+    {
+      "id": "V62",
+      "claim": "单次散射 BRDF 在粗糙度接近 1 时损失能量（高光被微面遮挡未补回），表现为粗糙金属发黑；Fdez-Agüera 多项散射近似（Filament 写法）F_ms=F_ss·F_avg/(1−E_ms·F_avg)，F_avg=F0+(1−F0)/21，E_ms=1−F_ss，把损失能量按平均值补回；是近似不是严格物理⚠️，移动端常省略用美术调参补偿；pbr-lighting 实验为 Canvas 2D 粗网格教学近似/归一化示意，不是物理精确离线渲染器也不代表行业标准实现（源 ✅ 标注）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RN-LIGHTING",
+          "locator": "§3.5 能量守恒与多次散射 / §3.6 参数如何改变画面（交互实验）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "多次散射补偿为近似（源 ⚠️）；移动端取舍依项目"
+      ],
+      "source_documents": [
+        "07-3D渲染与算法实现/光照材质与阴影.md"
+      ],
+      "used_by_lessons": [
+        "L18"
+      ]
+    },
+    {
+      "id": "V63",
+      "claim": "BT.2100 定义两套 HDR 参考传递系统且不得混用：PQ（SMPTE ST 2084 EOTF，display-referred 绝对亮度 0–10000 cd/m²，Dolby 提出）与 HLG（BBC/NHK，ARIB STD-B67 OETF 与 BT.2100 逐字一致，scene-referred 相对亮度，下半段 gamma/上半段对数）；系统色度 BT.2020，10/12bit（narrow 64–940 / full 0–1023）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-ITU-BT2100",
+          "locator": "BT.2100-3 Table 4/5/9 与 recommends 段",
+          "evidence_type": "spec"
+        },
+        {
+          "source_id": "SRC-UHDF-BLUEBOOK",
+          "locator": "§7.1.2–7.1.4（PQ10/HLG10 定义、HLG 兼容边界）",
+          "evidence_type": "official_doc"
+        },
+        {
+          "source_id": "SRC-UPM-BT2100-TABLES",
+          "locator": "Table 4/5 逐字转载",
+          "evidence_type": "paper"
+        }
+      ],
+      "verification": {
+        "status": "verified",
+        "confidence": "high"
+      },
+      "conditions": [
+        "HLG 向后兼容仅针对 SDR/BT.2020 WCG 显示，不针对仅 BT.709 的显示（BT.709 屏去饱和+色相偏移）",
+        "PQ 内容转 SDR 需 down-mapping，直接显示会发灰"
+      ],
+      "source_documents": [
+        "02-解码与播放链路/流媒体与实时采集.md",
+        "03-图形与GPU工程/色彩管理与采样滤波.md"
+      ],
+      "used_by_lessons": [
+        "L19"
+      ]
+    },
+    {
+      "id": "V64",
+      "claim": "PQ EOTF：L=10000×[max(V^(1/m2)−c1,0)/(c2−c3·V^(1/m2))]^(1/m1)，m1=2610/16384≈0.1593017578125、m2=78.84375、c1=0.8359375、c2=18.8515625、c3=18.6875；中性灰锚点 100nit≈0.508078、1000nit≈0.751827、10000nit=1.0；基于 Barten(1999) 对比敏感度模型，步长≈JND，10bit PQ 抑制全范围 banding；10bit narrow range 100nit≈code 509（64+876×0.508078）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-COLOUR-ST2084",
+          "locator": "函数签名常数 + Barten 说明 + doctest eotf_ST2084(0.508078421517399)=100.0",
+          "evidence_type": "official_doc"
+        },
+        {
+          "source_id": "SRC-UPM-BT2100-TABLES",
+          "locator": "Table 4（PQ EOTF 常数逐字）",
+          "evidence_type": "paper"
+        },
+        {
+          "source_id": "SRC-ITU-BT2100",
+          "locator": "Table 4（PQ 参考非线性）",
+          "evidence_type": "spec"
+        }
+      ],
+      "verification": {
+        "status": "verified",
+        "confidence": "high"
+      },
+      "conditions": [
+        "常数以 SMPTE ST 2084:2014 为准",
+        "锚点 0.508/0.752 为舍入值，精确 0.508078/0.751827",
+        "code 509 算例回读 ≈99.9nit，舍入误差如实标注"
+      ],
+      "source_documents": [
+        "03-图形与GPU工程/色彩管理与采样滤波.md"
+      ],
+      "used_by_lessons": [
+        "L19"
+      ]
+    },
+    {
+      "id": "V65",
+      "claim": "HDR10 = PQ10 + 静态元数据三件套：ST 2086 MDCV（母带显示 primaries/白点 x,y + min/max 亮度）+ MaxCLL（全片最亮单像素）+ MaxFALL（最大帧平均亮度）；元数据供显示端做 color volume transform/tone mapping 决策；Android 解码输出 format 以 KEY_HDR_STATIC_INFO（静态）/KEY_HDR10_PLUS_INFO（动态，逐帧可变）携带；动态元数据（HDR10+/DV）逐场景/逐帧",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-UHDF-BLUEBOOK",
+          "locator": "§7.2/7.2.1/7.2.2（MDCV/MaxCLL/MaxFALL 定义与局限）",
+          "evidence_type": "official_doc"
+        },
+        {
+          "source_id": "SRC-ANDROID-HDR",
+          "locator": "Supported HDR technologies 表 + KEY_HDR_STATIC_INFO/KEY_HDR10_PLUS_INFO 段",
+          "evidence_type": "official_doc"
+        }
+      ],
+      "verification": {
+        "status": "verified",
+        "confidence": "high"
+      },
+      "conditions": [
+        "部分显示忽略部分/全部静态元数据",
+        "直播节目 MaxCLL/MaxFALL 允许 0（未知）",
+        "母带 outlier 可致 MaxCLL 虚高（有内容方用统计法修正）"
+      ],
+      "source_documents": [
+        "02-解码与播放链路/流媒体与实时采集.md"
+      ],
+      "used_by_lessons": [
+        "L19"
+      ]
+    },
+    {
+      "id": "V66",
+      "claim": "Android HDR 播放链：Display.getHdrCapabilities（HDR_TYPE_* + desired luminance）与 CodecCapabilities.profileLevels（HEVCProfileMain10HDR10/VP9Profile2HDR 等）发现能力 → MP4/WebM Extractor → 硬解（解析 SEI/SPS 母带元数据）→ 输出 format 携带 HDR 信息 → Surface → HWC2 传播静态数据 → 合成（统一线性色彩空间→混合→转显示信号）；Android 7.0 仅 tunneled 保证 HDR，非 tunneled 可能丢 HDR 信息被压平为 SDR；Android 13 libtonemap 统一 HWC/SF/app tone mapping，混合合成时屏幕提亮 + SDR 图层按 sdrHdrRatioMap 调暗",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-ANDROID-HDR",
+          "locator": "Discovery/Playback/HDR10 decoder pipeline/Hardware composition 各节",
+          "evidence_type": "official_doc"
+        },
+        {
+          "source_id": "SRC-ANDROID-MIXED-SDR-HDR",
+          "locator": "libtonemap/sdrHdrRatioMap/minimumHdrPercentOfScreen 段",
+          "evidence_type": "official_doc"
+        },
+        {
+          "source_id": "SRC-RN-STREAMING",
+          "locator": "§5.3 Android 上的 HDR 链路",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "verified",
+        "confidence": "high"
+      },
+      "conditions": [
+        "设备相关（HWC 实现/面板能力）",
+        "版本差异：7.0 仅 tunneled 保证；9+ 非 tunneled 报告元数据；13 引入 libtonemap/SDR dimming",
+        "硬件不足时 dimming 回退 GPU 合成（耗电）"
+      ],
+      "source_documents": [
+        "02-解码与播放链路/流媒体与实时采集.md"
+      ],
+      "used_by_lessons": [
+        "L19"
+      ]
+    },
+    {
+      "id": "V67",
+      "claim": "PQ 信号送入期望 BT.709 输入的显示 → 画面 dim/washed out、去饱和 + 色相偏移（'发灰'的权威解释）；tone mapping = 动态范围压缩（down-map HDR→SDR），须在线性光做、暗部保留/高光压缩；8bit FBO 先截断高光则后续 tone mapping 已晚；SDR dimming 可致 black crush（暗部码值坍缩），不可接受时必须 dither",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-ITU-BT2408",
+          "locator": "§3.1 Display of PQ signals + §5 Definitions（TM/ITM/hard clip）",
+          "evidence_type": "official_doc"
+        },
+        {
+          "source_id": "SRC-ANDROID-MIXED-SDR-HDR",
+          "locator": "Issues 段（black crush/dither）",
+          "evidence_type": "official_doc"
+        },
+        {
+          "source_id": "SRC-RN-STREAMING",
+          "locator": "§5.3 '8bit FBO 后丢失高光，再 tone mapping 已经晚了'",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RN-IMGALGO",
+          "locator": "色调映射须线性 RGB / 10bit→8bit 后 dither",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "verified",
+        "confidence": "high"
+      },
+      "conditions": [
+        "算子选择（Reinhard/ACES/BT.2390 等）依平台与内容",
+        "hard clip 与 soft clip（tone mapping）语义不同，制作监看常用 hard clip"
+      ],
+      "source_documents": [
+        "02-解码与播放链路/流媒体与实时采集.md",
+        "07-3D渲染与算法实现/GPU图像处理算法.md"
+      ],
+      "used_by_lessons": [
+        "L19"
       ]
     }
   ]

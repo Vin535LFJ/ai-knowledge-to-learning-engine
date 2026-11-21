@@ -11,6 +11,15 @@
 - **只读**：不写任何源 JSON / 正文 / 断言状态，不升级 claim，不过门禁。
 - 输出仅为审阅工件（默认 reviews/kcr/impact-report-<date>.json），供人工裁决使用。
 - 历史不足或字段缺失时如实标注 unknown / 空，不伪造影响关系。
+
+契约（2026-11-20，P8 片一对齐）：
+- 输出符合 tools/kcr/schema/impact-report.schema.json（trigger/new_sources/affected/conflicts/uncovered）。
+- affected 各数组元素为对象（id + relation/via_claim）；website 影响与结构完整性检查为非契约附加字段
+  （website_artifacts / integrity_findings），不混入契约 conflicts（语义冲突属 Stage 2）。
+- 自测：py -3 tools/kcr/selftest_impact.py（真实回放 V21–V24 / V14）。
+
+契约校验（2026-11-20，P8 片二接入）：
+- 写盘前经 tools/kcr/validate_kcr.py 程序化校验（stdlib-only）；校验失败不写文件，退出码 3。
 """
 
 from __future__ import annotations
@@ -21,6 +30,8 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
+
+from kcr import validate_kcr
 
 ROOT = Path(__file__).resolve().parent.parent
 CLAIM_LEDGER = ROOT / "evidence" / "claim-ledger.json"
@@ -124,8 +135,9 @@ def load_graph() -> dict:
     }
 
 
-def analyze(g: dict, *, source_id: str | None = None, claim_id: str | None = None) -> dict:
-    """从 seed（source 或 claim）展开影响链。"""
+def analyze(g: dict, *, source_id: str | None = None, claim_id: str | None = None,
+            trigger_type: str | None = None, trigger_ref: str | None = None) -> dict:
+    """从 seed（source 或 claim）展开影响链。输出含契约 trigger/new_sources 段。"""
     seeds: list[str] = []
     if source_id:
         if source_id not in g["sources"]:
@@ -136,55 +148,75 @@ def analyze(g: dict, *, source_id: str | None = None, claim_id: str | None = Non
             return {"error": f"未知 claim_id: {claim_id}", "available": sorted(g["claims"])}
         seeds = [claim_id]
 
+    if trigger_type is None:
+        trigger_type = "source_update" if source_id else "claim_status_request"
+    if trigger_ref is None:
+        trigger_ref = source_id or claim_id or "(no seed)"
+    trigger = {"type": trigger_type, "ref": trigger_ref,
+               "date": datetime.now().strftime("%Y-%m-%d")}
+
     claims = sorted(set(seeds))
-    concepts: set[str] = set()
-    lessons: set[str] = set()
-    quizzes: set[str] = set()
+    concept_via: dict[str, str] = {}
+    lesson_via: dict[str, str] = {}
+    quiz_via: dict[str, str] = {}
     courses: set[str] = set()
-    collisions: list[dict] = []
+    integrity: list[dict] = []
 
     for cid in claims:
-        concepts.update(g["claim_to_concepts"].get(cid, []))
-        lessons.update(g["claim_to_lessons"].get(cid, []))
-        quizzes.update(g["claim_to_quizzes"].get(cid, []))
+        for kid in g["claim_to_concepts"].get(cid, []):
+            concept_via.setdefault(kid, cid)
+        for lid in g["claim_to_lessons"].get(cid, []):
+            lesson_via.setdefault(lid, cid)
+        for qkey in g["claim_to_quizzes"].get(cid, []):
+            quiz_via.setdefault(qkey, cid)
         claim = g["claims"][cid]
         status = (claim.get("verification") or {}).get("status", "unknown")
         if status != "verified":
-            collisions.append({
+            integrity.append({
                 "type": "unverified_claim_in_chain", "claim": cid,
                 "status": status, "note": "链中断言未 verified，升级/应用需人工裁决",
             })
 
-    for lid in lessons:
+    for lid in lesson_via:
         courses.update(g["course_of_lesson"].get(lid, []))
 
     # 缺口检测：quiz 挂接了链中 claim，但对应 lesson 未被 claim 的 used_by_lessons 声明
-    for qkey in quizzes:
+    for qkey in quiz_via:
         lesson = g["quiz_to_lesson"].get(qkey.split("#")[0])
-        if lesson and lesson not in lessons:
-            collisions.append({
+        if lesson and lesson not in lesson_via:
+            integrity.append({
                 "type": "quiz_lesson_not_linked", "quiz": qkey,
                 "lesson": lesson, "note": "quiz 引用链中断言，但该课未声明此断言",
             })
 
+    relation_note = (
+        "source→claim 支持链（seed=source）" if source_id else
+        "claim 状态请求的主体断言（seed=claim）" if claim_id else
+        "无 seed（草稿模式仅回显）"
+    )
+    uncovered = [
+        f"{cid}: 无来源登记（evidence 缺 source_id）"
+        for cid in claims
+        if not any(ev.get("source_id") for ev in g["claims"][cid].get("evidence", []))
+    ]
     return {
+        "trigger": trigger,
+        "new_sources": [],
         "seed": {"source_id": source_id, "claim_id": claim_id},
         "affected": {
-            "claims": claims,
-            "concepts": sorted(concepts),
-            "lessons": sorted(lessons),
-            "quizzes": sorted(quizzes),
-            "courses": sorted(courses),
-            "website": ["web/content.js (build 生成物)", "site-vitepress/docs/ (build 生成物)"]
-            if claims else [],
+            "claims": [{"id": cid, "relation": "supports", "note": relation_note} for cid in claims],
+            "concepts": [{"id": kid, "via_claim": concept_via[kid]} for kid in sorted(concept_via)],
+            "lessons": [{"id": lid, "via_claim": lesson_via[lid]} for lid in sorted(lesson_via)],
+            "quizzes": [{"id": qkey, "via_claim": quiz_via[qkey]} for qkey in sorted(quiz_via)],
+            "courses": [{"id": cpath, "objectives_maybe": False} for cpath in sorted(courses)],
         },
-        "conflicts": collisions,
-        "uncovered": {
-            "note": "历史数据/权威来源不足时如实标注，不伪造",
-            "claims_without_source": [c for c in claims if not any(
-                ev.get("source_id") for ev in g["claims"][c].get("evidence", [])
-            )],
-        },
+        # 契约 conflicts 专指"新草稿 vs 既有断言"的语义冲突（Stage 2 提案流程产出）；
+        # 本工具只做结构完整性检查，结果放非契约字段 integrity_findings，不冒充语义冲突。
+        "conflicts": [],
+        "uncovered": uncovered,
+        "integrity_findings": integrity,
+        "website_artifacts": ["web/content.js (build 生成物)", "site-vitepress/docs/ (build 生成物)"]
+        if claims else [],
         "counts": g["counts"],
         "generated_at": g["generated_at"],
         "read_only": True,
@@ -215,10 +247,24 @@ def main() -> int:
             print("报告中未找到 source/claim ID", file=sys.stderr)
             return 2
 
-    result = analyze(g, source_id=source_id, claim_id=claim_id)
+    if args.report:
+        result = analyze(g, source_id=source_id, claim_id=claim_id,
+                         trigger_type="new_research_report", trigger_ref=Path(args.report).as_posix())
+    elif args.claim_draft:
+        result = analyze(g, trigger_type="claim_status_request", trigger_ref="(inline claim draft)")
+    else:
+        result = analyze(g, source_id=source_id, claim_id=claim_id)
     if args.claim_draft:
         result["claim_draft_echo"] = args.claim_draft
-        result["note"] = "草稿模式仅回显文本，未匹配到现有断言；正式分析请用 --claim-id/--source-id"
+        result["note"] = "草稿模式仅回显文本，未匹配到现有断言；正式分析请用 --claim-id/--source-id。new_sources 由 Stage 2 提案登记，本工具只读不登记来源。"
+
+    if "error" not in result:
+        contract_errors = validate_kcr.validate(result, validate_kcr.load_schema("impact-report"))
+        if contract_errors:
+            print("契约校验失败（impact-report.schema.json），未写文件：", file=sys.stderr)
+            for e in contract_errors:
+                print(f"  - {e}", file=sys.stderr)
+            return 3
 
     out = Path(args.out) if args.out else ROOT / "reviews" / "kcr" / f"impact-report-{datetime.now().strftime('%Y%m%d')}.json"
     if not out.is_absolute():
@@ -230,10 +276,14 @@ def main() -> int:
         print(f"错误：{result['error']}")
         return 2
     aff = result["affected"]
-    print(f"KCR 影响报告已写入 {out.relative_to(ROOT)}")
+    try:
+        shown = out.relative_to(ROOT)
+    except ValueError:
+        shown = out
+    print(f"KCR 影响报告已写入 {shown}")
     print(f"  claims={len(aff['claims'])} concepts={len(aff['concepts'])} lessons={len(aff['lessons'])} "
           f"quizzes={len(aff['quizzes'])} courses={len(aff['courses'])}")
-    print(f"  conflicts={len(result['conflicts'])} uncovered_claims={len(result['uncovered']['claims_without_source'])}")
+    print(f"  conflicts={len(result['conflicts'])} uncovered={len(result['uncovered'])} integrity_findings={len(result.get('integrity_findings', []))}")
     print("  只读：未修改任何源 JSON / 正文 / 断言状态。")
     return 0
 

@@ -2347,13 +2347,14 @@
         buffer.length ? buffer.map((f) => f.name).join(" ") + "（" + buffer.length + " 帧）" : "空",
         next ? next.name + " · PTS " + next.pts : "—",
         "PTS−DTS = " + (curFrame.pts - curFrame.dts),
-        "DTS ≤ PTS 恒成立",
+        "I/P 帧 PTS ≥ DTS · B 帧 PTS < DTS",
       ];
       stageValues.forEach((node, i) => { node.textContent = stageTexts[i] || "—"; });
       set("tlCur", curFrame.name + "（DTS " + cur + "）");
       set("tlBuf", buffer.length ? buffer.map((f) => f.name).join(" ") : "空");
       set("tlNext", next ? next.name + "（PTS " + next.pts + "）" : "—");
-      set("tlDelta", "+" + (curFrame.pts - curFrame.dts));
+      const tlDeltaVal = curFrame.pts - curFrame.dts;
+      set("tlDelta", (tlDeltaVal >= 0 ? "+" : "") + tlDeltaVal);
       const state = $("labTimelineState");
       if (state) state.textContent = "已解码 " + decoded.length + " 帧 · 缓冲 " + buffer.length + " 帧 · 下一显示 " + (next ? next.name : "—");
     }

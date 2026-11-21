@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generatedAt": "2026-11-18",
+  "generatedAt": "2026-11-21",
   "note": "Generated from tools/glossary.json + knowledge-model/concepts.json. Do not edit by hand.",
   "categories": [
     {
@@ -166,6 +166,20 @@
           "layer": "L7",
           "group": "色彩与压缩",
           "route": "#/glossary?term=PBR"
+        },
+        {
+          "id": "K-HDR",
+          "name": "HDR 视频渲染",
+          "layer": "L1",
+          "group": "色彩与压缩",
+          "route": "#/glossary?term=HDR"
+        },
+        {
+          "id": "K-TONEMAP",
+          "name": "色调映射",
+          "layer": "L3",
+          "group": "色彩与压缩",
+          "route": "#/glossary?term=tone%20mapping"
         }
       ]
     },

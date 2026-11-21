@@ -102,7 +102,11 @@ def slug(rel_posix):
     return s or "doc"
 
 
-def main():
+def collect_entries():
+    """扫描磁盘 frontmatter，返回注册表条目列表（纯函数，只读）。
+
+    main() 与 validate_site.py 第 12 节共用本函数，保证生成与校验同一套口径。
+    """
     entries = []
     md_files = sorted(set(ROOT.rglob("*.md")) | set(ROOT.rglob("*.mdc")))
     for p in md_files:
@@ -131,6 +135,11 @@ def main():
         }
         entry["level"] = derive_level(entry["status"], rel_posix)
         entries.append(entry)
+    return entries
+
+
+def main():
+    entries = collect_entries()
 
     def count(key):
         out = {}

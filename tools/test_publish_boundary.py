@@ -85,7 +85,7 @@ class ArtifactTests(unittest.TestCase):
         leaked = [d for d in docs if str(d.get("id", "")).startswith("reviews/")
                   or str(d.get("path", "")).startswith("reviews/")]
         self.assertEqual(leaked, [], f"仍有 {len(leaked)} 篇 reviews/ 文档作为条目发布")
-        self.assertEqual(len(docs), 69, "知识文档数应为 69（77 篇总数移除 8 篇 reviews 后；PD-Q1 收口修正原断言笔误 77）")
+        self.assertEqual(len(docs), 83, "知识文档数应为 83（77 篇总数 + L03/L04/L05/L07/L08/L09/L10/L12/L14/L15/L16/L17/L18/L19 新教材 14 篇 = 91，移除 8 篇 reviews 后；PD-Q1 收口曾修正原断言笔误 77→69，新教材加入后逐篇 +1）")
 
     def test_content_js_keeps_knowledge_docs(self):
         content_js = ROOT / "web" / "content.js"

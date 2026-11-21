@@ -13,8 +13,10 @@ Checks (FAIL blocks the build, WARN is informational):
   7. generated web/content.js exists and starts with the expected assignment
   8. evidence layer: unique claim ids, resolvable sources, valid enums, lesson refs
   9. knowledge model: unique concept ids, resolvable glossary terms/anchors/relations
- 10. pilot courses: lesson frontmatter, source anchors, quizzes, claim back-refs
- 11. coverage: orphan assertions, quiz/checkpoint/claim alignment, feedback refs
+  10. pilot courses: lesson frontmatter, source anchors, quizzes, claim back-refs
+  11. coverage: orphan assertions, quiz/checkpoint/claim alignment, feedback refs
+  12. document-registry: .agent/indexes/document-registry.json matches disk frontmatter
+      (read-only; FAIL means rebuild via `py -3 tools/build_document_registry.py`)
 
 Exit code is non-zero when any FAIL is present.
 """
@@ -27,6 +29,8 @@ import re
 import sys
 import unicodedata
 from pathlib import Path
+
+import build_document_registry as doc_registry
 
 ROOT = Path(__file__).resolve().parent.parent
 GLOSSARY_PATH = ROOT / "tools" / "glossary.json"
@@ -565,6 +569,37 @@ if FEEDBACK_PATH.exists():
                 if cl not in claim_ids:
                     fail(f"[feedback] entry {i}: unknown claim {cl!r}")
         ok()
+
+# ---------------------------------------------------------------------------
+# 12. document-registry <-> disk frontmatter consistency (P8 片三，2026-11-20)
+# ---------------------------------------------------------------------------
+# 只读比对：用生成器同一套 collect_entries() 重算磁盘真值，与注册表 documents 逐条
+# 对比（meta.generated_at 是构建时间戳，不参与比对）。FAIL 的修复动作 = 重建注册表，
+# 本节不写任何文件。注册表扫描范围（含 .agent/reviews/archive）与知识 bundle 不同，
+# 属预期差异，由生成器 EXCLUDED_PARTS 单一口径决定。
+DOC_REGISTRY_PATH = ROOT / ".agent" / "indexes" / "document-registry.json"
+if DOC_REGISTRY_PATH.exists():
+    reg = load_json(DOC_REGISTRY_PATH)
+    if reg is not None:
+        reg_fail_baseline = len(fails)
+        expected = {e["path"]: e for e in doc_registry.collect_entries()}
+        actual = {e.get("path"): e for e in reg.get("documents", [])}
+        for path in sorted(set(expected) - set(actual)):
+            fail(f"[registry] {path}: 磁盘存在但注册表缺失 — run py -3 tools/build_document_registry.py")
+        for path in sorted(set(actual) - set(expected)):
+            fail(f"[registry] {path}: 注册表残留但磁盘已不存在 — run py -3 tools/build_document_registry.py")
+        for path in sorted(set(expected) & set(actual)):
+            exp, act = expected[path], actual[path]
+            for key in sorted(set(exp) | set(act)):
+                if exp.get(key) != act.get(key):
+                    fail(f"[registry] {path}: 字段 {key} 漂移 registry={act.get(key)!r} disk={exp.get(key)!r} — run py -3 tools/build_document_registry.py")
+        total = (reg.get("meta") or {}).get("total")
+        if total != len(expected):
+            fail(f"[registry] meta.total={total} != 磁盘文档数 {len(expected)} — run py -3 tools/build_document_registry.py")
+        if len(fails) == reg_fail_baseline:
+            ok()
+else:
+    fail("[registry] .agent/indexes/document-registry.json missing — run py -3 tools/build_document_registry.py")
 
 # ---------------------------------------------------------------------------
 # summary

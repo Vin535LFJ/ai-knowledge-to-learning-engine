@@ -47,7 +47,7 @@
 
 | ID | 级别 | 缺口 | 归属 |
 |---|---|---|---|
-| G-W1 | major | 工作流状态机未实现：WORKFLOW_STATE.md 是人工维护的文档，无阶段输入/输出/执行记录/断点恢复的机器可读状态（P9.2 要求轻量实现，不引重型系统） | P9 |
+| G-W1 | major | ~~工作流状态机未实现~~ **已闭合（2026-11-20 P9）**：`tools/run_state.py` + run-state 第四契约 + 25 tests；机器可读运行态（阶段/artifact hash/重试/断点恢复/单写者/人工门），见 `reviews/kcr/RUN-STATE-TOOL.md`。WORKFLOW_STATE.md 仍为人读摘要，运行态落 `.agent/runs/`（本地 only） | P9（已交付） |
 | G-W2 | major | Skill 各阶段"执行合同"不完整：输入 schema、中间产物 schema、失败处理、任务恢复、增量更新、多课程复用缺可执行定义 | P8.5 |
 | G-W3 | minor | MCP/外部工具未盘点封装（Filesystem/GitHub/Web Search/学术检索/Context7/Playwright 哪些实际可用未确认；不假设已安装） | P9.4 |
 | G-P1 | major | VitePress `docs:build` 未完成（D10.6：清理自身 .temp 触发删除权限被拒，用户选择跳过）；在线站"可构建"未验证 | P10.2（需用户授权后重试） |

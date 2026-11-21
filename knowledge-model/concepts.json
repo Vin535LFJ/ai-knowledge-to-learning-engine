@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated": "2026-11-18",
+  "updated": "2026-11-21",
   "note": "概念级关系模型。定义以 glossary.json 为单一来源；本文件只存 ID/引用/关系。",
   "concepts": [
     {
@@ -366,6 +366,41 @@
         {
           "type": "used_by",
           "target": "K-RENDERGRAPH"
+        }
+      ]
+    },
+    {
+      "id": "K-HDR",
+      "name": "HDR 视频渲染",
+      "glossary_term": "HDR",
+      "layer": "L1",
+      "definition_ref": "02-解码与播放链路/流媒体与实时采集.md",
+      "route": "#/glossary?term=HDR",
+      "relations": [
+        {
+          "type": "prerequisite_of",
+          "target": "K-TONEMAP",
+          "source_claim": "V67"
+        },
+        {
+          "type": "contrast_with",
+          "target": "K-RGB",
+          "source_claim": "V63"
+        }
+      ]
+    },
+    {
+      "id": "K-TONEMAP",
+      "name": "色调映射",
+      "glossary_term": "tone mapping",
+      "layer": "L3",
+      "definition_ref": "07-3D渲染与算法实现/GPU图像处理算法.md",
+      "route": "#/glossary?term=tone%20mapping",
+      "relations": [
+        {
+          "type": "used_by",
+          "target": "K-PBR",
+          "source_claim": "V67"
         }
       ]
     }

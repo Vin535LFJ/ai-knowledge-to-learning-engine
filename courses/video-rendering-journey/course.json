@@ -135,7 +135,8 @@
       ],
       "checkpoint": [
         "零拷贝到底省掉了哪一段 CPU 搬移？",
-        "OES 纹理进入 Effect Pass 前必须经过什么转换？"
+        "OES 纹理进入 Effect Pass 前必须经过什么转换？",
+        "手机 SoC 的 CPU→GPU 数据通路走 PCIe 吗？"
       ],
       "next": "L11",
       "lessonFile": "L06-纹理桥与零拷贝.md",
@@ -170,7 +171,8 @@
       ],
       "checkpoint": [
         "单 Pass 场景适合上 RenderGraph 吗？为什么？",
-        "barrier 由谁插入？人工还是图编译？"
+        "barrier 由谁插入？人工还是图编译？",
+        "RenderGraph 主要解决什么问题？"
       ],
       "next": "L13",
       "lessonFile": "L11-RenderGraph与资源生命周期.md",
@@ -213,7 +215,8 @@
       ],
       "checkpoint": [
         "没有投影空间会发生什么？",
-        "OpenGL 与 Vulkan 的 NDC 差异在哪里？"
+        "OpenGL 与 Vulkan 的 NDC 差异在哪里？",
+        "MVP 对列向量的正确相乘顺序是？"
       ],
       "next": null,
       "lessonFile": "L13-坐标变换与MVP.md",
