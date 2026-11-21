@@ -553,4 +553,13 @@
 
 **P7 · P8/P9 只读基础**：新增只读 `tools/kcr_impact.py`（Source→Claim→Concept→Lesson→Quiz→Course→Website 影响链，实测 SRC-RN-AV-BASE 得 3 claims/2 lessons/2 quizzes）+ `reviews/kcr/KCR-IMPACT-TOOL.md` + `reviews/P9-orchestrator-design.md`（状态机 + run-state schema 内联，均 draft）。不写源 JSON、不升级 claim、不建运行态文件、不批量生成课文。
 
-**门禁/边界**：validate 11/0/0、arc 5/5、boundary 11 tests、review_gate 只读（G1/G2/G3 未通过）、governance 25 + radar 38 tests 全绿；registry 重生成 143 docs；HEAD 仍 `474c667`、stash@{0} 仍在、零 commit/push/建仓/联网。
+**门禁/边界**：validate 11/0/0、arc 5/5、boundary 11 tests、review_gate 只读（G1/G2/G3 未通过）、governance 25 + radar 38 tests 全绿；registry 重生成 143 docs；HEAD 仍 `474c667`、stash@{0} 仍在、零 commit/push/建仓/联网。## 2026-11-21 · P10 done——Engine 主目标达成（RUN-2026-11-20-p10-hdr 全闭环）
+
+- **四件人工门全过**：G1 六项升级 verified（采纳 AI 推荐授权）+ V23 I19=A 先补边界再升；KCR-2026-11-001 APPROVED；G2 L19=91/100 通过（用户本人填分确认）；G3 gate --pass（approver: user，22:22:05）。
+- **收尾序列**：resume → PUBLISH（发布记录 reviews/p10/publish-record-hdr.md：本地 bundle 口径，在线发布 D02 未授权）→ FEEDBACK（reviews/p10/feedback-record-hdr.md）→ **done**（write_paths 释放，artifacts 18）。
+- **留痕**：DECISIONS D20；G1 裁决栏回填；glossary HLG 边界联动（U4）；U5 惯例裁决（前课指针口径）；WORKFLOW_STATE/NOW/Program final-acceptance-2026-11-21.md 同步。
+- **门禁终态**：build 75 docs/553 cards · validate 12/0/0 · arc 11 篇 · publish 11/11 · review_gate 84→84（24v）误标 0 · kcr 16/16 · runstate 25/25。
+- **push 暂缓**（用户：等我通知）；阶段 2 LXD 试点 A 待执行（下一窗口）。
+
+## 2026-11-21 · P7.2 第十篇：L09《移动端瓶颈与 TBDR》新写教材（审读 blocker 修复后通过——「其余篇目」第六篇）
+

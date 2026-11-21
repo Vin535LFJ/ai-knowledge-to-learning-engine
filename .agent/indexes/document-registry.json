@@ -1,12 +1,12 @@
 {
  "meta": {
-  "generated_at": "2026-11-21T04:00:06+00:00",
+  "generated_at": "2026-11-21T14:23:33+00:00",
   "generator": "tools/build_document_registry.py",
-  "total": 180,
+  "total": 182,
   "counts_by_status": {
    "unregistered": 78,
    "draft": 58,
-   "active": 37,
+   "active": 39,
    "approved": 5,
    "proposed": 1,
    "archived": 1
@@ -14,12 +14,12 @@
   "counts_by_level": {
    "L2": 67,
    "unclassified": 58,
-   "L1": 42,
+   "L1": 44,
    "L3": 13
   },
   "counts_by_type": {
    "knowledge": 69,
-   "review-material": 42,
+   "review-material": 44,
    "skill": 26,
    "template": 9,
    "standard": 8,
@@ -2839,6 +2839,22 @@
    "level": "L1"
   },
   {
+   "path": "reviews/p10/feedback-record-hdr.md",
+   "id": "P10-FEEDBACK-RECORD-HDR",
+   "type": "review-material",
+   "type_source": "frontmatter",
+   "status": "active",
+   "owner": "qwenwork",
+   "created": "2026-11-21",
+   "updated": "2026-11-21",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L1"
+  },
+  {
    "path": "reviews/p10/G1-hdr-verification-queue.md",
    "id": "P10-G1-HDR-QUEUE",
    "type": "review-material",
@@ -2873,6 +2889,22 @@
   {
    "path": "reviews/p10/intake-manifest.md",
    "id": "P10-INTAKE-MANIFEST",
+   "type": "review-material",
+   "type_source": "frontmatter",
+   "status": "active",
+   "owner": "qwenwork",
+   "created": "2026-11-21",
+   "updated": "2026-11-21",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L1"
+  },
+  {
+   "path": "reviews/p10/publish-record-hdr.md",
+   "id": "P10-PUBLISH-RECORD-HDR",
    "type": "review-material",
    "type_source": "frontmatter",
    "status": "active",

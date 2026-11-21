@@ -169,3 +169,13 @@
 - **里程碑意义**：decision-kit 七项人工裁决全部闭合（D17/D18/D19）。**续跑点推进为 P7.2 逐篇深化**（一次一篇，以 Gold Standard L01 + lesson-quality-standard 为基准；pilot 路线下一篇 = L02）。
 - **关卡口径**：G1/G2 的**裁决项**已全部解决，但 G1/G2/G3 关卡本身仍未由人工宣布通过（G2 评分表 review-report.md 仍待人工填写；AI 不自评）。P7.2 启动依据 = WORKFLOW_STATE 续跑点（裁决→P7.2），不等于关卡通过。
 - **门禁**：记录性改动后复跑 validate/review_gate 确认无漂移，数字见 CHANGELOG。commit/push 未授权未执行。
+
+
+## D20 · P10 收官裁决执行记录（2026-11-21，用户四件人工门全部通过）
+
+- **G1 证据核验**：V63–V67 升级 verified/high + V23（I19=A）先补 HLG 兼容边界（仅 SDR/BT.2020 WCG）再升级——采纳 AI 推荐授权执行，glossary HLG 词条联动（U4）；U5 惯例裁决=跨课引用按前课指针口径。台账终态 **84 claims（verified 24 / open 53 / conditional 7）误标 0**。
+- **KCR-2026-11-001**：用户批准 → run_state kcr --to APPROVED（19 项，approver 记录授权方式）。
+- **G2 质量评分**：L19 = **91/100 通过**（23/23/18/17/10，用户本人填分确认，采纳 AI 诊断建议分）。
+- **G3 发布门**：gate --pass（approver: user，2026-11-21T22:22:05+08:00）→ resume → PUBLISH（发布记录 reviews/p10/publish-record-hdr.md：本地 bundle 口径，在线发布 D02 仍未授权）→ FEEDBACK（反馈记录 reviews/p10/feedback-record-hdr.md）→ **done（write_paths 释放）**。
+- **阶段 2–4 解冻执行**（用户总指令）：阶段 3 Governance 9/9 验收（ENGINE 真实适配 183 docs + IGNORE_DIRS 修复 + 28 tests，提交 6aec3d3/1b4a880）；阶段 4 Radar 八功能+首次真实数据（rest.py 落地 + 匿名 121 仓/200 快照 + 首份周报 + intake 导出，提交 b7442da）；阶段 2 LXD 解冻、试点 A 待执行。
+- **收口提交**：Engine 9f8ef4b（84 文件分组）；Program f7044b0（含 final-acceptance-2026-11-21.md 六阶段总验收）。**push 全程未做（用户：等我通知）**。
