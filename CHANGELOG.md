@@ -4,6 +4,15 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-23 · push 收口（用户授权 7 笔）+ 下一主线登记（P10.3 具身智能课程）
+
+- **push 回执（用户 2026-11-23 授权，ls-remote 实测）**：Engine `e848d28..3115cad` **6 笔**（cf91738 D17–D19 裁决 / ac81548 T1 命名 / 9f8ef4b 六阶段收口 / a76405b P10 done+D20 / 4945711 LXD 试点 A / 3115cad 记录更正）→ origin/master=`3115cad`；Skills `e1936f2..7326522` **1 笔**（改名引用更新）→ origin/main=`7326522`（首推 connection reset，重试成功，先例 D16 网络抖动）。Program/Governance/Radar 无 remote（PD-Q3 另批），本地提交保护。
+- **六阶段收口确认（本会话独立实测，非照单全收）**：run=FEEDBACK/done、G3 passed（approver 记录）、18 artifacts、write_paths 释放；D20 完整；G2-L19=91 用户本人填分；LXD SKILL active + Floor L13/L19 双 PASS 复跑；五仓工作树清零；门禁复跑 validate **12/0/0** · publish **11/11** · review_gate **84 claims（24v/53o/7c）误标 0** · kcr **16/16** · runstate **25/25** · arc **19 篇 0 FAIL**。
+- **下一主线（用户 2026-11-23 裁决"1 和 3"）**：**P10.3 多领域课程复用 = embodied-loop-journey 新课程**（源参考 `C:\Users\Giant\Desktop\GITCODE\Robot_Learn`，**只读**，具身智能知识库 625 md/十一轮复核/verified 分级）；**LXD 全面铺开为 Engine 内部工作流**（新页面直接按六项增强+Floor 标准建；既有 19 课分批增强，不另开战线）。kickoff 方案：Program `plans/2026-11-23-embodied-course-kickoff.md`（首批 6 课 + 8 源批 + run 计划，**待用户批准开工**）。
+- **积压登记（不阻塞主线）**：G2 历史 17 篇评分（可复用 L19 模式：AI 诊断建议分+用户确认）；两处源笔误（PSNR dB/花瓶）；U1–U3/P07/C1–C7 研究队列；P10.3 其他领域与 PD-Q3 远程另批。
+- **门禁实测（留痕重建收敛后）**：build **83 docs / 624 cards / 3141 KB**；validate **12/0/0**；publish **11/11**；review_gate **84 claims 误标 0**。
+- **边界**：本条目为 push 回执+主线登记，知识内容/断言/教材零改动；stash 原样；在线发布 D02 仍未授权。
+
 ## 2026-11-21 · P10 端到端验收：HDR 批次真实 run 走通 INTAKE→REVIEW（L19 新教材，人工门暂停待裁）
 
 - **范围**：用户批准"开工 P10 端到端验收：用 run_state 建真实 run，选一批新资料走 INTAKE→FEEDBACK 全链，人工门留给我裁决"。批次主题 **HDR 视频渲染**（查重 151 处命中确认概览层覆盖、无专课深潜、无外部 HDR 来源 → 差异化定位渲染侧管线）。真实 run `RUN-2026-11-20-p10-hdr`（.agent/runs/，本地 only）：**INTAKE→RESEARCH→EVIDENCE→ARCHITECT→WRITE→DESIGN→PRACTICE→REVIEW 八阶段全走通，16 个 artifact 全程 path+sha256 留痕**；REVIEW 暂停（pause --operator user），**PUBLISH/FEEDBACK 被 G3 人工门硬阻塞——设计行为，等用户裁决**。
