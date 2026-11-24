@@ -179,3 +179,12 @@
 - **G3 发布门**：gate --pass（approver: user，2026-11-21T22:22:05+08:00）→ resume → PUBLISH（发布记录 reviews/p10/publish-record-hdr.md：本地 bundle 口径，在线发布 D02 仍未授权）→ FEEDBACK（反馈记录 reviews/p10/feedback-record-hdr.md）→ **done（write_paths 释放）**。
 - **阶段 2–4 解冻执行**（用户总指令）：阶段 3 Governance 9/9 验收（ENGINE 真实适配 183 docs + IGNORE_DIRS 修复 + 28 tests，提交 6aec3d3/1b4a880）；阶段 4 Radar 八功能+首次真实数据（rest.py 落地 + 匿名 121 仓/200 快照 + 首份周报 + intake 导出，提交 b7442da）；阶段 2 LXD 解冻、试点 A 待执行。
 - **收口提交**：Engine 9f8ef4b（84 文件分组）；Program f7044b0（含 final-acceptance-2026-11-21.md 六阶段总验收）。**push 全程未做（用户：等我通知）**。
+
+## D21 · 两处源笔误修正 + embodied-loop-journey kickoff 批准（2026-11-23）
+
+- **源笔误修正（用户批准）**：① 项目实战指南 §5.3 PSNR "+6 dB 减半"→"+3 dB 减半（+6 dB≈1/4）"；② 程序化几何 §2 "花冠"→"花瓶"；③ L15 勘误注记闭合；④ V53 台账 claim/conditions 同步。历史审读材料不改写。
+- **kickoff 批准**：课程名 `embodied-loop-journey`《具身智能：一条指令如何变成物理动作》+ 首批 6 课范围（Program plans/2026-11-23-embodied-course-kickoff.md §8）。run `RUN-2026-11-23-embodied-batch1` 建立，INTAKE 完成→RESEARCH；源库 Robot_Learn 只读零改动。
+- **源清单修订**：facts.md 实为法规卷底本（非具身核心）；textbook-embodied 实测 10 章。详见 reviews/embodied-batch1/intake-manifest.md。
+- **工具链多课程最小扩展（报批中，WRITE 前需批准）**：validate §10 independent 课程命名空间 + build_site additive courses[] payload + publish-allowlist 08-具身智能。未批则首批先以知识文档形态产出。
+- **push 回执补记**：用户授权 7 笔已推（Engine e848d28..3115cad / Skills e1936f2..7326522，ls-remote 实测一致）；回执笔 79c3fe8 推送成功，ls-remote 复核初遇网络抖动、本会话重试成功（远端 master=79c3fe8 一致）。
+- **commit/push**：本批（笔误修正 + INTAKE）改动未提交，待授权。

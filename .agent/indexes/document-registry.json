@@ -1,12 +1,12 @@
 {
  "meta": {
-  "generated_at": "2026-11-21T14:26:51+00:00",
+  "generated_at": "2026-11-23T12:21:51+00:00",
   "generator": "tools/build_document_registry.py",
-  "total": 182,
+  "total": 185,
   "counts_by_status": {
    "unregistered": 78,
    "draft": 57,
-   "active": 40,
+   "active": 43,
    "approved": 5,
    "proposed": 1,
    "archived": 1
@@ -14,16 +14,16 @@
   "counts_by_level": {
    "L2": 66,
    "unclassified": 58,
-   "L1": 45,
+   "L1": 48,
    "L3": 13
   },
   "counts_by_type": {
    "knowledge": 69,
-   "review-material": 44,
-   "skill": 26,
+   "review-material": 45,
+   "skill": 27,
    "template": 9,
    "standard": 8,
-   "project-state": 7,
+   "project-state": 8,
    "adapter": 5,
    "agent-plan": 3,
    "run-log": 2,
@@ -563,6 +563,22 @@
    "related_adr": [
     "ADR-0001"
    ],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L1"
+  },
+  {
+   "path": ".agent/skills/learning-experience-design/USAGE.md",
+   "id": "LEX-USAGE",
+   "type": "skill",
+   "type_source": "heuristic",
+   "status": "active",
+   "owner": "qwenwork",
+   "created": "2026-11-23",
+   "updated": "2026-11-23",
+   "supersedes": [],
+   "related_adr": [],
    "related_task": "",
    "generated": false,
    "frontmatter_present": true,
@@ -2135,6 +2151,22 @@
    "level": "unclassified"
   },
   {
+   "path": "docs/USER-GUIDE.md",
+   "id": "ENGINE-USER-GUIDE",
+   "type": "project-state",
+   "type_source": "heuristic",
+   "status": "active",
+   "owner": "qwenwork",
+   "created": "2026-11-23",
+   "updated": "2026-11-23",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L1"
+  },
+  {
    "path": "evidence/README.md",
    "id": "evidence-readme-md",
    "type": "data-config",
@@ -2421,6 +2453,22 @@
    "generated": false,
    "frontmatter_present": false,
    "level": "L2"
+  },
+  {
+   "path": "reviews/embodied-batch1/intake-manifest.md",
+   "id": "EMBODIED-B1-INTAKE",
+   "type": "review-material",
+   "type_source": "frontmatter",
+   "status": "active",
+   "owner": "qwenwork",
+   "created": "2026-11-23",
+   "updated": "2026-11-23",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L1"
   },
   {
    "path": "reviews/EXECUTION_PLAN_V3.md",

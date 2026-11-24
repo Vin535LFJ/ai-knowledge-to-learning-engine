@@ -4,6 +4,16 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-23 · 两处源笔误修正（D21 用户批准）+ embodied-loop-journey 首批 INTAKE 完成（run 推进至 RESEARCH）
+
+- **源笔误修正（用户批准，D21）**：① 项目实战指南 §5.3 "PSNR 每提高 6 dB，MSE 约减半"→"每提高约 3 dB 减半（10·log₁₀2≈3.01；+6 dB≈降至 1/4）"；② 程序化几何与旋转曲面 §2 "花冠"→"花瓶"（全库唯一命中）；③ L15 勘误注记更新为"已闭合（源已更正）"；④ V53 台账 claim/conditions 同步（去除"待 G1 更正"表述）。历史审读材料（G2-L15/G2-L17）不改写。
+- **embodied kickoff 批准与 INTAKE**：用户批准课程名 `embodied-loop-journey`《具身智能：一条指令如何变成物理动作》+ 首批 6 课。真实 run `RUN-2026-11-23-embodied-batch1`（gate G3/--kcr/6 write_paths）建立并启动；**INTAKE 完成→RESEARCH**（artifact：reviews/embodied-batch1/intake-manifest.md）。查重：具身相关词全库 **0 命中**（完全新增领域）。
+- **源清单诚实修订**：rerun/facts.md 实测为"AI 训练师职业标准/法规卷"事实底本（非具身核心），首批仅按需引用具身相关条目（白皮书名称/数据质量国标/Kappa）；主源 = textbook-embodied（**实测 10 章**，盘点"12 章"口径更正）+ embodied-principles（6 章）+ ch05 5.15/5.16 verified 块 + openlab。Robot_Learn 只读零改动。
+- **工具链多课程评估（报批项）**：validate §10 L411 硬约束 pilot id ⊆ tools/course.json——独立新课程需最小扩展（§10 independent 命名空间 + build_site additive courses[] payload + allowlist 08-具身智能），**WRITE 前需用户批准**；未批则首批先以 08-具身智能/ 知识文档形态产出（RESEARCH/EVIDENCE 不受阻）。
+- **门禁实测（笔误修正+INTAKE 留痕后末次）**：build **83 docs / 624 cards / 3149 KB**；validate **12/0/0**；arc **19 篇 0 FAIL**；publish **11/11**；review_gate **84 claims（24v/53o/7c）误标 0**；kcr **16/16**；runstate **25/25**；registry **183 条**一致。
+- **边界**：未 commit/push（本批改动累积待授权）；断言状态除 V53 文本同步外零改动；stash 原样；在线发布 D02 不变。
+- **续跑点**：RESEARCH——源提取（textbook/principles/5.15/5.16 → 断言草稿 + 外部核验）；工具链扩展报批并行等待。
+
 ## 2026-11-23 · push 收口（用户授权 7 笔）+ 下一主线登记（P10.3 具身智能课程）
 
 - **push 回执（用户 2026-11-23 授权，ls-remote 实测）**：Engine `e848d28..3115cad` **6 笔**（cf91738 D17–D19 裁决 / ac81548 T1 命名 / 9f8ef4b 六阶段收口 / a76405b P10 done+D20 / 4945711 LXD 试点 A / 3115cad 记录更正）→ origin/master=`3115cad`；Skills `e1936f2..7326522` **1 笔**（改名引用更新）→ origin/main=`7326522`（首推 connection reset，重试成功，先例 D16 网络抖动）。Program/Governance/Radar 无 remote（PD-Q3 另批），本地提交保护。
