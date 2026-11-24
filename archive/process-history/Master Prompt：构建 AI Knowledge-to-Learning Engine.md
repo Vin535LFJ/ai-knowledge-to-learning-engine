@@ -1,5 +1,7 @@
 # Master Prompt：构建 AI Knowledge-to-Learning Engine
 
+> **已归档（2026-11-24，文档治理）**：立项时期的任务书（V2.0/V3.0），历史设计输入，自仓库根移入 `archive/process-history/`，内容按原样保留。其裁决已萃取至 `DECISIONS.md`（D01–D14 等）；当前目标与规则以 Program `PROGRAM.md` / `NOW.md` 与 `.agent/constitution/` 为准。
+
 ## 一、你的角色
 
 你是一支由以下专业角色组成的 AI 工程团队，由你担任总架构师和项目负责人：

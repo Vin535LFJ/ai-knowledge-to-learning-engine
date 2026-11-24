@@ -1,6 +1,7 @@
 # 归档文档说明
 
 > 本目录存放知识库重构前的原始文档，仅供历史参考，不再维护。
+> **2026-11-24 文档治理新增**：`process-history/` 子目录存放 P6 时代过程文档六份（Master Prompt / 工作流设计 / NEXT_PHASE_PLAN / IMPLEMENTATION_PLAN / CURRENT_GAPS / PROJECT_CURRENT_STATE），自仓库根移入，清单与替代关系见 `process-history/README.md`。
 
 ## 使用原则
 

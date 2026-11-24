@@ -85,7 +85,7 @@ class ArtifactTests(unittest.TestCase):
         leaked = [d for d in docs if str(d.get("id", "")).startswith("reviews/")
                   or str(d.get("path", "")).startswith("reviews/")]
         self.assertEqual(leaked, [], f"仍有 {len(leaked)} 篇 reviews/ 文档作为条目发布")
-        self.assertEqual(len(docs), 83, "知识文档数应为 83（77 篇总数 + L03/L04/L05/L07/L08/L09/L10/L12/L14/L15/L16/L17/L18/L19 新教材 14 篇 = 91，移除 8 篇 reviews 后；PD-Q1 收口曾修正原断言笔误 77→69，新教材加入后逐篇 +1）")
+        self.assertEqual(len(docs), 85, "知识文档数应为 85（83 基线 + 2026-11-24 文档治理：archive/process-history/README.md 归档索引 +1；docs/USER-GUIDE.md 审计期创建但此前漏在 bundle 外，本次纳入 +1；六份 P6 过程文档自根移入 archive/process-history/ 不改变计数）")
 
     def test_content_js_keeps_knowledge_docs(self):
         content_js = ROOT / "web" / "content.js"
@@ -94,6 +94,35 @@ class ArtifactTests(unittest.TestCase):
         text = content_js.read_text(encoding="utf-8", errors="replace")
         self.assertIn("01-基础理论/音视频基础理论.md", text, "知识文档意外丢失")
         self.assertIn("courses/video-rendering-journey/", text, "课程文档意外丢失")
+
+    def test_no_term_links_inside_display_math(self):
+        """2026-11-24 回归门禁：$$ 公式块内不得注入术语链接（公式乱码修复）。
+
+        根因：build_site.inject_inline_term_links 此前不保护多行 $$ 块，NDC 等术语
+        被注入 [NDC](#/glossary?term=NDC)，KaTeX 收到 Markdown 链接语法导致公式乱码。
+        CHANGELOG.md 是散文日志，$$ 字样可能跨段误配对，排除。
+        """
+        import json
+        import re
+
+        content_js = ROOT / "web" / "content.js"
+        if not content_js.exists():
+            self.skipTest("web/content.js 尚未生成")
+        text = content_js.read_text(encoding="utf-8", errors="replace")
+        match = re.search(r"window\.RENDER_NOTES = (\{.*\})\s*;?\s*$", text, re.S)
+        self.assertIsNotNone(match)
+        docs = json.loads(match.group(1)).get("docs", [])
+        bad = []
+        for d in docs:
+            path = str(d.get("path", ""))
+            if path == "CHANGELOG.md":
+                continue
+            md = d.get("markdown") or d.get("content") or ""
+            for m in re.finditer(r"\$\$[\s\S]*?\$\$", md):
+                if "glossary?term" in m.group(0):
+                    bad.append(path)
+                    break
+        self.assertEqual(bad, [], f"公式块内出现术语链接（会致 KaTeX 乱码）: {bad}")
 
     def test_vitepress_has_no_reviews_dir(self):
         vp_docs = ROOT / "site-vitepress" / "docs"

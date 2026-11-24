@@ -26,8 +26,8 @@ DOCS = ROOT / "site-vitepress" / "docs"
 SIDEBAR_PATH = ROOT / "site-vitepress" / ".vitepress" / "sidebar.generated.mjs"
 
 EXCLUDED_FILES = {
-    "Master Prompt：构建 AI Knowledge-to-Learning Engine.md",
-    "Render_Notes：从知识库到 AI 原生教学系统的工作流设计.md",
+    # 2026-11-24 文档治理：Master Prompt / Render_Notes 工作流设计两份已移入
+    # archive/process-history/，由 EXCLUDED_TOP_DIRS 的 archive 排除覆盖。
     "CLAUDE.md",
     "AGENTS.md",
 }

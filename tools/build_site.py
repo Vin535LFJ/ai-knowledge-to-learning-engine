@@ -316,6 +316,7 @@ def build_chapter_intro(doc_path: str, hits: list[tuple[dict, int]], all_doc_ids
 PROTECT_PATTERNS = [
     r"`[^`\n]*`",
     r"\[[^\]\n]*\]\([^)\n]*\)",
+    r"\$\$.*?\$\$",
     r"\$[^$\n]*\$",
     r"<!--.*?-->",
 ]
@@ -349,6 +350,7 @@ def inject_inline_term_links(markdown: str, selected: list[tuple[dict, int]]) ->
     used: set[str] = set()
     output = []
     in_fence = False
+    in_math = False
 
     for line in markdown.splitlines():
         stripped = line.strip()
@@ -358,6 +360,19 @@ def inject_inline_term_links(markdown: str, selected: list[tuple[dict, int]]) ->
             continue
         if in_fence or stripped.startswith("<!--"):
             output.append(line)
+            continue
+        # 2026-11-24 公式乱码修复：$$ display 公式块（可跨行）内禁止注入术语链接。
+        # 此前 PROTECT_PATTERNS 只保护单行 $...$，多行 $$ 块内的 NDC 等术语被注入
+        # [NDC](#/glossary?term=NDC)，KaTeX 收到 Markdown 链接语法导致公式乱码。
+        if in_math:
+            output.append(line)
+            if stripped.endswith("$$"):
+                in_math = False
+            continue
+        if stripped.startswith("$$"):
+            output.append(line)
+            if not (stripped.endswith("$$") and len(stripped) > 2):
+                in_math = True
             continue
         if stripped.startswith("#") or stripped.startswith("|") or stripped.startswith(">"):
             output.append(line)

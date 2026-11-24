@@ -1,5 +1,7 @@
 # **Render_Notes：从知识库到 AI 原生教学系统的工作流设计**
 
+> **已归档（2026-11-24，文档治理）**：立项时期的工作流设计建议（Render_Notes 为仓库旧名，现名 ai-knowledge-to-learning-engine），历史设计输入，自仓库根移入 `archive/process-history/`，内容按原样保留。现行治理机制见 `.agent/constitution/` 与 `DECISIONS.md`。
+
 我认真检查了你的 [Render_Notes 仓库](https://github.com/Vin535LFJ/Render_Notes?utm_source=chatgpt.com)，也结合了当前 Agent Skills、MCP 和教学设计方面的实践。
 
 我认为，你现在遇到的问题非常值得单独解决，因为它实际上涉及三个不同的系统：

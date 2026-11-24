@@ -69,4 +69,4 @@ py -3 -m http.server 8791 --directory web
 
 ---
 
-历史细节在 [CHANGELOG.md](CHANGELOG.md)；早期规划文档（`NEXT_PHASE_PLAN.md` / `IMPLEMENTATION_PLAN.md`）保留但不作为当前事实源。
+历史细节在 [CHANGELOG.md](CHANGELOG.md)；早期规划与立项文档（Master Prompt / NEXT_PHASE_PLAN / IMPLEMENTATION_PLAN / CURRENT_GAPS / PROJECT_CURRENT_STATE / 工作流设计）已归档至 `archive/process-history/`（2026-11-24 文档治理），仅供历史参考，不作为当前事实源。

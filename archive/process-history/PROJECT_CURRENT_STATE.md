@@ -1,5 +1,7 @@
 # PROJECT_CURRENT_STATE · AI Knowledge-to-Learning Engine 真实状态审计
 
+> **已归档（2026-11-24，文档治理）**：P6 审计基线快照，自仓库根移入 `archive/process-history/`，内容按原样保留。当前权威状态以 `WORKFLOW_STATE.md`、`reviews/REVIEW_STATUS.md` 与 Program `NOW.md` 为准。
+
 > 审计时间：2026-11-18。依据 Master Prompt V2.0 第一步要求产出。
 > **V3.0 更新（2026-11-19）**：本文件为 P6 审计基线快照；当前真值（build 干净基线 69 docs / 31 claims·16 sources / L01 239 行 / .zcode 污染说明）以 `reviews/CURRENT_AUDIT.md` 为准。claim/source 计数已就地更正为 31/16。
 > 口径：一切以实际代码与本地文件实测为准；旧方案文档、README 数字、历史对话描述不作为执行依据（D08）。

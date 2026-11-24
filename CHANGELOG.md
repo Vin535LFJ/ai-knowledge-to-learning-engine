@@ -4,6 +4,27 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-24 · 公式乱码修复：构建期术语注入保护 $$ 公式块（用户报告）
+
+- **现象**：3D变换与坐标空间 §4.3 的 Vulkan/D3D 深度公式在站点显示为原始 LaTeX + Markdown 链接混合乱码（`z_{[NDC](#/glossary?term=NDC)} = \frac{...}`）。
+- **根因（实测定位）**：`build_site.inject_inline_term_links` 的 PROTECT_PATTERNS 只保护单行 `$...$`，**不保护多行 `$$` display 公式块**——术语链接器把公式内的 ndc 注入为 `[NDC](#/glossary?term=NDC)`，前端 protectMath 原样保护后 KaTeX 收到链接语法。前端无责（renderMath 先于 annotateTerms，且跳过 .katex）。
+- **修复**：① PROTECT_PATTERNS 增加同行 `$$...$$` 保护；② 注入循环增加 `in_math` 跨行状态（`$$` 开块至闭块整段跳过），与既有 in_fence 同构。源 md 零改动（污染只发生在构建期）。
+- **验证**：重建后全 bundle **83 个公式块 0 污染**（CHANGELOG 散文 $$ 字样跨段配对为检查误报，非公式）；Edge headless 真实渲染 QA：该页 **7 个 KaTeX 块全部渲染、0 链接污染、无 parse error**，公式源码仅存于 KaTeX annotation（预期）；临时服务器已停。
+- **回归门禁**：test_publish_boundary 新增 `test_no_term_links_inside_display_math`（11→**12 tests**），防止复发。
+- **门禁实测**：validate **12/0/0** · publish **12/12** · review_gate **84 claims（24v）误标 0**；build 85 docs / 628 cards 不变。
+- **边界**：未 commit/push；断言/教材正文/stash 零触碰。
+
+## 2026-11-24 · 文档治理：P6 过程文档归档 + 发布口径纠偏 + reviews/ 导航（用户授权移动/归档/删除）
+
+- **归档移动（6 份，只移不删）**：`NEXT_PHASE_PLAN.md` / `CURRENT_GAPS.md` / `IMPLEMENTATION_PLAN.md` / `PROJECT_CURRENT_STATE.md` / `Master Prompt：构建 AI Knowledge-to-Learning Engine.md` / `Render_Notes：从知识库到 AI 原生教学系统的工作流设计.md` 自仓库根移入 `archive/process-history/`，各加归档标注（内容原样保留），新增 `archive/process-history/README.md`（清单与替代关系）；`archive/README.md` 挂子目录指针。根目录只剩 7 份活跃文档（README/AGENTS/CLAUDE/CHANGELOG/DECISIONS/WORKFLOW_STATE/.gitignore）。依 D10.4 归档仍在离线站只读发布；零 Markdown 入链（实测），历史叙述中的旧路径提及不改写。
+- **发布口径纠偏**：allowlist 移除已清理的 `program-office-delivery` 与六份已移根条目、新增 `docs/`；`build_vitepress_content.py` EXCLUDED_FILES 移除两份已移文档（archive 排除已覆盖）；`run_state.py` 设计依据路径更新；README 历史文档指针更新。
+- **reviews/ 导航**：新增 `reviews/README.md`（目录结构 + Loop 1 历史材料标注 + 使用原则）；历史材料只标注、不移动、不改写。
+- **删除（回收站，可恢复）**：`.qoder-input-images/`（gitignore 内临时输入缓存，1 png）经 host_safe_delete 移入系统回收站（status=deleted/recoverable=true）。其余文件无安全删除候选，一律保留。
+- **bundle 口径修正**：docs/USER-GUIDE.md 审计期创建但此前漏在 bundle 外，本次纳入；publish 计数断言 83→85（+归档索引 README +USER-GUIDE）。
+- **Program 同步**：NOW.md 过期口径修正（kickoff 已批准/提交与 push 状态/源笔误已闭合/遗留清单更新）；PROGRAM.md 旧名 Render_Notes 活跃标注改为现名（历史叙述保留）、Governance/Radar 状态更新为已解冻验证。
+- **门禁实测（留痕后末次）**：build **85 docs / 628 cards / 3168 KB**；validate **12/0/0**；arc **19 篇 0 FAIL**；publish **11/11**；review_gate **84 claims（24v/53o/7c）误标 0**；kcr **16/16**；runstate **25/25**；registry **187 条**一致。
+- **边界**：未 commit/push（待授权）；断言/教材正文/stash 零触碰；embodied run 状态不变（RESEARCH/running）；在线发布 D02 不变。
+
 ## 2026-11-23 · 两处源笔误修正（D21 用户批准）+ embodied-loop-journey 首批 INTAKE 完成（run 推进至 RESEARCH）
 
 - **源笔误修正（用户批准，D21）**：① 项目实战指南 §5.3 "PSNR 每提高 6 dB，MSE 约减半"→"每提高约 3 dB 减半（10·log₁₀2≈3.01；+6 dB≈降至 1/4）"；② 程序化几何与旋转曲面 §2 "花冠"→"花瓶"（全库唯一命中）；③ L15 勘误注记更新为"已闭合（源已更正）"；④ V53 台账 claim/conditions 同步（去除"待 G1 更正"表述）。历史审读材料（G2-L15/G2-L17）不改写。

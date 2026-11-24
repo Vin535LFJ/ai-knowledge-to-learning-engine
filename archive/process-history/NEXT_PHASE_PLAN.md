@@ -1,5 +1,7 @@
 # NEXT_PHASE_PLAN · P6–P10 实施计划
 
+> **已归档（2026-11-24，文档治理）**：P6–P10 计划已全部执行完毕（P10 done，D20），本文件自仓库根移入 `archive/process-history/`，内容按原样保留、不再更新。当前权威状态见 `WORKFLOW_STATE.md` / `DECISIONS.md` 与 Program `NOW.md` / `ROADMAP.md`。
+
 > 依据 Master Prompt V2.0 第五/八节与 `CURRENT_GAPS.md` 制定。P0–P5、B1–B5 已完成，不重复执行。
 > 硬约束：DECISIONS.md D01–D10 继续有效；不重建、不重复造轮子、不远程发布、不 AI 自批、archive/memory/vendor/index.html 不动。
 > 每阶段结束跑门禁（本机用 `py -3`）：`build_site.py` → `validate_site.py`（0 FAIL/0 WARN）→ `check_chapter_arc.py`（全部样章）→ 涉及审核时 `review_gate.py`（只读）。

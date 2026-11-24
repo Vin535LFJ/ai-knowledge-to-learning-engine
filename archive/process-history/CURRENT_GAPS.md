@@ -1,5 +1,7 @@
 # CURRENT_GAPS · 真实缺口清单
 
+> **已归档（2026-11-24，文档治理）**：本清单为 2026-11-18 审计基线（HEAD `5359259`），所列缺口绝大多数已在 P7.2/P8/P9 闭合（G-W1 闭合记录见 P9 留痕），自仓库根移入 `archive/process-history/`，内容按原样保留。当前未闭合事项以 Program `NOW.md` 积压清单与 `ai-knowledge-program/AUDIT-REPORT.md` §E 为准。
+
 > 审计时间：2026-11-18，基于 HEAD `5359259` 实测。配套：`PROJECT_CURRENT_STATE.md`、`NEXT_PHASE_PLAN.md`。
 > 逐章证据与行号见 `courses/video-rendering-journey/教材质量诊断.md`；覆盖数据见 `courses/video-rendering-journey/课程覆盖矩阵.md`。
 > 分级：**blocker**（事实/追溯错误，必修）· **major**（显著影响理解或一致性）· **minor**（记录性/润色）。

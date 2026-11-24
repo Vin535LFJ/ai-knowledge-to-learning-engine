@@ -2,7 +2,7 @@
 """P9 轻量工作流状态机（stdlib-only，D05 JSON 原则，扩展现有 tools/）。
 
 设计依据：reviews/P9-orchestrator-design.md（状态机 + run-state schema + 五条不变量）
-         NEXT_PHASE_PLAN.md P9.2（重试/断点恢复/防重复写入/来源追踪/人工跳过暂停）
+         archive/process-history/NEXT_PHASE_PLAN.md P9.2（重试/断点恢复/防重复写入/来源追踪/人工跳过暂停）
          reviews/EXECUTION_PLAN_V3.md P9（每阶段输入/输出/执行记录/完成条件）
 
 运行态落盘 `.agent/runs/<run_id>.json`（D15：本地 only，已在 .gitignore；
