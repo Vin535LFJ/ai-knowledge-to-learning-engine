@@ -4,6 +4,24 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-24 · 审计整改 TASK 2a：遗留内部审核材料移出课程目录（git mv）
+
+- **动作**：`courses/video-rendering-journey/G2-审核材料-P6.md` → `reviews/G2-审核材料-P6.md`（git mv，提交历史保留；reviews/ 是现有内部审核目录，治理材料不进学习站）。背景：2026-11-24 独立审计发现该 P6 内部审核材料因位于 courses/ 而随目录扫描进入学习站 bundle（审计 P1-4 的遗漏点）。
+- **影响面核查**：活引用仅两处——文档注册表（已重建，195 篇）与 `docs/USER-GUIDE.md` 限制条目（发布边界强制化批次 TASK 2b 修）；其余均为历史留痕（CHANGELOG/DECISIONS/archive/reviews 快照），按纪律不改写。
+- **门禁实测**：build **91 docs / 639 cards / 3255 KB** · validate **12/0/0** · arc **19/19** · publish **12/12**（计数断言 92→91）· review_gate **101 claims（24v/70o/7c）误标 0** · registry **195** · bundle 内 G2-P6 与 reviews/ 均为 0。
+- **边界**：仅移动 + 注册表/bundle 重建；断言/教材正文/stash 零触碰；embodied run 不变（EVIDENCE/running）。
+
+## 2026-11-24 · 工具链多课程最小扩展（用户批准）+ embodied 首批 RESEARCH 完成（run 推进 EVIDENCE）
+
+- **工具链三项扩展（用户批准，夹具演练验收）**：① validate §10 声明 `independent: true` 的课程跳过"派生自主课程"检查（id 唯一性/前置/unit/frontmatter/quiz 仍全量校验）；② build_site additive `courses[]` payload（主课程首位 + courses/*/course.json，旧 UI 读 .course 不受影响）；③ allowlist += 08-具身智能。**演练**：临时 independent 夹具课程 T01 → 12/0/0 通过；independent=false → "not derived" 精确 FAIL；夹具走回收站、registry 重建恢复 187/12-0-0（演练中另发现并规避 PowerShell Set-Content BOM 破坏 frontmatter 的环境坑）。
+- **RESEARCH 源提取（Robot_Learn 只读零改动）**：两个只读代理并行通读主源（textbook 1185 行/principles 512 行/openlab 639 行/5.15、5.16 verified 块）；产出 `08-具身智能/` 七份提取文档（README + L1–L6 课源，公式 LaTeX 规范化、教学假设保留存疑标注、源差异显式注记）。**章节映射更正**：textbook §7=Sim2Real、§8=VLA/世界模型（复合误差在 §8.5）。
+- **独立复算 70/70 通过**（py -3，含 JᵀF 力矩/Cramer 奇异速度/qⁿ 全表/外参全向量/统计区间；不信任源"node 复算"自称）。**外部权威核验 3 项**：Tobin 2017 域随机化（arXiv 1703.06907 摘要）/ Ross 2011 DAgger（PMLR v15，O(εH²)→O(εH)）/ MuJoCo MJWarp 官方 FAQ（GPU 非确定逐字）。
+- **断言与来源登记**：V68–V84 共 17 条全 **open/low**（升级待 G1）；来源 +9（SRC-RL-* ×6 / SRC-EXT-* ×3）→ **101 claims（24v/70o/7c）/ 52 sources**。源勘误队列 **12 项**登记不擅改（"300 毫米"单位笔误/混叠释义条件写反/qⁿ 界方向三处冲突/fact:72/73 登记缺口等），详见研究报告 §6。
+- **run 推进**：RUN-2026-11-23-embodied-batch1 artifact +1（research-report-embodied.md，共 2）→ **RESEARCH→EVIDENCE**（running，G3 open，kcr PROPOSED）。
+- **门禁实测（末次）**：build **92 docs / 641 cards / 3267 KB**；validate **12/0/0**（latex 门禁首跑抓 README 散文单个双美元字样，已改写）；publish **12/12**（计数断言 85→92）；arc **19/19**；review_gate **101 claims 误标 0**（V68–V84 未挂载可预期，WRITE 前）；kcr **16/16**；runstate **25/25**；registry **195**。
+- **边界**：未 commit/push；V1–V67 状态零改动；stash 原样；Robot_Learn 只读；在线发布 D02 不变。
+- **续跑点**：EVIDENCE——G1 核验队列备齐（白皮书名称/BEVFormer NDS/前沿模型数字/源勘误反馈裁决）→ ARCHITECT（概念/术语 + courses/embodied-loop-journey/course.json independent）→ WRITE 6 课（LXD 六项增强+Floor 直接建）。
+
 ## 2026-11-24 · 公式乱码修复：构建期术语注入保护 $$ 公式块（用户报告）
 
 - **现象**：3D变换与坐标空间 §4.3 的 Vulkan/D3D 深度公式在站点显示为原始 LaTeX + Markdown 链接混合乱码（`z_{[NDC](#/glossary?term=NDC)} = \frac{...}`）。

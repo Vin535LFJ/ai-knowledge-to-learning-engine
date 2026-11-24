@@ -85,7 +85,7 @@ class ArtifactTests(unittest.TestCase):
         leaked = [d for d in docs if str(d.get("id", "")).startswith("reviews/")
                   or str(d.get("path", "")).startswith("reviews/")]
         self.assertEqual(leaked, [], f"仍有 {len(leaked)} 篇 reviews/ 文档作为条目发布")
-        self.assertEqual(len(docs), 85, "知识文档数应为 85（83 基线 + 2026-11-24 文档治理：archive/process-history/README.md 归档索引 +1；docs/USER-GUIDE.md 审计期创建但此前漏在 bundle 外，本次纳入 +1；六份 P6 过程文档自根移入 archive/process-history/ 不改变计数）")
+        self.assertEqual(len(docs), 91, "知识文档数应为 91（2026-11-24 审计整改 TASK 2a：G2-审核材料-P6.md 依 git mv 移出 courses/ → reviews/，不进 bundle；发布边界强制化批次 TASK 2b 再更新）")
 
     def test_content_js_keeps_knowledge_docs(self):
         content_js = ROOT / "web" / "content.js"
