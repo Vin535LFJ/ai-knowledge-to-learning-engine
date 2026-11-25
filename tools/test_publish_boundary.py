@@ -320,6 +320,76 @@ class BuildBehaviorTests(unittest.TestCase):
             self.assertTrue(text.startswith("window.RENDER_NOTES = "))
             self.assertFalse((root / "web" / "content.js.tmp").exists())
 
+    @staticmethod
+    def write_json(root, rel, data):
+        p = root / rel
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+
+    def build_payload_in(self, root):
+        import build_site
+
+        old = (build_site.ROOT, build_site.GRAPH_PATH, pb.ALLOWLIST_PATH)
+        build_site.ROOT, build_site.GRAPH_PATH, pb.ALLOWLIST_PATH = root, root / "tools" / "graph.json", root / "tools" / "publish-allowlist.json"
+        try:
+            return build_site.build_payload()
+        finally:
+            build_site.ROOT, build_site.GRAPH_PATH, pb.ALLOWLIST_PATH = old
+
+    def test_curated_data_is_embedded_and_internal_ledger_never_is(self):
+        """2026-11-25：精选 evidence / knowledge-model 必须真正呈现；内部台账不得借道嵌入。"""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = self.make_root(
+                tmp,
+                self.SITE + [
+                    {"path": "docs/lesson.md", "policy": "public"},
+                    {"path": "docs/km.md", "policy": "public"},
+                    {"path": "evidence/source-registry.json", "policy": "curated-data"},
+                    {"path": "knowledge-model/concepts.json", "policy": "curated-data"},
+                    {"path": "evidence/claim-ledger.json", "policy": "excluded-internal", "reason": "含未审核断言"},
+                    {"path": "knowledge-model/agent-state.json", "policy": "excluded-internal", "reason": "Agent 中间状态"},
+                ],
+                extra_files=["docs/lesson.md", "docs/km.md"],
+            )
+            (root / "docs" / "lesson.md").write_text("# L\n\n结论见 V01 与 V02，另有 V99。\n", encoding="utf-8")
+            (root / "docs" / "km.md").write_text("# KM\n", encoding="utf-8")
+            self.write_json(root, "evidence/source-registry.json", {"sources": [
+                {"id": "SRC-1", "title": "权威来源一", "url": "https://example.com/a", "type": "paper", "used_by_claims": ["V01", "V02"]},
+                {"id": "SRC-2", "title": "本机路径来源", "url": "C:/internal/x.md", "type": "doc", "used_by_claims": ["V02"]},
+            ]})
+            self.write_json(root, "evidence/claim-ledger.json", {"claims": [{"id": "V01", "verification": {"status": "open"}}]})
+            self.write_json(root, "knowledge-model/concepts.json", {"concepts": [
+                {"id": "K-1", "name": "概念一", "definition_ref": "docs/km.md", "route": "#/glossary?term=概念一",
+                 "relations": [{"type": "used_by", "target": "K-2", "source_claim": "V01"}]},
+            ]})
+            self.write_json(root, "knowledge-model/agent-state.json", {"secret": "x"})
+
+            payload = self.build_payload_in(root)
+            self.assertEqual(set(payload["curated"]), {"evidence/source-registry.json", "knowledge-model/concepts.json"})
+            docs = {d["id"]: d for d in payload["docs"]}
+            cited = {e["id"]: e for e in docs["docs/lesson.md"]["evidence"]}
+            self.assertEqual(set(cited), {"SRC-1", "SRC-2"}, "V99 不在来源注册表中，不得产生引用")
+            self.assertEqual(cited["SRC-1"]["claims"], ["V01", "V02"])
+            self.assertEqual(cited["SRC-1"]["url"], "https://example.com/a")
+            self.assertEqual(cited["SRC-2"]["url"], "", "非 http(s) 链接（如本机路径）不得输出为可点击链接")
+            self.assertNotIn("verification", json.dumps(cited, ensure_ascii=False), "不得输出断言验证状态")
+            self.assertEqual(docs["docs/km.md"]["concepts"][0]["id"], "K-1")
+            self.assertEqual(docs["docs/km.md"]["concepts"][0]["relations"][0]["target"], "K-2")
+            raw = json.dumps(payload, ensure_ascii=False)
+            self.assertNotIn('"secret"', raw, "excluded-internal 的 JSON 不得以任何形式进入 payload")
+            mf = {m["path"]: m["sha256"] for m in payload["publishManifest"]["curated"]}
+            import hashlib
+            self.assertEqual(set(mf), set(payload["curated"]))
+            for rel, digest in mf.items():
+                self.assertEqual(hashlib.sha256((root / rel).read_bytes()).hexdigest(), digest, rel)
+
+    def test_curated_asset_without_registration_fails_build(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = self.make_root(tmp, self.SITE + [{"path": "docs/lesson.md", "policy": "public"}], extra_files=["docs/lesson.md"])
+            self.write_json(root, "evidence/source-registry.json", {"sources": []})
+            self.assertEqual(self.run_build(root), 2, "evidence/ 内未登记资产 = 默认拒绝")
+            self.assertEqual((root / "web" / "content.js").read_text(encoding="utf-8"), "PREVIOUS_BUNDLE")
+
 
 def load_bundle_docs():
     content_js = ROOT / "web" / "content.js"
@@ -398,6 +468,35 @@ class RealArtifactTests(unittest.TestCase):
     def test_site_data_registered(self):
         for rel in ("tools/glossary.json", "tools/course.json", "tools/labs.json"):
             self.assertEqual(pb.policy_for(rel, self.reg), "site-data", rel)
+
+    def test_curated_data_actually_presented(self):
+        """2026-11-25：注册为 curated-data 的资产必须真正进入站点并呈现，且内部台账不在其中。"""
+        import hashlib
+        curated = {rel for rel, a in self.reg["_by_path"].items() if a["policy"] == "curated-data"}
+        self.assertIn("evidence/source-registry.json", curated)
+        self.assertIn("knowledge-model/concepts.json", curated)
+        embedded = self.bundle.get("curated") or {}
+        self.assertEqual(set(embedded), curated, "payload.curated 必须恰好等于注册表的 curated-data 集合")
+        for rel, a in self.reg["_by_path"].items():
+            if a["policy"] == "excluded-internal":
+                self.assertNotIn(rel, embedded, rel)
+        mf = {m["path"]: m["sha256"] for m in self.bundle["publishManifest"]["curated"]}
+        for rel in curated:
+            self.assertEqual(hashlib.sha256((ROOT / rel).read_bytes()).hexdigest(), mf[rel], rel)
+        docs = self.bundle.get("docs", [])
+        with_evidence = [d for d in docs if d.get("evidence")]
+        with_concepts = [d for d in docs if d.get("concepts")]
+        self.assertGreaterEqual(len(with_evidence), 20, "至少主课程 19 课应呈现证据来源")
+        self.assertTrue(any(d["id"].startswith("courses/embodied-loop-journey/") for d in with_evidence), "embodied 六课应呈现证据来源")
+        self.assertGreaterEqual(len(with_concepts), 10, "知识文档应呈现其定义的概念")
+        source_ids = {s["id"] for s in embedded["evidence/source-registry.json"]["sources"]}
+        for d in docs:
+            for item in d.get("evidence") or []:
+                self.assertIn(item["id"], source_ids, d["id"])
+                self.assertNotIn("verification", item)
+        for d in docs:
+            for item in d.get("concepts") or []:
+                self.assertEqual(set(item), {"id", "name", "route", "relations"}, d["id"])
 
     def test_online_tree_excludes_archive_and_internal(self):
         vp = ROOT / "site-vitepress" / "docs"

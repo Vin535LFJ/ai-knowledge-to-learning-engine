@@ -4,6 +4,16 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-25 · 发布边界 v2 审计收口：精选数据真正呈现 + 路径逃逸实测（TASK 0 验收）
+
+- **审计范围与结论**：按用户 2026-11-25 任务书对 `ae60f34` 做全链复核（注册表 / `publish_boundary.py` / `build_site.py` / `build_vitepress_content.py` / `validate_site.py` / 实际调用链）。注册表 108 资产 = 72 public + 19 offline-read-only + 9 excluded-internal（均带 reason）+ 2 curated-data + 6 site-data，无通配/重复/大小写冲突，注册表↔磁盘零漂移；三个消费者全部经 `publish_boundary`，旧 `check_allowlist`/`load_allowlist`/`include_archive`/`EXCLUDED_TOP_DIRS` 无残留调用；build 先审计后生成、失败不写产物、临时文件回读后原子替换。**结构与调用链合格，发现 1 个真缺口。**
+- **缺口：curated-data「已登记、未呈现」**。`evidence/source-registry.json` 与 `knowledge-model/concepts.json` 登记为精选数据，但 `build_site` 从未加载，站点零呈现——不满足验收条件「精选 evidence / knowledge-model 可以正确呈现」（上一条记录中登记为另批项；本任务书将其列为 TASK 0 验收条件并授权最小修复）。
+- **最小修复**：`build_site` 显式加载注册表全部 curated-data（经 `require_site_data` 强制校验）→ `payload.curated`；每篇文档附 `evidence`（正文断言编号 ∩ 来源注册表 `used_by_claims` → 来源 ID/标题/链接/类型/支撑的断言编号；非 http(s) 链接不输出）与 `concepts`（`definition_ref` 指向本文的概念：ID/名称/路由/已登记关系）；`publishManifest.curated` 记录路径 + SHA256。**不输出断言验证状态**（claim-ledger.json 仍为 excluded-internal，测试断言其内容不以任何形式进入 payload）。`validate_site` 第 13 节新增 e2：嵌入集合必须恰等于注册表 curated-data、哈希可追溯、文档级证据引用只能指向精选来源注册表。`app.js` 新增 `buildEvidencePanel`（复用 term-panel 样式，「证据与概念」折叠面板），`styles.css` +3 行；注册表 `curated-data.embed` false→true 并改写描述。
+- **回归测试 29 → 32 项（31 ok / 1 skipped）**：夹具用例「精选数据嵌入且内部台账不得借道」「evidence 内未登记资产 = 构建失败」；真实产物用例「curated-data 确实呈现」（嵌入集合 == 注册表、哈希、≥20 篇有证据、embodied 六课有证据、≥10 篇有概念、概念字段集严格为 id/name/route/relations）。
+- **实测证据**：① 泄露演练——往 `courses/video-rendering-journey/` 放未登记的伪装内部材料 → build **exit 2**（bundle SHA 不变、无 .tmp 残留）/ validate **4 FAIL** 精确定位；诱饵走回收站后恢复全绿。② 过期检测——改动 `concepts.json` 一个字节 → validate **exit 1**「curated-data … sha256 mismatch」，逐字节还原后 20/0/0。③ **路径逃逸实测**——本机无创建符号链接特权（该用例仍 skipped），改用不需特权的目录联接（`_winapi.CreateJunction`，Python 3.12 下 `is_symlink()=False`）在临时目录演练：`scan_assets` 与 `safe_relpath` 均抛 `RegistryError: path escapes repository root`。④ 浏览器 QA（Edge headless，http）——E05 页面渲染出「证据与概念 · 6 条」面板，DAgger（PMLR）/ Tobin 2017（arXiv）为可点击外链，Robot_Learn 内部文档为纯文本卡片；面板内无验证状态字段。
+- **门禁终态**：build **91 docs（72 public + 19 archive）/ 663 cards / 3106 KB** · validate **20/0/0** · publish tests **32（31 ok / 1 skipped）** · 在线镜像 **72 docs + index，无 archive/** · arc 19/19 · review_gate **102 claims（24v/71o/7c）误标 0** · kcr 16/16 · runstate 25/25 · registry 203。
+- **TASK 0 结论：PASS**（唯一环境限制：符号链接实链接用例在本机无法执行，逃逸判定已由目录联接实测覆盖）。在线发布仍受 D02 约束，本轮无授权。
+
 ## 2026-11-25 · 发布边界 v2 强制收口（TASK 0，用户批准的学习站发布政策）
 
 - **审计结论（实施前实测）**：强制化代码**此前并未落地**——注册表 v2（`tools/publish-allowlist.json`，100 资产/5 策略/enforce/deny）已生成但无任何消费者；`publish_boundary.py` 仍是 advisory 旧 API；build/validate/vitepress 三个工具各自维护排除表，均未读注册表。上一窗口"开始实现强制化代码"后中断。

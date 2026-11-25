@@ -941,6 +941,9 @@ kbd {
 .term-chip strong { font-size: 13px; }
 .term-chip span { color: var(--text-muted); font-size: 11.5px; line-height: 1.5; }
 .term-chip small { color: var(--text-subtle); font-size: 10.5px; }
+.ev-panel .term-panel-grid { grid-template-columns: minmax(0, 1fr); }
+.ev-group { grid-column: 1 / -1; margin: 10px 0 0; font-size: 12px; font-weight: 600; color: var(--text-muted); }
+.ev-group span { margin-left: 8px; font-weight: 400; color: var(--text-subtle); }
 
 .glossary-hero {
   margin-bottom: 26px;

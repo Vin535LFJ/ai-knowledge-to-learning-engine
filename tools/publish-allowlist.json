@@ -28,8 +28,8 @@
       "nav": false,
       "search": false,
       "online": "allowed",
-      "embed": false,
-      "desc": "evidence/knowledge-model 资产级精选数据集（source-registry.json / concepts.json）。已登记、当前未嵌入 payload：app.js 尚无消费端 UI，呈现方案待 LXD/UI 设计另批（登记于 Program PARKING-LOT）。学习者现阶段通过 evidence/README.md 与 knowledge-model/README.md（public）理解证据层。"
+      "embed": true,
+      "desc": "evidence/knowledge-model 资产级精选数据集（source-registry.json / concepts.json）。2026-11-25 起由 build_site 显式嵌入 payload.curated（经 require_site_data 强制校验，validate 核对嵌入集合与 SHA256）：每篇文档底部「证据与概念」面板只输出引用信息（来源标题/链接/类型/支撑的断言编号）与概念（ID/名称/路由/已登记关系），不输出断言验证状态（claim-ledger.json 为 excluded-internal，永不嵌入）。evidence/README.md 与 knowledge-model/README.md（public）继续说明证据层。"
     },
     "site-data": {
       "nav": false,

@@ -405,6 +405,52 @@
     else els.content.appendChild(panel);
   }
 
+  function buildEvidencePanel(doc) {
+    // 2026-11-25 精选数据呈现：证据来源来自 payload.curated 的来源注册表（只含引用信息，不含
+    // 断言验证状态）；概念来自 payload.curated 的知识模型。两者都只输出已登记的精选字段。
+    const evidence = doc.evidence || [];
+    const concepts = doc.concepts || [];
+    if (!evidence.length && !concepts.length) return;
+    const chips = [];
+    if (concepts.length) {
+      chips.push('<p class="ev-group">本页定义的概念 <span>' + concepts.length + " 个</span></p>");
+      concepts.forEach((c) => {
+        const rel = (c.relations || [])
+          .map((r) => escapeHtml(r.type + " → " + r.target + (r.source_claim ? "（" + r.source_claim + "）" : "")))
+          .join("；");
+        chips.push(
+          '<a class="term-chip" href="' + escapeHtml(c.route || "#/glossary") + '">' +
+          "<strong>" + escapeHtml(c.name) + "</strong>" +
+          "<span>" + (rel ? "关系：" + rel : "见术语表") + "</span></a>"
+        );
+      });
+    }
+    if (evidence.length) {
+      chips.push('<p class="ev-group">本文结论的证据来源 <span>' + evidence.length + " 个 · 仅列引用信息</span></p>");
+      evidence.forEach((e) => {
+        const meta = [e.type].concat(e.claims || []).filter(Boolean).join(" · ");
+        const inner =
+          "<strong>" + escapeHtml(e.title) + "</strong>" +
+          "<span>" + escapeHtml(meta) + "</span>";
+        chips.push(
+          /^https?:\/\//.test(e.url || "")
+            ? '<a class="term-chip" href="' + escapeHtml(e.url) + '" target="_blank" rel="noopener noreferrer">' + inner + "</a>"
+            : '<div class="term-chip">' + inner + "</div>"
+        );
+      });
+    }
+    const panel = document.createElement("details");
+    panel.className = "term-panel no-term ev-panel";
+    panel.innerHTML =
+      "<summary>证据与概念 <span>" + (evidence.length + concepts.length) + " 条 · 点击展开</span></summary>" +
+      '<div class="term-panel-grid">' + chips.join("") + "</div>";
+    const termPanel = els.content.querySelector(".term-panel:not(.ev-panel)");
+    const meta = els.content.querySelector(".article-meta");
+    if (termPanel && termPanel.nextSibling) els.content.insertBefore(panel, termPanel.nextSibling);
+    else if (meta && meta.nextSibling) els.content.insertBefore(panel, meta.nextSibling);
+    else els.content.appendChild(panel);
+  }
+
   function glossaryCard(term, open, groupLabel) {
     return (
       '<article class="glossary-card" data-term-name="' + escapeHtml(term.name) + '">' +
@@ -3314,6 +3360,7 @@
       "<span>数据生成 " + escapeHtml(DATA.generatedAt) + "</span>";
     els.content.insertBefore(meta, els.content.firstChild);
     buildTermPanel(doc);
+    buildEvidencePanel(doc);
     buildCourseStrip(doc);
     const fbCtx = feedbackContextForDoc(doc.id);
     if (fbCtx.lesson) mountFeedbackPanel(fbCtx.lesson, fbCtx.quiz);

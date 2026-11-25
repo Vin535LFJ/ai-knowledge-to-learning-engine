@@ -495,6 +495,29 @@ def build_payload() -> dict:
     graph = load_site_data("tools/graph.json") if GRAPH_PATH.exists() else {"nodes": [], "edges": [], "views": []}
     term_entries = build_term_entries(glossary)
 
+    # 2026-11-25 精选数据呈现（TASK 0 收口）：注册表 policy=curated-data 的资产（证据来源注册表、
+    # 知识模型）是**唯一**被授权进入站点的证据/知识数据，这里显式嵌入 payload.curated，
+    # 并经 require_site_data 强制校验（未登记 / excluded-internal → 构建失败）。
+    # claim-ledger.json（含未审核断言与内部验证状态）永远不在此集合中。
+    curated: dict = {}
+    curated_manifest: list = []
+    for rel in sorted(registry["_by_path"]):
+        if registry["_by_path"][rel]["policy"] == "curated-data":
+            curated[rel] = load_site_data(rel)
+            curated_manifest.append({
+                "path": rel,
+                "sha256": hashlib.sha256((ROOT / rel).read_bytes()).hexdigest(),
+            })
+    # 断言编号 → 来源（只取来源注册表的 used_by_claims 反向索引；不读断言台账）。
+    sources_by_claim: dict[str, list] = {}
+    for source in curated.get("evidence/source-registry.json", {}).get("sources", []):
+        for cid in source.get("used_by_claims") or []:
+            sources_by_claim.setdefault(str(cid), []).append(source)
+    # 定义文档 → 概念（知识模型只发布概念 ID/名称/路由/已登记关系）。
+    concepts_by_doc: dict[str, list] = {}
+    for concept in curated.get("knowledge-model/concepts.json", {}).get("concepts", []):
+        concepts_by_doc.setdefault(concept.get("definition_ref"), []).append(concept)
+
     docs = []
     manifest_docs = []
     sections = []
@@ -509,6 +532,36 @@ def build_payload() -> dict:
         plain = plain_text(markdown)
         enriched, term_meta = augment_markdown(markdown, doc_path, term_entries, all_doc_ids)
         linked_term_total += len(term_meta)
+        # 本文引用的证据来源：正文出现的断言编号 ∩ 来源注册表。只输出引用信息（标题/链接/类型），
+        # 不输出断言的验证状态（那在 claim-ledger.json，属 excluded-internal）。
+        mentioned = set(re.findall(r"\bV\d{2,3}\b", markdown)) & set(sources_by_claim)
+        cited: dict[str, list] = {}
+        for cid in sorted(mentioned):
+            for source in sources_by_claim[cid]:
+                cited.setdefault(source.get("id"), []).append(cid)
+        evidence = []
+        for sid in sorted(cited):
+            source = next(s for c in cited[sid] for s in sources_by_claim[c] if s.get("id") == sid)
+            url = str(source.get("url") or "")
+            evidence.append({
+                "id": sid,
+                "title": str(source.get("title") or sid),
+                "url": url if url.startswith(("http://", "https://")) else "",
+                "type": str(source.get("type") or ""),
+                "claims": sorted(cited[sid]),
+            })
+        concepts = [
+            {
+                "id": str(c.get("id") or ""),
+                "name": str(c.get("name") or ""),
+                "route": str(c.get("route") or ""),
+                "relations": [
+                    {"type": str(r.get("type") or ""), "target": str(r.get("target") or ""), "source_claim": str(r.get("source_claim") or "")}
+                    for r in (c.get("relations") or []) if isinstance(r, dict)
+                ],
+            }
+            for c in concepts_by_doc.get(doc_path, [])
+        ]
         doc = {
             "id": doc_path,
             "path": doc_path,
@@ -522,6 +575,8 @@ def build_payload() -> dict:
             "markdown": enriched,
             "plain": plain,
             "terms": term_meta,
+            "evidence": evidence,
+            "concepts": concepts,
         }
         docs.append(doc)
         manifest_docs.append({
@@ -563,6 +618,7 @@ def build_payload() -> dict:
         "courses": courses_payload,
         "labs": labs,
         "graph": graph,
+        "curated": curated,
         "techIndex": build_tech_index(glossary),
         "sectionMeta": SECTION_META,
         # 可追溯的最终发布清单：每篇文档的策略与源文件 SHA256（审批证据链据此比对）。
@@ -571,6 +627,7 @@ def build_payload() -> dict:
             "registryVersion": registry["version"],
             "target": PUBLISH_TARGET,
             "docs": manifest_docs,
+            "curated": curated_manifest,
         },
     }
     return payload

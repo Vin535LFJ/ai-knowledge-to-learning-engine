@@ -745,6 +745,36 @@ if PUBLISH_REGISTRY is not None:
         if "course" in bundle and publish_boundary.policy_for("tools/course.json", R) != "site-data":
             fail("[publish] embedded payload 'course' comes from unregistered site-data: tools/course.json")
 
+        # e2. 精选数据（curated-data，2026-11-25）：嵌入集合必须恰等于注册表登记、哈希可追溯；
+        #     文档级证据引用只能指向精选来源注册表（claim-ledger 等内部数据永远不在其中）。
+        curated_registered = {rel for rel, asset in R["_by_path"].items() if asset["policy"] == "curated-data"}
+        embedded = bundle.get("curated")
+        if not isinstance(embedded, dict):
+            fail("[publish] bundle missing payload.curated (精选证据/知识模型未呈现) — run py -3 tools/build_site.py")
+        else:
+            for rel in sorted(set(embedded) - curated_registered):
+                fail(f"[publish] payload.curated contains asset not registered as curated-data: {rel}")
+            for rel in sorted(curated_registered - set(embedded)):
+                fail(f"[publish] curated-data asset missing from payload.curated: {rel}")
+            mf_curated = (
+                {str(m.get("path")): m.get("sha256") for m in (manifest.get("curated") or []) if isinstance(m, dict)}
+                if isinstance(manifest, dict) else {}
+            )
+            for rel in sorted(curated_registered & set(embedded)):
+                src = ROOT / rel
+                if not src.is_file():
+                    fail(f"[publish] curated-data source missing on disk: {rel}")
+                elif hashlib.sha256(src.read_bytes()).hexdigest() != mf_curated.get(rel):
+                    fail(f"[publish] curated-data {rel}: sha256 mismatch (stale bundle) — run py -3 tools/build_site.py")
+            source_ids = {
+                str(s.get("id"))
+                for s in (embedded.get("evidence/source-registry.json") or {}).get("sources", []) if isinstance(s, dict)
+            }
+            for d in bundle.get("docs", []):
+                for item in d.get("evidence") or []:
+                    if not isinstance(item, dict) or str(item.get("id")) not in source_ids:
+                        fail(f"[publish] {d.get('id')}: evidence cites a source outside the curated registry: {item}")
+
     # f. online mirror (VitePress) — archive forbidden online, only public docs
     if VITEPRESS_DOCS.exists():
         vp_files = sorted(p for p in VITEPRESS_DOCS.rglob("*.md") if p.name != "index.md")
