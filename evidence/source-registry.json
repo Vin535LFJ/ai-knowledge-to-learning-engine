@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "updated": "2026-11-21",
+  "updated": "2026-11-24",
   "note": "来源登记表。种子来源来自现有验真队列与知识库中已引用过的权威文档；新增来源须填写 accessed 并可被 claim 引用。AI 生成内容不得自动标为 verified。",
   "sources": [
     {
@@ -499,6 +499,123 @@
       "used_by_claims": [
         "V66",
         "V67"
+      ]
+    },
+    {
+      "id": "SRC-RL-TEXTBOOK",
+      "title": "Robot_Learn textbook-embodied（具身智能教材 10 章，快照声明 2026-11-12，含 2026-11-14/17 增补）",
+      "url": "external-repo:Robot_Learn/knowledge/manual/textbook-embodied.md",
+      "type": "repo_doc",
+      "accessed": "2026-11-24",
+      "used_by_claims": [
+        "V68",
+        "V69",
+        "V70",
+        "V71",
+        "V72",
+        "V73",
+        "V74",
+        "V79",
+        "V80",
+        "V81",
+        "V82",
+        "V83",
+        "V84"
+      ]
+    },
+    {
+      "id": "SRC-RL-PRINCIPLES",
+      "title": "Robot_Learn embodied-principles（6 章原理手册，authority=guide，快照 2026-11-17）",
+      "url": "external-repo:Robot_Learn/knowledge/manual/embodied-principles.md",
+      "type": "repo_doc",
+      "accessed": "2026-11-24",
+      "used_by_claims": [
+        "V70",
+        "V71",
+        "V74",
+        "V83"
+      ]
+    },
+    {
+      "id": "SRC-RL-KB515",
+      "title": "Robot_Learn kb:5.15 原理深入（verified 块，机制与直觉，自动生成自 rerun/knowledge-base.md）",
+      "url": "external-repo:Robot_Learn/knowledge/content/embodied/ch05/5.15-5.15-原理深入(机制与直觉).md",
+      "type": "repo_doc",
+      "accessed": "2026-11-24",
+      "used_by_claims": [
+        "V70",
+        "V71",
+        "V72",
+        "V73",
+        "V74",
+        "V78",
+        "V79",
+        "V81"
+      ]
+    },
+    {
+      "id": "SRC-RL-KB516",
+      "title": "Robot_Learn kb:5.16 原理深挖（verified 块，运动学到策略学习，超出考纲声明）",
+      "url": "external-repo:Robot_Learn/knowledge/content/embodied/ch05/5.16-5.16-原理深挖-从运动学到策略学习(进阶,超出考纲).md",
+      "type": "repo_doc",
+      "accessed": "2026-11-24",
+      "used_by_claims": [
+        "V75",
+        "V76",
+        "V77",
+        "V78"
+      ]
+    },
+    {
+      "id": "SRC-RL-OPENLAB",
+      "title": "Robot_Learn embodied-openlab（生态选型+16 周路线，研究整理稿重排，未经独立核实声明+直查官方例外）",
+      "url": "external-repo:Robot_Learn/knowledge/manual/embodied-openlab.md",
+      "type": "repo_doc",
+      "accessed": "2026-11-24",
+      "used_by_claims": [
+        "V82"
+      ]
+    },
+    {
+      "id": "SRC-RL-KB-AUX",
+      "title": "Robot_Learn kb:5.1/5.3/5.5/5.8 辅助 verified 块（定义边界/六环/时空对齐/Sim2Real）",
+      "url": "external-repo:Robot_Learn/knowledge/content/embodied/ch05/",
+      "type": "repo_doc",
+      "accessed": "2026-11-24",
+      "used_by_claims": [
+        "V68",
+        "V69",
+        "V80"
+      ]
+    },
+    {
+      "id": "SRC-EXT-TOBIN2017",
+      "title": "Tobin et al., Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World (IROS 2017)",
+      "url": "https://arxiv.org/abs/1703.06907",
+      "type": "paper",
+      "accessed": "2026-11-24",
+      "used_by_claims": [
+        "V79"
+      ]
+    },
+    {
+      "id": "SRC-EXT-DAGGER2011",
+      "title": "Ross, Gordon & Bagnell, A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning (AISTATS 2011, PMLR v15)",
+      "url": "https://proceedings.mlr.press/v15/ross11a.html",
+      "type": "paper",
+      "accessed": "2026-11-24",
+      "used_by_claims": [
+        "V78"
+      ]
+    },
+    {
+      "id": "SRC-EXT-MUJOCO-MJWARP",
+      "title": "MuJoCo 官方文档 MJWarp FAQ（GPU 确定性/float32 vs float64，google-deepmind/mujoco main）",
+      "url": "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/mjwarp/index.rst",
+      "type": "official_doc",
+      "accessed": "2026-11-24",
+      "used_by_claims": [
+        "V83"
       ]
     }
   ]

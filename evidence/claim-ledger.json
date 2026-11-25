@@ -2249,6 +2249,486 @@
       "used_by_lessons": [
         "L19"
       ]
+    },
+    {
+      "id": "V68",
+      "claim": "具身智能判据是闭环是否真闭合（物理结果被重新观测/失败后决策改变/实际状态有回传通道三问），不是人形形态；与生成式 AI 的边界看错误落点：信息层面 vs 物理层面；只送执行器不复检 = 开环控制套模型外壳",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§1 L9–35/L64（结论框与判别三问）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-KB-AUX",
+          "locator": "kb:5.1.1–5.1.4（verified 块）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "08-具身智能/01-闭环判据与错误落点.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V69",
+      "claim": "闭环六环（感知/理解/决策/规划/执行/反馈）不是流水线而是自我修正循环，任一环延迟或失真沿回路放大；反馈须三张来源（视觉复检/力与触觉/状态与结果标签）相互印证且同一时间基准，10ms 周期里 40ms 反馈迟 4 个周期",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§3 L199–248（结论框/六环表/三来源）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-KB-AUX",
+          "locator": "kb:5.3.1–5.3.5（verified 块）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "08-具身智能/02-六环闭环与时间预算.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V70",
+      "claim": "时间预算须分层（慢回路定目标/快回路稳定控制）：一轮感知80+规划40+执行300+复核60=480ms 占 10ms 控制周期 48 个，执行占 62.5%；感知链路 120ms=12 周期、0.6m/s 落后 72mm，加 45ms 网络段 165ms≈16.5 周期落后 99mm；一阶滞后 3τ 到 95%",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§3 L264–268（分层账）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-PRINCIPLES",
+          "locator": "ch1 L51（120/165ms 与 72/99mm）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-KB515",
+          "locator": "kb:5.15.7（3τ 算例）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "分项耗时（80/40/300/60ms）为源手册假设算例（教学假设，存疑），机制结论不依赖具体数值",
+        "textbook L266 '执行 300 毫米'为单位笔误（应为毫秒），已登记源勘误队列，Engine 按正确口径撰写"
+      ],
+      "source_documents": [
+        "08-具身智能/02-六环闭环与时间预算.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V71",
+      "claim": "时间对齐须区分事件时刻（曝光/采样）与到达时刻（主机收包）：位置误差=相对速度×链路延迟，0.6m/s×45ms=27mm 吃光 ±5mm 抓取容差；延迟均值可标定、抖动只能靠缩短链路与硬件触发；元数据须含 time_source 与 event_offset",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§5 L390/L413–419",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-KB515",
+          "locator": "kb:5.15.1（27mm/±3mm/2.97° 算例）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-PRINCIPLES",
+          "locator": "ch2 L112–114",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "速度/延迟/容差为源底本自设教学参数（存疑）；33ms 曝光周期仅用于角量算例，与 27mm 无关"
+      ],
+      "source_documents": [
+        "08-具身智能/03-时空对齐与标定.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V72",
+      "claim": "最近邻配帧最大残差=被贴靠通道自身周期的一半（与主节拍粗细无关）：贴靠 100Hz 关节状态残差 5ms（0.6m/s 对应 3.0mm）、贴靠 30Hz 图像残差 16.7ms（对应 10.0mm）；误用高频主节拍算残差会低估六倍多",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-KB515",
+          "locator": "kb:5.15.3（半周期规则与算例）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§5 L421–429（残差表）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "08-具身智能/03-时空对齐与标定.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V73",
+      "claim": "采样率须高于信号最高频率分量两倍（Nyquist 极限下限），否则混叠产生假信号：12Hz 振动用 10Hz 采样读成 |12−10|=2Hz 假频率；分辨 12Hz 需 ≥24Hz 采样",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§5 L431（混叠算例与正确表述）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-KB515",
+          "locator": "kb:5.15.3（假频率公式）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "textbook 术语表 L1036 混叠释义条件写反（与正文及其自身算例矛盾），已登记源勘误队列；Engine 按正确采样定理撰写"
+      ],
+      "source_documents": [
+        "08-具身智能/03-时空对齐与标定.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V74",
+      "claim": "外参变换 p_B=R·p_C+t 必须先旋转再平移（矩阵乘法不交换）：算例中写反顺序同一目标偏 1.3038m≈1.30m；角误差随力臂放大：0.8m×tan5°=70.0mm、1.2m×tan0.5°≈10.5mm；五坐标系（世界/基座/末端/相机/物体）相邻两系一个外参，标定产物须版本化",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§5 L433–445（五坐标系与算例）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-KB515",
+          "locator": "kb:5.15.2（顺序算例全数字）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-PRINCIPLES",
+          "locator": "ch2 L120–124",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [],
+      "source_documents": [
+        "08-具身智能/03-时空对齐与标定.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V75",
+      "claim": "平面两连杆正运动学 x=L1cosθ1+L2cos(θ1+θ2)、y=L1sinθ1+L2sin(θ1+θ2)，可达域为圆环（最远 L1+L2、最近 |L1−L2|）；L1=0.4/L2=0.3/θ1=30°/θ2=60° 时末端 (0.3464, 0.5000)m、距基座 0.6083m",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-KB516",
+          "locator": "kb:5.16.1（公式与算例，verified）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "平面两连杆最简约定（源声明符号约定各家不同）；Engine 独立复算全过"
+      ],
+      "source_documents": [
+        "08-具身智能/04-运动学与雅可比奇异.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V76",
+      "claim": "平面两连杆逆运动学 cosθ2=(x²+y²−L1²−L2²)/(2L1L2)、θ1=atan2(y,x)−atan2(L2sinθ2, L1+L2cosθ2)，可达判据 cosθ2∈[−1,1]，肘上/肘下两组解；无解是合法结论，正确动作是挂起并改目标（算例 (0.9,0)→cosθ2=2.333、(0.02,0)→−1.040）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-KB516",
+          "locator": "kb:5.16.2（公式/双解/不可达算例，verified）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "Engine 独立复算全过（含代回还原目标）"
+      ],
+      "source_documents": [
+        "08-具身智能/04-运动学与雅可比奇异.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V77",
+      "claim": "关节力矩 τ=JᵀF，平面两连杆 detJ=L1L2sinθ2，θ2=0/180° 为奇异位形（J 不可逆）：F=(0,−50)N 时伸直位 τ=(−35,−15)N·m、收肘位 (−20,0)N·m（肩力矩 1.75 倍）；奇异附近速度放大（末端水平 0.2m/s：肘 5°→θ2 转速 765.7°/s vs 90°→38.2°/s，约 20 倍），伸直位水平速度不可产生、须先弯肘",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-KB516",
+          "locator": "kb:5.16.3（τ=JᵀF/detJ/奇异/速度放大算例，verified）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "Engine 独立用 JᵀF 与 Cramer 法则重推全过；最小能量解校核 0.7×0.2414+0.3×0.1034=0.200m/s"
+      ],
+      "source_documents": [
+        "08-具身智能/04-运动学与雅可比奇异.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V78",
+      "claim": "模仿学习复合误差是乘法：独立近似下 n 步整链成功率≈qⁿ（0.95^50≈7.7%、0.99^50≈60.5%，+52.8pp）；分布偏移使误差自我强化，真实衰减比 qⁿ 更快，qⁿ 是乐观上界；失败样本与因果链标注因此值钱（纠正成本算例 3次×5000回合=15000 次）",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-KB516",
+          "locator": "kb:5.16.5（复合误差机制与算例，verified）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-KB515",
+          "locator": "kb:5.15.6（链长算例）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-EXT-DAGGER2011",
+          "locator": "Ross/Gordon/Bagnell AISTATS 2011：BC 分布偏移累积误差 O(εH²)，DAgger 改善至 O(εH)",
+          "evidence_type": "paper"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "概率参数为源教学假设（存疑）",
+        "源界方向口径冲突：kb:5.16.5 '乐观上界'正确；kb:5.15.6 '偏乐观的下界式估计'与 principles 术语表'理想下界'错误/含混；5.15.6 '十个环节剩六成六'与算例不符（0.95^10≈59.9%，66.3% 为 8 步）——已登记源勘误队列，Engine 按正确口径撰写"
+      ],
+      "source_documents": [
+        "08-具身智能/05-模仿学习复合误差与Sim2Real.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V79",
+      "claim": "域随机化机制是把训练分布铺宽让真实参数落在训练见过的范围内（精度问题→覆盖问题），买的是最坏情形不崩不是平均更好：算例期望成功率固定参数 56.0% vs 全区间随机化 92.0%（+36.0pp），但 μ=0.30 单点随机化反差 6pp；区间过宽（0.05–0.60 对现场 0.15–0.45）45.5% 样本白付",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-KB515",
+          "locator": "kb:5.15.5（覆盖机制与期望账，verified）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§7 L602–615",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-EXT-TOBIN2017",
+          "locator": "arXiv 1703.06907 官方摘要：'the real world may appear to the model as just another variation'",
+          "evidence_type": "paper"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "成功率/带宽为源教学假设（存疑）；外部核验支持机制表述，不支持具体百分比"
+      ],
+      "source_documents": [
+        "08-具身智能/05-模仿学习复合误差与Sim2Real.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V80",
+      "claim": "Sim2Real 现实差距七来源：摩擦与接触/光照与材质渲染/传感器噪声与成像/物体物理参数/硬件差异（间隙磨损温漂）/通信延迟与抖动/仿真器接触求解近似；仿真解决慢贵危险三硬约束；迁移前检查清单五层 19 项（模型任务/参数一致性/安全/场景适配/验证观察）；数字孪生判据是同步与数据回流三问不是精细度",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§7 L583/L621–639",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-KB-AUX",
+          "locator": "kb:5.8.1–5.8.6（verified 块）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "检查清单与孪生三问为源工程口径（存疑标注）；七来源分类与 Tobin 2017 reality gap 框架一致"
+      ],
+      "source_documents": [
+        "08-具身智能/05-模仿学习复合误差与Sim2Real.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V81",
+      "claim": "成功率必须与试验次数和初始条件分布一起报告：比例标准误 √(p(1−p)/n)，观测 96% 时 n=200 的 95% 近似区间 93.3%–98.7%、n=25 为 88.3%–103.7%（上界越 100% 为正态近似失效提示）；误差半宽压到 ±1.5% 需约 656 次试验；同一初始条件重复 100 次不构成 100 个独立样本",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§7 L629（统计账）/§10 L916–917（两条硬要求）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-KB515",
+          "locator": "kb:5.15.6（SE/区间/656 算例）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "96% 观测为源教学假设；正态近似区间在 p 接近 1 或小 n 时失效（源已如实提示）"
+      ],
+      "source_documents": [
+        "08-具身智能/05-模仿学习复合误差与Sim2Real.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V82",
+      "claim": "具身开源生态四组：A 基础设施（ROS 2 通信/MoveIt 2 机械臂/Nav2 底盘）、B 仿真（MuJoCo 通用物理控制/Isaac Lab GPU 大规模训练/ManiSkill 操控基准）、C 模型训练（LeRobot/OpenVLA/openpi/Octo/GR00T）、D 数据集（Open X-Embodiment/DROID/ALOHA/Cosmos）；桌面操控起步三件 ROS 2+MuJoCo+LeRobot；许可红线：代码/权重/数据/资产许可各异，能下载不代表能商用",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§10 L876/L904/L940",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-OPENLAB",
+          "locator": "L142–143/L182/L207–208（选型判据与起步三件）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "生态版本/状态为源快照 2026-11-12/14/17，引用须带快照日期；openlab 主体素材为研究整理稿（未经独立核实声明），直查官方例外条目除外"
+      ],
+      "source_documents": [
+        "08-具身智能/06-开源生态与实践路径.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V83",
+      "claim": "仿真可复现性分层：CPU MuJoCo 官方声明逐位可复现（三警告：保存全部积分状态/接触事件混沌放大/仅同版本同架构）；GPU MJWarp 默认非确定（官方 FAQ 逐字 'No'，GPU 原子操作非确定性），wp.set_device('cpu') 切回确定性；MJWarp float32 vs MuJoCo float64 数值敏感；PR #1422 不保证完整 stepping 确定性",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-EXT-MUJOCO-MJWARP",
+          "locator": "官方 FAQ 'Is MJWarp on GPU deterministic? No.' 与 float32/float64 节（2026-11-24 逐字核验）",
+          "evidence_type": "official_doc"
+        },
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§7 L647–655（三警告与 PR #1422）",
+          "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-RL-PRINCIPLES",
+          "locator": "ch3 L193–195（可复现性分层）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "CPU 确定性限同版本同架构；源 fact:72/73 未列入册末来源清单（源登记缺口，勘误队列 #3），Engine 以官方 FAQ 直核为准"
+      ],
+      "source_documents": [
+        "08-具身智能/06-开源生态与实践路径.md"
+      ],
+      "used_by_lessons": []
+    },
+    {
+      "id": "V84",
+      "claim": "VLA 评估抓三接口（输入：分辨率/视角/指令粒度；输出：位姿增量/关节目标/动作词元；训练：数据来源/是否含失败恢复），四条代价（数据饥渴/失败难归因/实时性压力/安全不靠模型自觉）；世界模型三区分：合成数据是产物、世界模型是学出来的预测器、仿真器是人写的，工程上只用于短时预测或候选动作排序",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§8 L683–732（三接口表/四代价/三区分）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "概念级结论（首批边界）；数据账 12s×20Hz=240 步/条、10 万条=2400 万步≈165.9TB 经独立复算；前沿模型具体数字待 G1 对官方来源复核"
+      ],
+      "source_documents": [
+        "08-具身智能/05-模仿学习复合误差与Sim2Real.md"
+      ],
+      "used_by_lessons": []
     }
   ]
 }
