@@ -1,0 +1,33 @@
+{
+  "lesson": "E06",
+  "title": "开源生态与实践路径 · 练习",
+  "questions": [
+    {
+      "id": "E06-Q1",
+      "type": "short",
+      "prompt": "生态四组是什么，起步三件是什么？",
+      "answer": "基础设施（ROS 2 / MoveIt 2 / Nav2）、仿真（MuJoCo / Isaac Lab / ManiSkill）、模型训练（LeRobot / OpenVLA / openpi 等）、数据集；起步三件见课源 §1（源快照 2026-11，引用须带日期）（V82）。",
+      "claim_ids": [
+        "V82"
+      ]
+    },
+    {
+      "id": "E06-Q2",
+      "type": "short",
+      "prompt": "第一个交付物为什么是可复现而不是模型？",
+      "answer": "没有可复现，后续任何指标变化都无法归因；先把环境、种子、数据与评测流程固定下来，模型迭代才有意义（V82）。",
+      "claim_ids": [
+        "V82"
+      ]
+    },
+    {
+      "id": "E06-Q3",
+      "type": "short",
+      "prompt": "GPU 仿真的可复现性为什么默认不能假设？",
+      "answer": "GPU 原子操作顺序不确定：MJWarp 官方 FAQ 明确 GPU 上默认非确定；CPU MuJoCo 官方声明逐位可复现但须保存全部积分状态且同版本同架构。需要确定性时切回 CPU 路径（V83）。",
+      "claim_ids": [
+        "V83"
+      ]
+    }
+  ]
+}

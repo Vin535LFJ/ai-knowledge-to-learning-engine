@@ -296,7 +296,23 @@ else:
 EVIDENCE_DIR = ROOT / "evidence"
 LEDGER_PATH = EVIDENCE_DIR / "claim-ledger.json"
 SOURCE_PATH = EVIDENCE_DIR / "source-registry.json"
-lesson_ids = {l.get("id") for l in (course or {}).get("lessons", [])}
+
+
+def all_lesson_ids() -> set:
+    """主课程 + courses/*/course.json 的全部课时 id。
+
+    2026-11-25：independent 课程（多课程扩展）拥有自有 id 命名空间，断言的 used_by_lessons
+    可以指向它们；只认主课程会让独立课程无法挂接任何断言。
+    """
+    ids = {l.get("id") for l in (course or {}).get("lessons", [])}
+    for cj in sorted((ROOT / "courses").glob("*/course.json")):
+        pc = load_json(cj)
+        if pc:
+            ids |= {l.get("id") for l in pc.get("lessons", [])}
+    return ids
+
+
+lesson_ids = all_lesson_ids()
 claim_ids: set[str] = set()
 
 if LEDGER_PATH.exists() and SOURCE_PATH.exists():
@@ -458,6 +474,15 @@ if COURSES_DIR.exists():
             else:
                 fm = parse_frontmatter(lesson_file.read_text(encoding="utf-8"))
                 for field in REQUIRED_FRONTMATTER:
+                    if field == "prerequisites":
+                        # 2026-11-25：独立课程的开篇课合法地没有前置课。prerequisites 以
+                        # course.json 的声明为准，要求 frontmatter 与之逐项一致
+                        #（比"一律非空"更严：其余各课两边必须对得上，声明为空才允许为空）。
+                        declared = sorted(str(p) for p in (l.get("prerequisites") or []))
+                        got = sorted(str(p) for p in (fm.get("prerequisites") or []))
+                        if got != declared:
+                            fail(f"[pilot] {cname}/{lid}: frontmatter prerequisites {got} != course.json {declared}")
+                        continue
                     if field not in fm or fm[field] in ("", [], None):
                         fail(f"[pilot] {cname}/{lid}: frontmatter missing {field}")
                 if fm.get("id") != lid:

@@ -463,6 +463,39 @@
       "path": "tools/labs.json",
       "policy": "site-data",
       "note": "站点实验定义"
+    },
+    {
+      "path": "courses/embodied-loop-journey/course.json",
+      "policy": "site-data",
+      "note": "embodied-loop-journey 课程契约（independent，courses[] payload）"
+    },
+    {
+      "path": "courses/embodied-loop-journey/lessons/E01-闭环判据与错误落点.md",
+      "policy": "public"
+    },
+    {
+      "path": "courses/embodied-loop-journey/lessons/E02-六环闭环与时间预算.md",
+      "policy": "public"
+    },
+    {
+      "path": "courses/embodied-loop-journey/lessons/E03-时空对齐与标定.md",
+      "policy": "public"
+    },
+    {
+      "path": "courses/embodied-loop-journey/lessons/E04-运动学与雅可比奇异.md",
+      "policy": "public"
+    },
+    {
+      "path": "courses/embodied-loop-journey/lessons/E05-模仿学习复合误差与Sim2Real.md",
+      "policy": "public"
+    },
+    {
+      "path": "courses/embodied-loop-journey/lessons/E06-开源生态与实践路径.md",
+      "policy": "public"
+    },
+    {
+      "path": "courses/embodied-loop-journey/README.md",
+      "policy": "public"
     }
   ]
 }
