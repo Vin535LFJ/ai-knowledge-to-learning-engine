@@ -4,7 +4,20 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
-## 2026-11-24 · 审计整改 TASK 2a：遗留内部审核材料移出课程目录（git mv）
+## 2026-11-25 · 发布边界 v2 强制收口（TASK 0，用户批准的学习站发布政策）
+
+- **审计结论（实施前实测）**：强制化代码**此前并未落地**——注册表 v2（`tools/publish-allowlist.json`，100 资产/5 策略/enforce/deny）已生成但无任何消费者；`publish_boundary.py` 仍是 advisory 旧 API；build/validate/vitepress 三个工具各自维护排除表，均未读注册表。上一窗口"开始实现强制化代码"后中断。
+- **`tools/publish_boundary.py` 重写为 v2 强制 API**：唯一判定来源 = 注册表；未登记默认拒绝、无目录通配；`excluded-internal` 优先于一切允许规则；注册表缺失/JSON 损坏/Schema 错误/未知 policy/advisory/通配符/重复或大小写冲突/excluded 无 reason/offline-read-only 越出 archive → `RegistryError`（fail closed，无 advisory 回退）。路径安全：只接受规范相对 POSIX 路径（拒绝绝对路径/盘符/反斜杠/`..`/`.`/空段/通配/NUL），`safe_relpath` 解析后越出仓库根即拒绝，扫描空间遇符号链接直接失败。目标类型：`offline`（public + offline-read-only）/ `online`（仅 public）。旧 `check_allowlist`/`load_allowlist`/`include_archive` 已移除。
+- **三个消费者统一**：`build_site.py`（加载注册表 → 注册表↔磁盘审计，未登记即失败 → 文档只取注册表允许集 → 站点数据 `require_site_data` → 每篇带 `publishPolicy` + `publishManifest`{path, policy, sha256} → 临时文件回读校验后 `os.replace` 原子替换，失败不写产物）；`validate_site.py`（删除自带第二套排除表，新增第 13 节：审计、bundle==注册表 offline 集、内部文件零泄露、manifest 可追溯、嵌入站点数据已登记、在线树只含 public 且无 archive）；`build_vitepress_content.py`（删除 `EXCLUDED_TOP_DIRS`，改走注册表 `online`，失败不动现有站点树）。
+- **archive 按 D10.4 只读**：19 篇 `offline-read-only` 一一对应；app.js 两处最小改动——默认搜索排除归档（`policies.offline-read-only.search=false`）、文档头显示「历史归档 · 只读 · 不作为最新结论来源」；在线镜像无 archive（online=forbidden）。
+- **注册表元数据如实修正**：`scan` 描述改为 v2 口径（原文引用已废除的旧 API）；`curated-data.embed` true→false（app.js 对 evidence/knowledge-model 数据零消费，无呈现 UI；精选数据嵌入与呈现方案登记 Program PARKING-LOT 另批）。
+- **测试抓到的真实缺陷**：`audit_registry()` 初版对未登记资产只收集不置失败，build 会静默跳过——已修（未登记 = 审计失败 = 构建失败）。
+- **回归测试 `tools/test_publish_boundary.py` 重写：12 → 29 项（28 通过 / 1 跳过）**，夹具在临时目录：未登记 md、courses 内伪装教材、evidence 未授权提取记录、knowledge-model 未审核中间模型、excluded-internal、archive 非注册文件、注册表缺失/损坏/14 类 Schema 错误、路径穿越、符号链接逃逸（**本机 Windows 无创建符号链接特权，实链接用例跳过**；逃逸判定由不依赖特权的仓库外文件用例覆盖）、build 失败不留半成品、bundle==注册表、内部 canary 零泄露、archive 19、manifest SHA、在线树、旧 API 已移除。
+- **真实仓库负向演练**：往 courses/ 放未登记文件 → build exit 2（bundle SHA 不变、无 .tmp）/ validate 4 FAIL 精确定位 / vitepress 构建失败；演练文件走回收站后全绿。
+- **浏览器 QA（Edge headless，http）**：归档页渲染出只读标记、现行页无标记、KaTeX 正常。
+- **门禁实测**：build **84 docs（65 public + 19 archive）/ 587 cards / 2865 KB** · vitepress **65 docs** · validate **14/0/0**（12→14）· publish tests **29（28 ok / 1 skipped）** · arc 19/19 · review_gate **101 claims（24v/70o/7c）误标 0** · registry 195。
+- **边界**：在线发布仍受 D02 约束（本轮无授权）；断言/教材正文/stash 零触碰；embodied run 不变（EVIDENCE）。
+
 
 - **动作**：`courses/video-rendering-journey/G2-审核材料-P6.md` → `reviews/G2-审核材料-P6.md`（git mv，提交历史保留；reviews/ 是现有内部审核目录，治理材料不进学习站）。背景：2026-11-24 独立审计发现该 P6 内部审核材料因位于 courses/ 而随目录扫描进入学习站 bundle（审计 P1-4 的遗漏点）。
 - **影响面核查**：活引用仅两处——文档注册表（已重建，195 篇）与 `docs/USER-GUIDE.md` 限制条目（发布边界强制化批次 TASK 2b 修）；其余均为历史留痕（CHANGELOG/DECISIONS/archive/reviews 快照），按纪律不改写。

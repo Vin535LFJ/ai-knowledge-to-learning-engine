@@ -131,8 +131,10 @@ py -3 --version
 - 课程：`tools/course.json`、`courses/video-rendering-journey/course.json`
 - 术语：`tools/glossary.json`
 - 实验：`tools/labs.json`
-- 发布边界：`tools/publish-allowlist.json`
-- 断言/来源：`evidence/*.json`
+- 发布边界（强制，默认拒绝）：`tools/publish-allowlist.json`（v2，逐资产登记）
+- 断言/来源：`evidence/*.json`（内部数据，不进学习站）
+
+**新增任何 .md（或 evidence/、knowledge-model/ 下的 .json）后必须先登记**：在 `tools/publish-allowlist.json` 的 `assets` 里逐个加 `{"path": ..., "policy": "public"}`（或 `excluded-internal` + `reason`），否则 build 与 validate 双双 FAIL（默认拒绝，无目录通配）。archive/ 只允许 `offline-read-only`；`DECISIONS.md` / `CHANGELOG.md` / `WORKFLOW_STATE.md` / `reviews/` / `.agent/` 永不发布。
 
 ### 2.4 启动 / 构建 / 测试
 
@@ -142,8 +144,11 @@ cd C:\Users\Giant\Desktop\GITCODE\AI-Knowledge\ai-knowledge-to-learning-engine
 # 1) 构建学习站（唯一输出 web/content.js）
 py -3 tools/build_site.py
 
-# 2) 结构门禁（12 项）
+# 2) 结构门禁（14 项；第 13 项 = 发布边界 v2：注册表↔磁盘、bundle==注册表、内部文件零泄露、在线树只含 public）
 py -3 tools/validate_site.py
+
+# 2b) 发布边界回归测试（29 项，夹具在临时目录，不碰真实课程）
+py -3 tools/test_publish_boundary.py
 
 # 3) 本地打开网站
 py -3 -m http.server 8791 --directory web
@@ -343,7 +348,8 @@ py -3 tools/run_state.py retry --run-id <RUN-ID>
 | 运行态「消失」 | `.agent/runs/` 被 gitignore | 它只在本机；需要留存就手动备份 JSON |
 | PowerShell 中文乱码 | 控制台编码 | `[Console]::OutputEncoding=[Text.Encoding]::UTF8` |
 | `py` 不是命令 | 未装 py launcher | 用 `python` 或 `python3` |
-| validate 说 `program-office-delivery` 不存在 | allowlist 有过期条目（advisory） | 不影响门禁；可清理该条目 |
+| `[publish] unregistered asset (default=deny)` 或 `BUILD FAILED: publish registry / disk mismatch` | 新文件没在发布清单登记 | 在 `tools/publish-allowlist.json` 逐个登记（`public` / `offline-read-only`（仅 archive/）/ `excluded-internal` + `reason`） |
+| `[publish] source changed after build (sha256 mismatch)` | 登记后改了源文件未重建 | `py -3 tools/build_site.py` |
 | `docs:build` VitePress 失败 | D10.6 权限拦截 | 用 `web/` 离线站；或手动放行 |
 | `run_state new` 重复 run_id | 已存在 | 换 id，或 `show` 现有 run |
 | `gate --pass` 报错 | 缺 `--approver` | 加 `--approver "姓名"` |

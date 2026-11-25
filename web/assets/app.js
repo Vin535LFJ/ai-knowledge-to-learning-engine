@@ -3303,9 +3303,12 @@
 
     const meta = document.createElement("div");
     meta.className = "article-meta";
+    // 2026-11-24 发布边界 v2：offline-read-only（archive，D10.4）显式标记为历史归档只读，
+    // 与现行课程分离；不作为当前最新结论来源。
     meta.innerHTML =
       icon(sectionIcon(doc.path)) +
       '<span class="tag">' + escapeHtml(doc.section) + "</span>" +
+      (doc.publishPolicy === "offline-read-only" ? '<span class="tag">历史归档 · 只读 · 不作为最新结论来源</span>' : "") +
       "<span>" + doc.words + " 字</span>" +
       "<span>约 " + doc.minutes + " 分钟</span>" +
       "<span>数据生成 " + escapeHtml(DATA.generatedAt) + "</span>";
@@ -3668,6 +3671,8 @@
       });
     } else {
       DATA.docs.forEach((doc) => {
+        // 2026-11-24 发布边界 v2：archive（offline-read-only）默认不进现行搜索（policies.offline-read-only.search=false）。
+        if (doc.publishPolicy === "offline-read-only") return;
         const title = doc.title.toLowerCase();
         const plain = doc.plain.toLowerCase();
         let score = 0;
