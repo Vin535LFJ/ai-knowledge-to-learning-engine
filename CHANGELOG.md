@@ -4,6 +4,17 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-25 · 具身六课独立审读闭环（TASK 1：审读 → 修复 → 复审 → 整改 → 复评；run 推进 REVIEW）
+
+- **审读过程**：首轮由三位未参与写作的审读代理只读审读（1 blocker / 18 major；完整报告在会话断网时丢失，仅存执行方汇总表——如实记为记录缺口）；执行方修复后，由另一位独立审读代理复审 17 条修复点（16 已修复 / 1 部分修复），并**抓出修复新引入的 1 个 major**（E03 三维框算例设定被改坏而数字未跟）与 4 个 minor；随后出具 G2 诊断建议分（整改前 E06 = 82，低于通过线）并列出 7 项未解决问题；执行方整改后复评，**六课建议分 88 / 91 / 91 / 92 / 90 / 88（E01–E06），全部 ≥85**。记录见 `reviews/embodied-batch1/independent-review.md`（过程）、`recheck-after-fix.md`（复审）、`g2-diagnostic.md`（§0–§4 过程记录，§7 复评）。
+- **首轮主要修复**：E02 把「3τ 建立时间」与「延迟 × 速度 = 位置落后」混为一谈（blocker）；E03 元数据字段配错行、测验答案对时间戳 t 的含义说错；E04 肘上/肘下标签标反（源头在 Robot_Learn 原文）、测验答案把力的方向说反、力矩与奇异因果错位；E06 测验两题无正文依据、GPU 非确定被扩大成普适结论。
+- **整改（诊断后）**：证据链缺口——E06 学习目标 3（九条坑）原先无断言覆盖，登记 **V87**（open/low，单源）并挂接课文/契约/测验/来源索引；V86（十六周路线验收）本轮补登记。台账与课文同步三处（V69 失真是否放大取决于回路增益 / V73 采样率严格高于两倍 / V83 CPU 一行为课源转述），V72、V76 补登记前提与勘误。课文精度：E04 力方向理由改写、逆解表直接标明肘上/肘下；E02 τ 上限与「3τ 不能当延迟」；E01 自测答案指引；E03 练习速度口径、删除无依据的「主节拍更粗」括注；E05 测验答案删去超出正文的建议；E06 可复现性定义、表头依据标注、九条坑三组分类并逐条对应前几课、自测第 1 题改为覆盖目标 3。术语表新增 `开环控制`、`慢回路与快回路`、`可复现性`（embodied-ai 组 18 → 21 词）。
+- **源勘误**：G1 队列 §3 由 12 项扩为 15 项（#13 肘上/肘下标签写反、#14 容差「每边放宽」歧义、#15 采样率「≥24 Hz」与「高于两倍」不一致）。Robot_Learn 只读零改动。
+- **呈现验证（实测）**：Edge headless 渲染 E02/E05/E06 文档页——标题、学习目标、公式、术语卡、证据面板正常，无归档横幅、无未渲染标记（E05 有一次 5 KB 空渲染，重跑两次均正常，判为无头浏览器偶发加载失败）；首页有具身课程 7 个可点击入口，搜索覆盖六课；重建后 bundle 内 11 条旧句为 0、新句全部出现。六课 Floor 全部 exit 0。
+- **run**：`RUN-2026-11-23-embodied-batch1` WRITE → DESIGN → PRACTICE → **REVIEW / paused**，23 个产物带哈希登记，KCR PROPOSED → REVIEWING，G3 保持 open。**AI 不自批**：G1（V68–V87 升级）、G2（六课评分确认）、G3（发布门）待用户裁决。
+- **门禁终态**：build **91 docs / 669 cards / 3130 KB** · validate **20/0/0** · publish tests **32（31 ok / 1 skipped）** · arc 主课程与具身课程均 0 FAIL · review_gate **104 claims（24v/73o/7c）误标 0** · kcr 16/16 · runstate 25/25 · registry 207。
+- **未解决（如实）**：学习站「教材模式」只展示主课程，课后检查点测验在界面上走不到（补课程切换入口已登记 Program PARKING-LOT，待裁决）；无绑定交互实验；`review_gate.py` 的 G2 段不覆盖具身课程；V68–V87 共 20 条断言全部 open/low；复评后的 2 处 minor 修正未再独立复审；E06 学习目标 1 无检查点题（由练习 1 覆盖）。
+
 ## 2026-11-25 · 发布边界 v2 审计收口：精选数据真正呈现 + 路径逃逸实测（TASK 0 验收）
 
 - **审计范围与结论**：按用户 2026-11-25 任务书对 `ae60f34` 做全链复核（注册表 / `publish_boundary.py` / `build_site.py` / `build_vitepress_content.py` / `validate_site.py` / 实际调用链）。注册表 108 资产 = 72 public + 19 offline-read-only + 9 excluded-internal（均带 reason）+ 2 curated-data + 6 site-data，无通配/重复/大小写冲突，注册表↔磁盘零漂移；三个消费者全部经 `publish_boundary`，旧 `check_allowlist`/`load_allowlist`/`include_archive`/`EXCLUDED_TOP_DIRS` 无残留调用；build 先审计后生成、失败不写产物、临时文件回读后原子替换。**结构与调用链合格，发现 1 个真缺口。**

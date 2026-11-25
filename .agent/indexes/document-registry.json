@@ -1,25 +1,25 @@
 {
  "meta": {
-  "generated_at": "2026-11-25T02:44:46+00:00",
+  "generated_at": "2026-11-25T10:41:52+00:00",
   "generator": "tools/build_document_registry.py",
-  "total": 203,
+  "total": 207,
   "counts_by_status": {
    "unregistered": 79,
-   "draft": 70,
-   "active": 46,
+   "draft": 72,
+   "active": 48,
    "approved": 5,
    "archived": 2,
    "proposed": 1
   },
   "counts_by_level": {
-   "L2": 80,
+   "L2": 82,
+   "L1": 53,
    "unclassified": 52,
-   "L1": 51,
    "L3": 20
   },
   "counts_by_type": {
    "knowledge": 90,
-   "review-material": 48,
+   "review-material": 52,
    "skill": 27,
    "template": 9,
    "standard": 8,
@@ -2679,8 +2679,56 @@
    "level": "L2"
   },
   {
+   "path": "reviews/embodied-batch1/design-note.md",
+   "id": "EMB-B1-DESIGN",
+   "type": "review-material",
+   "type_source": "frontmatter",
+   "status": "active",
+   "owner": "qwenwork",
+   "created": "2026-11-25",
+   "updated": "2026-11-25",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L1"
+  },
+  {
    "path": "reviews/embodied-batch1/G1-verification-queue.md",
    "id": "EMB-B1-G1-QUEUE",
+   "type": "review-material",
+   "type_source": "frontmatter",
+   "status": "active",
+   "owner": "qwenwork",
+   "created": "2026-11-25",
+   "updated": "2026-11-25",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L1"
+  },
+  {
+   "path": "reviews/embodied-batch1/g2-diagnostic.md",
+   "id": "EMB-B1-G2-DIAGNOSTIC",
+   "type": "review-material",
+   "type_source": "frontmatter",
+   "status": "draft",
+   "owner": "qwenwork",
+   "created": "2026-11-25",
+   "updated": "2026-11-25",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L2"
+  },
+  {
+   "path": "reviews/embodied-batch1/independent-review.md",
+   "id": "EMB-B1-INDEPENDENT-REVIEW",
    "type": "review-material",
    "type_source": "frontmatter",
    "status": "active",
@@ -2709,6 +2757,22 @@
    "generated": false,
    "frontmatter_present": true,
    "level": "L1"
+  },
+  {
+   "path": "reviews/embodied-batch1/recheck-after-fix.md",
+   "id": "EMB-B1-RECHECK-AFTER-FIX",
+   "type": "review-material",
+   "type_source": "frontmatter",
+   "status": "draft",
+   "owner": "unassigned",
+   "created": "2026-11-25",
+   "updated": "",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L2"
   },
   {
    "path": "reviews/embodied-batch1/research-report-embodied.md",
