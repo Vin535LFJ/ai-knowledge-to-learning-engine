@@ -4,6 +4,18 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-25 · 审批证据链持久化（TASK 4：人工批准对应到具体文件版本 + 发布前复核）
+
+- **做法**：不建审批平台，在现有状态机上做最小扩展。新增 `tools/approval_chain.py`（stdlib-only）：`record`（仅人工执行）把 run 当前每个产物（同一路径取最后一次登记）冻结为「相对路径 + SHA256 + 所处阶段」，连同审批人、时间、决定、范围、批准时的提交号与未提交文件数，写入 `reviews/approvals/<run_id>/<gate>-NN.json`——**只增不改**（独占创建，无更新/删除命令；重新批准生成新编号，旧记录保留）。`verify` 重算哈希并检查范围、审批人、时间、决定。
+- **接入发布门**：`run_state.advance` 与人工 `skip` 进入 PUBLISH / FEEDBACK 时，在原有「gate passed」之外**必须通过复核**。拦截情形：批准后任一产物内容变化；批准时的产物被移走；批准后在已批准阶段新增产物；记录被改坏；决定不是 approved；关卡已过但无审批记录。批准之后才可能产生的后续阶段产物（如 PUBLISH 的发布记录）不计入越权。`gate --pass` 的审批人必须与登记审批的人名一致。
+- **契约**：第五契约 `tools/kcr/schema/approval-record.schema.json`；`validate_kcr.py` 四契约 → 五契约，硬规则入 semantic_errors（approver / approved_at 非空；artifacts ≥1 且路径不含 `..`；record_id = `<run_id>/<gate>-NN`）。
+- **历史审批（8.3，不补造）**：`reviews/approvals/README.md` 登记 HDR 批次的 G1 / G2 / KCR / G3——有书面证据（评分表 91 分、裁决栏、运行态通过时间），但都没有绑定文件版本，一律标 **legacy / unverifiable**；并如实写明运行态里的审批人字符串是当时 AI 按用户授权写入的。`verify` 对该 run 返回 legacy-unverifiable（它已 done，不受新规则影响）。
+- **自测**：新增 `tools/kcr/selftest_approval.py` **15/15**（契约正反 / 登记守卫 / 只增不改 / 变化拦截与还原恢复 / 越权新增 / 后续阶段不误伤 / legacy 不补造 / 记录改坏 / 与状态机联动含 skip / 临时 git 仓库提交号采集 / CLI）；`selftest_runstate` 25/25（「一路到 done」用例按新规则改为先登记审批，并断言无记录时被拦）；`selftest_impact` 16/16。
+- **真实数据演练**（运行态副本与审批记录写临时目录，真实目录零污染）：具身 run 登记条目 23、去重 21 个产物，**按当前文件重算哈希失效 0 个**；历史 HDR run 去重 16 个产物、哈希失效 6 个（登记后被编辑过，无批准时快照可判断先后——正是本工具要消除的不确定性）。真实仓库演练：登记记下提交 `3fc54e5` 与「当时 6 个未提交文件」，复核通过；批准后偷加一个 REVIEW 阶段产物被精确拦下；移除后状态机放行到 PUBLISH。
+- **文档**：`docs/USER-GUIDE.md` §5 G3 改为两步并更新审计提示与排障；`reviews/kcr/RUN-STATE-TOOL.md` 五条不变量 → 六条 + CLI 与自测说明。
+- **已知限制（如实）**：`approver` 仍是字符串，技术上无法证明由人输入（与 `gate --pass` 相同）；未登记为产物的文件不在批准范围内（可用 `--path` 追加）；哈希是整文件级，一处标点改动也会触发重新登记（有意的保守选择）。
+- **门禁**：validate 20/0/0 · publish 32（31 ok / 1 skipped）· kcr 16/16 · runstate 25/25 · approval 15/15 · review_gate 104 claims 误标 0 · registry 208。
+
 ## 2026-11-25 · 具身六课独立审读闭环（TASK 1：审读 → 修复 → 复审 → 整改 → 复评；run 推进 REVIEW）
 
 - **审读过程**：首轮由三位未参与写作的审读代理只读审读（1 blocker / 18 major；完整报告在会话断网时丢失，仅存执行方汇总表——如实记为记录缺口）；执行方修复后，由另一位独立审读代理复审 17 条修复点（16 已修复 / 1 部分修复），并**抓出修复新引入的 1 个 major**（E03 三维框算例设定被改坏而数字未跟）与 4 个 minor；随后出具 G2 诊断建议分（整改前 E06 = 82，低于通过线）并列出 7 项未解决问题；执行方整改后复评，**六课建议分 88 / 91 / 91 / 92 / 90 / 88（E01–E06），全部 ≥85**。记录见 `reviews/embodied-batch1/independent-review.md`（过程）、`recheck-after-fix.md`（复审）、`g2-diagnostic.md`（§0–§4 过程记录，§7 复评）。

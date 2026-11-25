@@ -327,13 +327,14 @@ py -3 tools/run_state.py retry --run-id <RUN-ID>
 |---|---|---|---|
 | G1 证据 | 人 | `reviews/<batch>/G1-*-verification-queue.md` | 在裁决栏填写「升级/保持/补证」 |
 | G2 质量 | 人 | `reviews/G2-Lxx-*.md` §5 | 五项打分 + 总分 + 裁决人/日期 |
-| G3 发布 | 人 | run 的 artifact 汇总 | `run_state.py gate --run-id <ID> --pass --approver "你的名字"` |
+| G3 发布 | 人 | run 的 artifact 汇总 | 两步，同一个人名：① `approval_chain.py record --run-id <ID> --gate G3 --approver "你的名字" --scope "批准了什么"`（把当前产物冻结为路径+哈希）② `run_state.py gate --run-id <ID> --pass --approver "你的名字"` |
 | KCR | 人 | change-proposal JSON | `run_state.py kcr --to APPROVED --approver "你的名字"` |
 | commit/push | 人 | 文件清单 | 明确授权后执行 |
 
 **未回复不视为同意。** AI 不得代批、不得预填 G2 分数、不得自升断言。
 
-> 审计提示：当前 `human_gate.approver` 是 AI 写入的字符串（`"user(...)"`），不是独立身份证明；G3 记录在 gitignored 的 `.agent/runs/`。若要可外部审计，按 `AUDIT-REPORT.md` P1-1 增加独立审批文件。
+> 审批证据链（2026-11-25 起）：登记审批之后，任何产物再被改动、或批准后新增产物，`advance` 进入 PUBLISH / FEEDBACK 都会被拦下，需要重新登记。`approval_chain.py verify --run-id <ID>` 可随时查看复核结果。说明与历史审批登记见 `reviews/approvals/README.md`。
+> 审计提示：`approver` 仍是人工输入的字符串，不是独立身份证明；审批记录文件 `reviews/approvals/` 入库可追溯，运行态 `.agent/runs/` 仍只在本机。历史批准（HDR 批次）没有哈希绑定，标为 legacy / unverifiable，不补造。
 
 ---
 
@@ -353,6 +354,8 @@ py -3 tools/run_state.py retry --run-id <RUN-ID>
 | `docs:build` VitePress 失败 | D10.6 权限拦截 | 用 `web/` 离线站；或手动放行 |
 | `run_state new` 重复 run_id | 已存在 | 换 id，或 `show` 现有 run |
 | `gate --pass` 报错 | 缺 `--approver` | 加 `--approver "姓名"` |
+| `advance` 报「审批证据链未通过」 | 没有 `reviews/approvals/<ID>/` 记录，或批准后产物被改 / 新增了产物 | 人工重新登记：`approval_chain.py record ...`（先看 `verify --run-id <ID>` 列出的具体问题） |
+| `advance` 报「…已由 … 通过，审批记录的 approver 必须一致」 | 登记审批用的人名与 `gate --pass` 用的不一致 | 用同一个人名登记 |
 | KCR 卡在 REVIEWING | 未人工批准 | `--to APPROVED --approver` |
 | `kcr_impact --claim-draft` 没有匹配结果 | 该参数只回显，不做匹配 | 用 `--claim-id` 或 `--source-id` |
 | `report_feedback.py` 提示 empty | 还没有导出反馈 | 网站提交→localStorage→导出 JSON→粘贴到 `tools/feedback.json` |

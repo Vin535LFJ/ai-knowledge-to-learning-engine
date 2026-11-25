@@ -1,25 +1,25 @@
 {
  "meta": {
-  "generated_at": "2026-11-25T10:41:52+00:00",
+  "generated_at": "2026-11-25T10:48:18+00:00",
   "generator": "tools/build_document_registry.py",
-  "total": 207,
+  "total": 208,
   "counts_by_status": {
    "unregistered": 79,
    "draft": 72,
-   "active": 48,
+   "active": 49,
    "approved": 5,
    "archived": 2,
    "proposed": 1
   },
   "counts_by_level": {
    "L2": 82,
-   "L1": 53,
+   "L1": 54,
    "unclassified": 52,
    "L3": 20
   },
   "counts_by_type": {
    "knowledge": 90,
-   "review-material": 52,
+   "review-material": 53,
    "skill": 27,
    "template": 9,
    "standard": 8,
@@ -2517,6 +2517,22 @@
    "generated": false,
    "frontmatter_present": false,
    "level": "unclassified"
+  },
+  {
+   "path": "reviews/approvals/README.md",
+   "id": "ENG-APPROVALS-README",
+   "type": "review-material",
+   "type_source": "frontmatter",
+   "status": "active",
+   "owner": "qwenwork",
+   "created": "2026-11-25",
+   "updated": "2026-11-25",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L1"
   },
   {
    "path": "reviews/CURRENT_AUDIT.md",
