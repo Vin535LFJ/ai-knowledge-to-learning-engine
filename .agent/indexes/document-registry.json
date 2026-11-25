@@ -1,26 +1,26 @@
 {
  "meta": {
-  "generated_at": "2026-11-25T10:48:18+00:00",
+  "generated_at": "2026-11-25T11:03:14+00:00",
   "generator": "tools/build_document_registry.py",
-  "total": 208,
+  "total": 209,
   "counts_by_status": {
    "unregistered": 79,
    "draft": 72,
-   "active": 49,
+   "active": 50,
    "approved": 5,
    "archived": 2,
    "proposed": 1
   },
   "counts_by_level": {
    "L2": 82,
-   "L1": 54,
+   "L1": 55,
    "unclassified": 52,
    "L3": 20
   },
   "counts_by_type": {
    "knowledge": 90,
    "review-material": 53,
-   "skill": 27,
+   "skill": 28,
    "template": 9,
    "standard": 8,
    "adapter": 5,
@@ -343,6 +343,22 @@
    "level": "L2"
   },
   {
+   "path": ".agent/skills/learning-experience-design/preview/PILOT-LAB-mvp.md",
+   "id": "LEX-PILOT-02",
+   "type": "skill",
+   "type_source": "frontmatter",
+   "status": "active",
+   "owner": "qwenwork",
+   "created": "2026-11-25",
+   "updated": "2026-11-25",
+   "supersedes": [],
+   "related_adr": [],
+   "related_task": "",
+   "generated": false,
+   "frontmatter_present": true,
+   "level": "L1"
+  },
+  {
    "path": ".agent/skills/learning-experience-design/references/accessibility-and-responsive.md",
    "id": "LEX-REF-A11Y-RESPONSIVE",
    "type": "skill",
@@ -558,7 +574,7 @@
    "status": "active",
    "owner": "qwenwork",
    "created": "2026-11-19",
-   "updated": "2026-11-19",
+   "updated": "2026-11-25",
    "supersedes": [],
    "related_adr": [
     "ADR-0001"
@@ -576,7 +592,7 @@
    "status": "active",
    "owner": "qwenwork",
    "created": "2026-11-23",
-   "updated": "2026-11-23",
+   "updated": "2026-11-25",
    "supersedes": [],
    "related_adr": [],
    "related_task": "",

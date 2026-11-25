@@ -1034,15 +1034,22 @@
     updateProgress();
   }
 
-  // Shared footer for every lab: hands-on task checklist + optional self-test.
-  // Both states persist independently in localStorage so a closed loop can be
-  // verified (doc -> lesson -> term -> formula -> interaction -> self-test).
+  // Shared footer for every lab: hands-on task checklist + optional observation notes + optional self-test.
+  // All three states persist independently in localStorage so a closed loop can be
+  // verified (doc -> lesson -> term -> formula -> interaction -> observation -> self-test).
   function labFooterHtml(lab) {
+    // 2026-11-25 LXD 第二案例：复选框包进 label，读屏软件能读出任务文字（此前只读出"复选框"）
     const tasks = (lab.tasks || [])
-      .map((task) => '<li><input type="checkbox" class="lab-task-check" /><span>' + escapeHtml(task) + "</span></li>")
+      .map((task) => '<li><label><input type="checkbox" class="lab-task-check" /><span>' + escapeHtml(task) + "</span></label></li>")
       .join("");
     let html =
       '<section class="lab-section no-term"><h2>试着动手</h2><ul class="lab-task-list">' + tasks + "</ul></section>";
+    if (lab.observe) {
+      html +=
+        '<section class="lab-section no-term"><h2>观察记录</h2>' +
+        '<p class="lab-hint">' + escapeHtml(lab.observe) + "</p>" +
+        '<textarea class="lab-observe" id="labObserve" rows="4" aria-label="观察记录"></textarea></section>';
+    }
     const selfTest = lab.selfTest || [];
     if (selfTest.length) {
       const items = selfTest
@@ -1076,6 +1083,18 @@
     });
 
     const testKey = "rn-lab-selftest-" + lab.id;
+    const observe = els.content.querySelector("#labObserve");
+    if (observe) {
+      const observeKey = "rn-lab-observe-" + lab.id;
+      try {
+        observe.value = localStorage.getItem(observeKey) || "";
+      } catch (err) { /* storage may be unavailable */ }
+      observe.addEventListener("input", () => {
+        try {
+          localStorage.setItem(observeKey, observe.value);
+        } catch (err) { /* ignore */ }
+      });
+    }
     const details = Array.from(els.content.querySelectorAll(".lab-selftest-item"));
     if (details.length) {
       try {
@@ -1136,12 +1155,16 @@
       '<option value="' + index + '"' + (index === LAB_DEFAULTS.vertex ? " selected" : "") +
       '>v' + index + " = (" + vertex.join(", ") + ")</option>"
     ).join("");
+    const goal = (lab.goal || []).length
+      ? '<div class="lab-goal"><p class="lab-goal-lead">做完这个实验，你应能：</p><ul>' +
+        lab.goal.map((item) => "<li>" + escapeHtml(item) + "</li>").join("") + "</ul></div>"
+      : "";
 
     els.content.innerHTML =
       '<section class="lab-hero no-term">' +
       '<span class="hero-eyebrow">交互实验 · ' + escapeHtml(lab.lesson || "独立") + "</span>" +
       "<h1>" + escapeHtml(lab.title) + "</h1>" +
-      "<p>" + escapeHtml(lab.subtitle) + "</p>" +
+      "<p>" + escapeHtml(lab.subtitle) + "</p>" + goal +
       '<div class="lab-hero-meta">' +
       (lesson ? '<a href="' + courseRoute(lesson.id) + '">← ' + escapeHtml(lesson.id + " " + lesson.title) + "</a>" : "") +
       docs + '<a href="' + labRoute() + '">全部实验</a></div></section>' +
@@ -1149,6 +1172,7 @@
       '<div class="lab-formula">$$' + lab.formula + '$$</div>' +
       '<p class="lab-hint">列向量从右向左依次经过 M、V、P。顶点着色器输出 <code>gl_Position</code>，透视除法由 GPU 固定管线完成。</p></section>' +
       '<section class="lab-section no-term"><h2>交互画布</h2>' +
+      '<p class="lab-hint">滑杆和下拉都可以用键盘操作：用 Tab 移到控件，方向键调节。画布里的顶点也可以在下面的“追踪顶点”下拉里选。随时点“重置”恢复默认值。</p>' +
       '<div class="lab-layout">' +
       '<div class="lab-panel lab-controls">' +
       '<div class="lab-panel-head"><strong>参数</strong><button type="button" class="lab-reset" id="labReset">重置</button></div>' +
