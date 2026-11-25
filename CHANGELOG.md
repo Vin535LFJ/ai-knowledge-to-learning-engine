@@ -4,6 +4,12 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-25 · Skills 实机验证（TASK 6：QwenWork 宿主，结论 PARTIAL）+ 根入口技能指针
+
+- **验证结果**（记录在 Skills 仓库 `docs/HOST-VERIFICATION-2026-11-25.md`，提交 `9ac74ea`）：`handoff`（用户点名型）与 `writing-for-agents`（自动调用型）手动投放到 `C:\Users\Giant\.qwenworkcn\skills\`，逐文件 SHA256 与仓库一致；宿主设置清单**立即**列出两者（无需重启）；但**安装它的这个会话里技能检索与加载都失败**（原文 `Skill not found`），安装后启动的子代理结果相同——技能目录在会话开始时固定。新会话能否发现并调用：**未验证**。`handoff` 按仓库指南不得用读取方式绕过，判 NOT VERIFIED。
+- **本仓相关的一处真实修改**：按 `writing-for-agents` 的 context pointer 写法（指南允许 model-invoked 技能退化为读取执行；不等于宿主调用成功），在根 `AGENTS.md` 补一行技能指针（`4951d99`），两个分支各一个触发条件，指向 `.agent/skills/` 下两个技能。补的是 TASK 5 暴露的入口缺口。
+- **阶段收口**：2026-11-25 任务书 TASK 0–6 全部执行，逐项判定（PASS / PASS WITH LIMITATIONS / PARTIAL）与证据见 Program 仓 `plans/2026-11-25-stage-execution-report.md`（Program `175a957`）。
+
 ## 2026-11-25 · LXD 第二案例：transform-mvp 交互实验页（TASK 5：真实浏览器基线 → 最小增强 → 复测）
 
 - **Skill 发现与调用（如实）**：QwenWork 宿主技能目录**未收录** LXD Skill（按名称搜索无结果）；仓库内发现链三步实测存在（根 `AGENTS.md` L16 → `.agent/README.md` L67 → `SKILL.md`）。调用方式为读取 `SKILL.md` / `USAGE.md` / 原型 D / 签发单并按其流程执行，不是宿主级技能加载。
