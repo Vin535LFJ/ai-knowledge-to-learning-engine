@@ -7,9 +7,9 @@ created: 2026-11-25
 updated: 2026-11-25
 ---
 
-# G1 核验队列 · embodied-loop-journey 首批（V68–V87）
+# G1 核验队列 · embodied-loop-journey 首批（V68–V88）
 
-> **AI 只准备证据与建议，裁决栏由人填写；AI 不自升断言状态。** 全部 20 条已登记 open/low（review_gate 104 claims 误标 0）。教材按 L19 先例引用 open 断言并如实标注，升级后由 G1 裁决回填。
+> **AI 只准备证据与建议，裁决栏由人填写；AI 不自升断言状态。** 全部 21 条已登记 open/low（V88 为 2026-11-25 方案甲修复时补登记的容差算例，此前正文无断言覆盖；review_gate 105 claims 误标 0）。教材按 L19 先例引用 open 断言并如实标注，升级后由 G1 裁决回填。
 > 关联：RUN-2026-11-23-embodied-batch1 · 研究报告 `reviews/embodied-batch1/research-report-embodied.md` · 课源 `08-具身智能/`
 
 ## 1. 本轮新完成的外部核验（2026-11-25）
@@ -19,6 +19,7 @@ updated: 2026-11-25
 | BEVFormer nuScenes NDS | **已核实** | arXiv 2203.17270 摘要逐字："56.9% in terms of NDS metric on the nuScenes test set, which is 9.0 points higher than previous best"；引言 DETR3D 47.9%（ECCV 2022） | 登记来源 SRC-EXT-BEVFORMER + 断言 V85（open，带口径条件） |
 | CAAI 白皮书名称 | **名称一致，日期未核实** | 封面："中国人工智能学会系列白皮书——具身智能 / 二○二五年十一月"；检索无 CAAI 官网"2026-05-07 发布"页面；另存在 2025-03 发布的《中国人工智能学会具身智能白皮书》（第二届具身智能大会），两者易混 | **发布日期不进教材**；教材若提名称须写"《…系列白皮书——具身智能》（2025-11）"，不写"2026 版" |
 | 前沿模型数字（Cosmos / Genie 3 / V-JEPA 2 等） | **未核验，教材不引用** | 本批定位为概念级 + 快照日期 | 教材不出现任何前沿模型数字；保持 open |
+| MuJoCo CPU 可复现性（V83 的 CPU 行） | **已核实**（2026-11-25 补） | 官方文档 `doc/computation/index.rst` Reproducibility 节逐字（main 分支）："MuJoCo's simulation pipeline is entirely deterministic and reproducible -- if a state in a trajectory is saved and reloaded and mj_step called again, the resulting next state will be identical." 后接三条注意事项（保存全部积分状态含 warmstart；接触事件 Lyapunov 指数高；仅同版本同架构） | 登记来源 SRC-EXT-MUJOCO-REPRODUCIBILITY；V83 维持 open，升级待裁决；课文、测验、课源、台账、术语表中"依据课源转述、未直核"的措辞已同步为官方文档出处 |
 
 此前已完成（2026-11-24）：Tobin 2017 域随机化（arXiv 摘要）/ Ross 2011 DAgger（PMLR）/ MuJoCo MJWarp 官方 FAQ。
 
@@ -43,11 +44,12 @@ updated: 2026-11-25
 | V80 | Sim2Real 七来源；迁移前清单五层 19 项；数字孪生三问 | 单源 | 维持 open（清单条目为源库工程经验） |
 | V81 | 成功率须带 n 与初始条件分布；SE 公式；n=25 区间越 100% 提示近似失效；656 次 | 复算 + 标准统计公式 | 可升 verified（标准统计），"两条硬要求"为工程规范可附条件 |
 | V82 | 开源生态四组（ROS 2/MoveIt 2/Nav2/MuJoCo/Isaac Lab/LeRobot…） | 单源（快照 2026-11-12/14/17） | 维持 open；引用必须带快照日期 |
-| V83 | 可复现性分层：CPU MuJoCo 逐位可复现（三警告）；GPU MJWarp 默认非确定 | **外部** MuJoCo 官方文档/FAQ 逐字 | 可升 conditional（须附"官方声明，随版本变化"条件） |
+| V83 | 可复现性分层：CPU MuJoCo 逐位可复现（三警告）；GPU MJWarp 默认非确定 | **外部**：GPU 行 MJWarp 官方 FAQ 逐字（2026-11-24）；CPU 行 MuJoCo 官方文档 Reproducibility 节逐字（2026-11-25） | 可升 conditional（须附"官方声明，随版本变化；同版本、同架构"条件）；两行均有官方原文，是否升 verified 由用户定 |
 | V84 | VLA 三接口/四代价；世界模型三区分 | 单源（概念级） | 维持 open |
 | V85 | BEVFormer 56.9% NDS（nuScenes test，2022-03）；BEV 只是感知中间态 | **外部** arXiv 摘要（数字）+ 单源（"中间态"） | 数字部分可升 verified（附口径条件）；"中间态"结论维持 open |
 | V86 | 十六周路线验收标准（第 0 周可重跑 / 第 4 周可重复成功率 / 第 15–16 周第三方复现）；第一个交付物是可复现 | 单源（openlab L350–367 逐周表 + textbook L877/L910/L916–917） | 维持 open；"不能复现的成功无法证明是能力"是教学解释，非源文原句 |
 | V87 | 具身学习九条常见坑 + 动作接口铁律 | 单源（textbook L919 + openlab L459–467/L209） | 维持 open；工程经验清单，无外部独立来源。三组分类与前几课的对应是 Engine 的教学组织 |
+| V88 | 容差三笔账：三维框每个面放宽 10 mm 后 +49.6%、背景点 33.2%；0.20 m 物体 Yaw 差 10° 端点偏 34.7 mm；10 N 阈值配 5 N 粒度最坏 25% | 复算（全过）+ 单源（textbook L526–529 / L487） | 维持 open；示例值为源自设、未经实测；33.2% 隐含点在框内均匀分布的假设 |
 
 ## 3. 源勘误队列（15 项，登记不擅改）
 
@@ -67,5 +69,5 @@ updated: 2026-11-25
 
 | 项 | 裁决（升级/维持/附条件） | 裁决人 | 日期 |
 |---|---|---|---|
-| V68–V87 | | | |
+| V68–V88 | | | |
 | 源勘误反馈 | （反馈 / 不反馈） | | |

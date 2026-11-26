@@ -4,6 +4,35 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-25 · 方案甲修复（用户批准）：验收包 §6 的 11 项最小修复执行 + 独立复核 + 产物哈希重登记
+
+- **授权**：用户选定方案甲（先修再裁决）。上一条记录里"未执行 11 项修复 / V88 待批 / V83 的'未直核'措辞尚未同步 / 产物哈希失效 0 个"四句自本条起不再成立。
+- **改动**：
+  - E06 课文：L113 "θ2 是不是 0" → "0° 或 180°"，"所以" → "换句话说"；L160 第 2 题指向改为 §1 与 §4.2 第 0 周验收标准，末句改为"起步三件由练习 1 覆盖；生态四组没有练习或自测题覆盖"；L90 小节标题 → "先问设备，再问物理后端"；L22 / L92 / L96 / L164 的 CPU 行出处由"课源转述、未直核"改为 MuJoCo 官方文档 Reproducibility 节并注明取文日期。
+  - E06 测验第 3 题答案：CPU 行出处同步。
+  - 课源 `08-具身智能/06`：L12、L44（补官方原文逐字引文）、L65（外部核验记录）补 CPU 行出处；L66 关联断言补 V86、V87；frontmatter `updated` → 2026-11-25。
+  - 台账：**V83** 的 claim、evidence（新增 SRC-EXT-MUJOCO-REPRODUCIBILITY）、conditions 更新，状态仍为 open/low；**新登记 V88**（容差三笔账，open/low，单源，locator §6.3 L526–529 / §6 L487）。来源注册表新增 1 条（共 54）、SRC-RL-TEXTBOOK 的 used_by_claims 补 V88。
+  - E03：frontmatter claims、§4.5 正文、§8 边界说明挂接 V88；course.json 的 E03 claims 同步。
+  - 术语表"可复现性分层"词条：CPU 一行点名 MuJoCo 官方文档。课程 README L33：断言范围 V68–V85 → V68–V88（此前就漏了 V86、V87）。
+  - G1 队列：标题与说明更新为 V68–V88 / 21 条；V83 行按 GPU / CPU 两行分别给出处与日期；新增 V88 行；§1 补 MuJoCo CPU 官方原文核验记录；裁决栏保持空白。
+- **独立复核**（未参与写作与修复的只读审读代理，`reviews/embodied-batch1/recheck-planA-fixes.md`）：9 项改动全部修对；自行重算 detJ 在 θ2 = 180° 确实奇异、V88 全部数字；直取 MuJoCo 官方原文与 Robot_Learn L482–533 逐字核对引文与 locator。无新的事实错误或内部矛盾。其指出的 6 处收尾问题：V88 locator 章节号、V83 条件第一条、课源 frontmatter 日期、E06 日期表述、产物哈希与本记录 5 处已处理；"逐位可复现"措辞经其判定不构成错误，保留。范围外既有问题（来源注册表 `SRC-BASIS-UNIVERSAL` / `SRC-RN-CONCEPT-INTRO` 两处双向不一致）未处理。
+- **审读记录更正**：`independent-review.md` 原写"复评后 2 处 minor 修正未再独立复审"，现已补两轮独立复核（修复前 `targeted-recheck.md`、修复后 `recheck-planA-fixes.md`），该条已更新。此前记录"技能目录在会话开始时固定"已由会话重建后的实测修正（见上条）。
+- **run 与哈希**：run 仍 REVIEW / paused，G3 open，KCR REVIEWING，无审批记录。本轮改动或新增的 10 个产物已用 `run_state.py artifact` 重新登记（33 条记录，24 个文件哈希全部有效）。
+- **门禁**：validate 20/0/0；发布回归 32 项（1 项跳过）；105 claims（24v/74o/7c）误标 0；arc 两门课程 0 FAIL；runstate 25/25、KCR 16/16、审批链 15/15；六课 Floor 全过。站点包重建（仅构建时间戳变化）。
+- **未做（如实）**：没有在浏览器里打开修改后的页面；没有升级任何断言；没有填写任何分数；全部改动未提交、未推送。
+
+## 2026-11-25 · 人工验收准备（稳定化阶段）：用户验收包 + 专项复核 + 七实验回归（教材与断言零改动）
+
+- **run 未被推进**：`RUN-2026-11-23-embodied-batch1` 仍为 REVIEW / paused，G3 open，KCR REVIEWING，无审批记录；21 个已登记产物哈希失效 0 个。六课课文、测验、课程契约、断言台账均未改动；没有升级任何断言，没有填写任何分数。
+- **用户验收包**：`reviews/embodied-batch1/USER-ACCEPTANCE-PACKAGE.md`。G1 把 V68–V87 分成三类（建议升级 verified 7 条 / conditional 6 条 / 保持 open-low 7 条，更正类 6 条待确认口径，无 contested），逐条给出依据、来源矛盾、下游影响；G2 六课逐课依据与评分表（AI 建议分 88 / 91 / 91 / 92 / 90 / 88，注明不是正式评分）；专项复核结论；11 项待批的最小修复；审批登记顺序与"审批人只是字符串"的限制说明。裁决栏全部留空。
+- **专项复核（独立审读代理，只读）**：`reviews/embodied-batch1/targeted-recheck.md`。E03 三维框算例成立；E06 GPU 非确定性表述已限定；**两处"修复后未复审"的小修各只修对一半**（E06 L113 "θ2 是不是 0" 漏 180°，与 E04 L127 不一致；E06 L160 第 2 题指向应为 §1，末句对练习覆盖范围的说明不属实）。无 blocker、无 major，8 条 minor。**未修复**，列为验收包 §6 待批。
+- **新证据**：直取 MuJoCo 官方文档 `doc/computation/index.rst` 的 Reproducibility 节（main 分支，2026-11-25），原文 "MuJoCo's simulation pipeline is entirely deterministic and reproducible" 及三条注意事项，与 E06 L99 逐条对应。V83 的 CPU 行由此有官方原文；课文与台账里"未直核官方文档"的说法已落后于事实，**尚未同步**（它们是已登记哈希的产物，待裁决时一并处理）。
+- **新发现的证据链缺口**：E03 §4.5 容差算例（+49.6% / 33.2% / 34.7 mm / 25%）没有任何断言覆盖；建议登记 V88（open / low），待批。
+- **七实验样式回归**：对当前构建重测七个实验，小字对比度浅色 3.04 → 6.39、深色 4.63 → 7.76；画布输出字节在基线 / 上轮复测 / 本轮三次完全相同；阶段数值一致，零报错，三档宽度无整页横向滚动。证据：`.agent/skills/learning-experience-design/preview/lab-mvp/regress-20261125.json` 与 `regress-compare-20261125.txt`。
+- **Skills 更正**：本会话开头 `handoff` 与 `writing-for-agents` 检索、加载均失败；会话重建后两者都能被检索并通过宿主技能工具加载，执行测试通过（`handoff` 写出交接文档；`writing-for-agents` 在临时夹具上改写）。上一条记录"技能目录在会话开始时固定"应修正为"会话重建或新会话后可用"；全新会话仍未验证，状态保持 PARTIAL。记录见 Skills 仓 `docs/HOST-VERIFICATION-2026-11-25.md` §8。
+- **门禁**：validate 20 / 0 / 0；发布回归 32 项（1 项跳过）；104 条断言误标 0；runstate 25 / 25；KCR 16 / 16；审批链 15 / 15。
+- **未做（如实）**：没有在浏览器里打开六课页面；没有执行 11 项修复；本轮产物未提交、未推送。跨项目验证结论（Radar 真实库副本、Governance Engine 副本、Git 审查）见 Program 仓 `plans/2026-11-25-stabilization-verification.md`。
+
 ## 2026-11-25 · Skills 实机验证（TASK 6：QwenWork 宿主，结论 PARTIAL）+ 根入口技能指针
 
 - **验证结果**（记录在 Skills 仓库 `docs/HOST-VERIFICATION-2026-11-25.md`，提交 `9ac74ea`）：`handoff`（用户点名型）与 `writing-for-agents`（自动调用型）手动投放到 `C:\Users\Giant\.qwenworkcn\skills\`，逐文件 SHA256 与仓库一致；宿主设置清单**立即**列出两者（无需重启）；但**安装它的这个会话里技能检索与加载都失败**（原文 `Skill not found`），安装后启动的子代理结果相同——技能目录在会话开始时固定。新会话能否发现并调用：**未验证**。`handoff` 按仓库指南不得用读取方式绕过，判 NOT VERIFIED。

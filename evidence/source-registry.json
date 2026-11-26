@@ -523,7 +523,8 @@
         "V84",
         "V85",
         "V86",
-        "V87"
+        "V87",
+        "V88"
       ]
     },
     {
@@ -631,6 +632,16 @@
       "accessed": "2026-11-25",
       "used_by_claims": [
         "V85"
+      ]
+    },
+    {
+      "id": "SRC-EXT-MUJOCO-REPRODUCIBILITY",
+      "title": "MuJoCo 官方文档 Computation 章 Reproducibility 节（CPU 确定性与三条注意事项，google-deepmind/mujoco main）",
+      "url": "https://raw.githubusercontent.com/google-deepmind/mujoco/main/doc/computation/index.rst",
+      "type": "official_doc",
+      "accessed": "2026-11-25",
+      "used_by_claims": [
+        "V83"
       ]
     }
   ]

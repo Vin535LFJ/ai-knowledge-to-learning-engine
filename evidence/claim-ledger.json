@@ -2710,7 +2710,7 @@
     },
     {
       "id": "V83",
-      "claim": "仿真可复现性分层：CPU MuJoCo 逐位可复现（依据 Robot_Learn 课源转述，未直核官方文档）（三警告：保存全部积分状态/接触事件混沌放大/仅同版本同架构）；GPU MJWarp 默认非确定（官方 FAQ 逐字 'No'，GPU 原子操作非确定性），wp.set_device('cpu') 切回确定性；MJWarp float32 vs MuJoCo float64 数值敏感；PR #1422 不保证完整 stepping 确定性",
+      "claim": "仿真可复现性分层：CPU MuJoCo 逐位可复现（MuJoCo 官方文档 Reproducibility 节，2026-11-25 逐字）（三警告：保存全部积分状态/接触事件混沌放大/仅同版本同架构）；GPU MJWarp 默认非确定（官方 FAQ 逐字 'No'，GPU 原子操作非确定性），wp.set_device('cpu') 切回确定性；MJWarp float32 vs MuJoCo float64 数值敏感；PR #1422 不保证完整 stepping 确定性",
       "claim_type": "engineering_fact",
       "evidence": [
         {
@@ -2727,6 +2727,11 @@
           "source_id": "SRC-RL-PRINCIPLES",
           "locator": "ch3 L193–195（可复现性分层）",
           "evidence_type": "repo_doc"
+        },
+        {
+          "source_id": "SRC-EXT-MUJOCO-REPRODUCIBILITY",
+          "locator": "Reproducibility 节（piReproducibility）：\"MuJoCo's simulation pipeline is entirely deterministic and reproducible\" + 三条注意事项（2026-11-25 逐字）",
+          "evidence_type": "official_doc"
         }
       ],
       "verification": {
@@ -2734,8 +2739,8 @@
         "confidence": "low"
       },
       "conditions": [
-        "CPU 确定性限同版本同架构；源 fact:72/73 未列入册末来源清单（源登记缺口，勘误队列 #3），Engine 以官方 FAQ 直核为准",
-        "CPU 一行为课源转述（单源），教材已标注“未直核官方文档”；GPU 一行为 MJWarp 官方 FAQ 逐字"
+        "CPU 确定性限同版本同架构；源 fact:72/73 未列入册末来源清单（源登记缺口，勘误队列 #3），CPU 一行以官方文档 Reproducibility 节直核为准，GPU 一行以 MJWarp 官方 FAQ 直核为准",
+        "官方原文取文日期：CPU 一行 2026-11-25（doc/computation/index.rst，main 分支），GPU 一行 2026-11-24（doc/mjwarp/index.rst）；官方声明随版本变化，引用须带取文日期与\"同版本、同架构\"条件；状态升级待人工裁决（G1）"
       ],
       "source_documents": [
         "08-具身智能/06-开源生态与实践路径.md"
@@ -2859,6 +2864,34 @@
       ],
       "used_by_lessons": [
         "E06"
+      ]
+    },
+    {
+      "id": "V88",
+      "claim": "容差必须写成数字（源底本自设示例值，未经实测）：三维框 0.20×0.15×0.10 m 每个面向外放宽 10 mm（每条边长加 20 mm）后体积 0.003→0.22×0.17×0.12=0.004488 m³，增加 49.6%，框内约 33.2% 为背景点；长 0.20 m 的物体 Yaw 差 10° 时端点偏 0.20×sin10°=34.7 mm；10 N 力阈值配 5 N 量化粒度最坏半格 2.5 N=阈值的 25%，要压到 5% 须粒度 1 N",
+      "claim_type": "engineering_fact",
+      "evidence": [
+        {
+          "source_id": "SRC-RL-TEXTBOOK",
+          "locator": "§6.3 L526–529（三笔账）/§6 L487（小结）",
+          "evidence_type": "repo_doc"
+        }
+      ],
+      "verification": {
+        "status": "open",
+        "confidence": "low"
+      },
+      "conditions": [
+        "容差为源底本自设的示例值，未经实测（存疑）；机制结论'容差必须写成数字'不依赖具体数值",
+        "33.2% 隐含点在框内均匀分布的假设，源文与课文均未写明",
+        "源文'每边放宽 10 毫米'的'边'字在面与边长之间有歧义（算式按每个面 10 mm），已登记源勘误队列 #14",
+        "单源；同节'对齐检查表八项'为工程惯例，无第二来源；升级待人工裁决（G1）"
+      ],
+      "source_documents": [
+        "08-具身智能/03-时空对齐与标定.md"
+      ],
+      "used_by_lessons": [
+        "E03"
       ]
     }
   ]

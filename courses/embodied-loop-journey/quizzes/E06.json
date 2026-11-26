@@ -25,7 +25,7 @@
       "id": "E06-Q3",
       "type": "short",
       "prompt": "MJWarp 在 GPU 上为什么默认不可复现？其他 GPU 后端能直接类推吗？",
-      "answer": "因为确定性取决于物理后端：MJWarp 官方 FAQ 明确 GPU 上默认非确定（GPU 原子操作顺序不固定）；其他 GPU 后端须查各自文档，不能类推。CPU MuJoCo 据课源转述为逐位可复现，但须保存全部积分状态且同版本同架构。需要确定性时切回 CPU 路径（V83）。",
+      "answer": "因为确定性取决于物理后端：MJWarp 官方 FAQ 明确 GPU 上默认非确定（GPU 原子操作顺序不固定）；其他 GPU 后端须查各自文档，不能类推。CPU MuJoCo 据官方文档 Reproducibility 节为逐位可复现，但须保存全部积分状态且同版本同架构。需要确定性时切回 CPU 路径（V83）。",
       "claim_ids": [
         "V83"
       ]
