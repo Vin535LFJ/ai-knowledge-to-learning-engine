@@ -4,6 +4,15 @@
 > 权威口径见 `DECISIONS.md`；当前阶段见 `WORKFLOW_STATE.md`。
 > P5 + Part B 执行期间遵循 D09（不 commit/push）；2026-11-18 用户新授权 commit + push 到 origin/master，见文末"git 提交"段与 DECISIONS.md D09 更新。
 
+## 2026-11-26 · 提交作者统一重写（用户批准：公司邮箱不得作为公开仓作者）
+
+- **授权**：用户 2026-11-26 指令「提交的作者不能用公司邮箱，应该用项目 GitHub 的项目作者」，并批准全部重写方案（含公开仓强推授权）。
+- **执行**：`git filter-branch --env-filter` 只改作者/committer 元数据。42 笔全部统一为 `Vin535LFJ <169535939+Vin535LFJ@users.noreply.github.com>`（原 40 笔 `fangjun <lifangjun@mgtv.com>` + 2 笔个人邮箱提交）。
+- **零内容改动证据**：重写前后 tree 哈希一致（`173c37938d73f91df7fb38df18f9891a3229db7f`）；`git diff refs/original/refs/heads/master HEAD` 为空；提交数 42 不变；`stash@{0}`（`ad67c17`）原样未动。
+- **SHA 变化**：重写前 HEAD=`6af1871` → 重写后（本条提交前）HEAD=`ecab4b9`。**全部旧 SHA 失效**；`refs/original/refs/heads/master` 保留本地回滚备份（`git reset --hard refs/original/refs/heads/master` 可回滚）。GitHub 侧旧提交转为不可达，约 90 天内直链仍可打开；彻底清除需联系 GitHub 支持。
+- **历史材料口径**：CHANGELOG / DECISIONS / reviews / handoffs 等历史记录中的旧 SHA 均指重写前历史，不改写；现行操作指针以本文档与 Program `NOW.md` 为准。
+- **推送**：`git push --force-with-lease origin master`（经系统代理单次命令参数，`http.postBuffer` 调大）；`ls-remote` 核实远端与本地一致。
+
 ## 2026-11-25 · 方案甲修复（用户批准）：验收包 §6 的 11 项最小修复执行 + 独立复核 + 产物哈希重登记
 
 - **授权**：用户选定方案甲（先修再裁决）。上一条记录里"未执行 11 项修复 / V88 待批 / V83 的'未直核'措辞尚未同步 / 产物哈希失效 0 个"四句自本条起不再成立。
