@@ -10,6 +10,7 @@
 - **待决清单口径统一**：PD-Q3 标记**已被 D22 取代**（三项目并入核心仓，不再建独立远程）；活跃待决统一为 **PD-Q4 / Q9 / Q11 / Q15 / Q16**（NOW §3/§4、PENDING 前言与两表、PARKING-LOT、ROADMAP、USER-GUIDE、decisions/README 同步；原 NOW §4 "Q9 至 Q16" 的矛盾表述已消除）。
 - **PD-Q16 范围扩展**：明确覆盖 **Engine 仓与 `ai-knowledge-workspace` 快照仓**（两者均 Public 且含内部审读/运行态/裁决材料）；publish-allowlist 不约束 GitHub 文件可见性。
 - **易过时表述清理**：NOW 与验收包中的"当前 HEAD `67ac3ec`"改为不绑定具体提交的表述；README / docs/USER-GUIDE 的 publish 33→**34**。验收包哈希已重新登记（run 状态不变）。
+- **PD-Q16 用户裁决（2026-11-27）**：先收紧可见性、再整理公开边界——Engine 仓与 `ai-knowledge-workspace` 快照仓先设 **Private**，之后划分公开代码 / 学习资产 / 内部治理材料，边界确认后 Engine 可恢复 Public、快照仓长期 Private；不仓促删除内部材料。**切换须用户在 GitHub Settings 执行**（本机无 gh/API 凭据）；公开期间已被克隆/缓存的内容无法靠切换撤回。活跃待决收为 Q4/Q9/Q11/Q15。
 - 未动：具身六课 G1 断言（仍 open/low）、G2 建议分（仍标注修复前）、run 状态（REVIEW / paused）。
 
 ## 2026-11-26 · post-D22 定点修复批次（外部审核驱动，不重做架构）
